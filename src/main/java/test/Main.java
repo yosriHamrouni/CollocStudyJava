@@ -1,52 +1,69 @@
 package test;
 
-import services.ServiceLogement;
-import entities.logement;
-import services.ServiceTypelog;
-import entities.typelog;
+import entities.Posts;
+import services.ServicePosts;
+import utils.MyDB;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Main {
+
     public static void main(String[] args) throws SQLException {
-        // Créer une instance de ServiceLogement
-        ServiceLogement sl = new ServiceLogement();
-        ServiceTypelog tl = new ServiceTypelog();
 
-        typelog t1 = new typelog("suite", "suite_a_trois");
-        typelog t2 = new typelog(2,"villa", "suite_a_trois");
-        // Créer des instances de Logement
-        // Créer des instances de Logement
-        //logement l1 = new logement( "tunis", "villa", "suite", "", 0, 2100,14);
-      //logement l2 = new logement(2,"Djerba", "suite", "suite", "", 0, 500);
-        //logement l3 = new logement("Nabeul", "piscine", "suite", "", 0, 2100);
+        MyDB db = MyDB.getInstance();
+        // MyDB db1 = new MyDB();
 
-        //logement l3 = new logement("Nabeul", "piscine", "suite", "", 0, 2100);
-       // typelog t1=new typelog(8,"suite","suite_a_deux");
+        System.out.println(db.hashCode());
+        // System.out.println(db1.hashCode());
 
-       // logement l2 = new logement(4, "bizerte", "suite", "suite", "", 0, 500, typeSuite);
-  try {
-           // sl.ajouter(l1);
-            System.out.println(sl.afficher());
+
+//Posts p= new Posts("wiw","wiw");
+      // Posts p3= new Posts("wiw3","wiw3");
+
+       // Posts p2= new Posts("wiw","wiw_edit");
+        ServicePosts sp=new ServicePosts();
+
+        List<Posts> posts ;
+        try {
+            sp.afficher();
+            System.out.println("showed succefully");
+
         } catch (SQLException e) {
-            System.err.println("Erreur: " + e.getMessage());
+            throw new RuntimeException(e);
         }
-        // Ajouter les logements à la base de données
-      /* try {
-            tl.supprimer(t2);
-            System.out.println(tl.afficher());
+        ;
+
+
+
+
+
+
+/*
+        try {
+            sp.ajouter(p3);
         } catch (SQLException e) {
-            System.err.println("Erreur: " + e.getMessage());
-        }*/
+            throw new RuntimeException(e);
+        }
 
 
-
-       /* try {
-           // sl.modifier(l2);
-            //sl.supprimer(l2);
-            System.out.println(sl.afficher());
+        try {
+            sp.modifier(p2);
         } catch (SQLException e) {
-            System.err.println("Erreur: " + e.getMessage());
-        }*/
+            throw new RuntimeException(e);
+        }
+*/
+
 
     }
+
 }
