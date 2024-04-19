@@ -8,10 +8,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
+import java.util.List;
+
 public class Posts {
 
-    int id ;
+     static int id ;
 
+    private List<Comments> comments; // Collection of comments associated with this post
 
     private String content;
     private String date;
@@ -21,6 +24,13 @@ public class Posts {
     private int nbComments;
     private int nbShares;
     String  title ;
+
+    public Posts(String text, String text1, String text2) {
+
+        this.id= Integer.parseInt(text);
+        this.title=text1;
+        this.content=text2;
+    }
 
     public String getContent() {
         return content;
@@ -41,7 +51,7 @@ public class Posts {
 
 
 
-    public int getId() {
+    public static int getId() {
         return id;
     }
 
@@ -157,7 +167,13 @@ public class Posts {
 
 
 
+    public List<Comments> getComments() {
+        return comments;
+    }
 
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
+    }
 
 
 
