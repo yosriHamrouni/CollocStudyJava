@@ -12,7 +12,7 @@ public class MyDB {
 
     private final String PWD="";
 
-            private final String URL= "jdbc:mysql://localhost:3306/pidevjava";
+            private final String URL= "jdbc:mysql://localhost:3306/collocstudy";
 
     private Connection connection;
 

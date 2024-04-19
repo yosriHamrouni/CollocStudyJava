@@ -2,6 +2,7 @@ package test;
 
 import entities.Posts;
 import services.ServicePosts;
+import utils.BadWordFilter;
 import utils.MyDB;
 
 import javafx.application.Application;
@@ -45,7 +46,9 @@ public class Main {
 
 
 
-
+        String input="not a bad word";
+        String output = BadWordFilter.getCensoredText(input);
+        System.out.println(output);
 
 
 /*

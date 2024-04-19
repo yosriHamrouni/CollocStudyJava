@@ -10,21 +10,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <ScrollPane vbarPolicy="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddPost">
    <content>
-      <VBox fx:id="postContainer" alignment="TOP_CENTER" prefHeight="670.0" prefWidth="526.0">
+      <VBox fx:id="postContainer" alignment="TOP_CENTER" prefHeight="670.0">
          <children>
-            <VBox prefHeight="144.0" prefWidth="599.0" styleClass="post-background" stylesheets="@styles.css">
+            <VBox prefHeight="144.0" prefWidth="599.0" styleClass="post-background" stylesheets="@../styles.css">
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <ImageView fx:id="imgProfile1" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@img/user.png" />
+                              <Image url="@../img/user.png" />
                            </image>
                         </ImageView>
-                        <TextField fx:id="content" prefHeight="50.0" prefWidth="465.0" promptText="Hello costudent ! what on your mind !" styleClass="text-field" stylesheets="@styles.css">
+                        <TextField fx:id="content" prefHeight="50.0" prefWidth="465.0" promptText="Hello costudent ! what on your mind !" styleClass="text-field" stylesheets="@../styles.css">
                            <font>
                               <Font name="Segoe UI" size="14.0" />
                            </font>

@@ -27,3 +27,18 @@
 
     -fx-background-color: transparent;
 }
+
+
+
+.comment-list {
+    -fx-font-size: 12pt;
+    -fx-background-color: #f0f2f5;
+}
+
+.comment-text-area {
+    -fx-font-size: 12pt;
+}
+
+.add-comment-button {
+    -fx-font-size: 12pt;
+}

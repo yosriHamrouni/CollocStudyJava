@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 
 import javafx.scene.control.Button;
@@ -110,7 +109,7 @@ public class AddPost implements Initializable {
 
             for (Posts post : posts) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/AfficherPost.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/front_office/AfficherPost.fxml"));
                 try {
                     VBox vBox = fxmlLoader.load();
                     ShowPost showPost = fxmlLoader.getController();
