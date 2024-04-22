@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="695.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AfficherLogF">
+    <children>
+        <!-- En-tête si nécessaire -->
+        <VBox prefHeight="55.0" prefWidth="1053.0" style="-fx-background-color: #03045e;">
+         <children>
+            <ImageView fitHeight="87.0" fitWidth="1054.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/acceuilScroll.png" />
+               </image>
+            </ImageView>
+         </children></VBox>
+        <!-- Barre d'outils si nécessaire -->
+        <VBox layoutY="55.0" prefHeight="36.0" prefWidth="1053.0" style="-fx-background-radius: 100;">
+            <!-- Contenu de la barre d'outils -->
+        </VBox>
+        <!-- Contenu principal avec ScrollPane pour afficher les logements -->
+        <ScrollPane layoutY="91.0" prefHeight="604.0" prefWidth="1053.0">
+            <content>
+                <FlowPane fx:id="logementsFlowPane" prefHeight="582.0" prefWidth="1054.0" />
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>
