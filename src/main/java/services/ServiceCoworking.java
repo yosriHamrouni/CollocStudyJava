@@ -130,5 +130,45 @@ public class ServiceCoworking implements IService <Coworking>{
         }
         return resultats;
     }
+    public static Coworking getCoworkingarId(int id) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Coworking coworking = null;
+
+        try {
+            conn = MyDB.getInstance().getConnection();
+            if (conn == null) {
+                throw new SQLException("La connexion à la base de données est nulle.");
+            }
+
+            String query = "SELECT * FROM coworking WHERE id = ?";
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            // Si une ligne est renvoyée, créer un objet Coworking
+            if (rs.next()) {
+                coworking = new Coworking();
+                coworking.setId(rs.getInt("id"));
+                coworking.setNomco(rs.getString("nomco"));
+                coworking.setNumtel(rs.getString("numtel"));
+                coworking.setAdresse(rs.getString("adresse"));
+                coworking.setTarifs((float) rs.getDouble("tarifs"));
+                coworking.setDescription(rs.getString("description"));
+                coworking.setImage(rs.getString("image"));
+                // Vous devrez peut-être ajouter d'autres attributs ici en fonction de votre modèle Coworking
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Vous pouvez gérer l'exception en renvoyant une valeur par défaut ou en lançant une nouvelle exception personnalisée
+        } finally {
+            // Ne fermez pas les ressources ici
+        }
+
+        return coworking;
+    }
+
+
 
 }

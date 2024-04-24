@@ -1,15 +1,19 @@
 package gui;
 
-
 import entities.Coworking;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import services.ServiceCoworking;
 
 import java.io.File;
-
+import java.io.IOException;
 
 public class IteamController {
 
@@ -33,39 +37,76 @@ public class IteamController {
 
     @FXML
     private Label tarifs;
-    //private MyListener myListener;
+
+    @FXML
+    private Label idLabel;
 
     public void setData(Coworking Co, Object o) {
-
-        this.nomco.setText( Co.getNomco());
-        //descriptionTextField.setText( selectedCo.getDescription());
+        this.nomco.setText(Co.getNomco());
         this.numtel.setText(Co.getNumtel());
-        //horaireouvrTextField.setText(selectedCo.getHoraireouvr());
-        //horairefermTextField.setText(selectedCo.getHorairefer());
         this.adresse.setText(Co.getAdresse());
-        this.tarifs.setText(String.valueOf( Co.getTarifs()));
+        this.tarifs.setText(String.valueOf(Co.getTarifs()));
+        this.idLabel.setText(String.valueOf(Co.getId()));
 
-        //dispoTextField.setText(String.valueOf( selectedCo.getDispo()));
-        //imgview.setFitWidth(350); // Ajuster la largeur de l'image
-        //imgview.setFitHeight(350); // Ajuster la hauteur de l'image
 
         String imagePath = Co.getImage();
         if (imagePath != null) {
-            // Charger l'image à partir du chemin d'accès spécifié
             try {
                 Image image = new Image(new File(imagePath).toURI().toString());
                 this.imgview.setImage(image);
             } catch (IllegalArgumentException e) {
-                // Gérer l'exception (afficher un message d'erreur, charger une image par défaut, etc.)
-                e.printStackTrace(); // Ou utilisez un autre mécanisme de journalisation approprié
+                e.printStackTrace();
             }
-
         } else {
-            // Afficher une image par défaut ou gérer le cas où l'image est absente
+            // Gérer le cas où l'image est absente
         }
-
     }
 
+    @FXML
+    void onclickdetail(javafx.event.ActionEvent event) {
+        // Récupérer le texte de l'ID Label
+        String idText = idLabel.getText().trim();
 
+        System.out.println("Valeur de idLabel : " + idText); // Ajout pour débogage
+
+        // Vérifier si le texte est vide
+        if (idText.isEmpty()) {
+            System.out.println("ID Label est vide.");
+            return; // Sortir de la méthode
+        }
+
+        try {
+            // Convertir le texte en entier
+            int id = Integer.parseInt(idText);
+
+            // Récupérer l'activité correspondante à partir de votre source de données
+            Coworking serviceCoworking = ServiceCoworking.getCoworkingarId(id);
+
+            if (serviceCoworking != null) {
+                try {
+                    // Charger la vue FXML de détails
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailcoworking.fxml"));
+                    Parent root = loader.load();
+
+                    // Accéder au contrôleur de vue de détails
+                    Detailcoworking controller = loader.getController();
+
+                    // Appeler la méthode setDatadetail du contrôleur de vue de détails pour initialiser les données de l'activité
+                    controller.setDatadetail(serviceCoworking);
+
+                    // Créer une nouvelle scène
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // Gérer le cas où l'activité est null
+                System.out.println("Aucune activité trouvée avec l'ID : " + id);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Format d'ID invalide : " + idText);
+        }
+    }
 }
-

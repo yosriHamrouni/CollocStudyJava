@@ -21,7 +21,10 @@ import javafx.util.StringConverter;
 import services.ServiceCoworking;
 import services.ServiceTypeco;
 
+import java.nio.file.Paths;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -54,6 +57,10 @@ public class AjouterCoworking {
 
     @FXML
     private ComboBox<TypeCo> typeCoComboBox;
+    private File selectedImageFile;
+    @FXML
+    private TextField txtimage;
+
 
 
     private String imagePathInDatabase;
@@ -65,14 +72,25 @@ public class AjouterCoworking {
     void browseImageAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir une image");
+        // Filtrer les types de fichiers si nécessaire
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         if (selectedFile != null) {
+            // Stocker le chemin de l'image sélectionnée dans la variable de classe
             imagePathInDatabase = selectedFile.getAbsolutePath();
+            // Charger l'image sélectionnée dans l'ImageView
             Image image = new Image(selectedFile.toURI().toString());
             imageView.setImage(image);
         }
     }
 
+    private String correctFilePathSeparators(String filePath) {
+        String separator = File.separator;
+        String wrongSeparator = separator.equals("/") ? "\\" : "/";
+        if (filePath.contains(wrongSeparator)) {
+            return filePath.replace(wrongSeparator, separator);
+        }
+        return filePath;
+    }
     @FXML
     void addcoworking(ActionEvent event) {
         try {
@@ -84,13 +102,15 @@ public class AjouterCoworking {
                 throw new IllegalArgumentException("Veuillez sélectionner un type de coworking.");
             }
 
-            File imageFile = new File(imagePathInDatabase);
-            String image = imageFile.getName();
+            File imageFile = new File(imagePathInDatabase); // Utilisez le chemin complet
+           // String image = imageFile.getName();
+            String image=imagePathInDatabase;
 
             String horaireouv = txthoraireouv.getText();
             String horaireferm = txthoraireferm.getText();
             String nomco = txtnomco.getText();
             String numtel = txtnumtel.getText();
+
             int tarifs = Integer.parseInt(txttarifs.getText());
 
             if (adresse.isEmpty()) {
@@ -133,6 +153,8 @@ public class AjouterCoworking {
             throw new RuntimeException(e);
         }
     }
+
+
 
 
     @FXML
