@@ -43,15 +43,16 @@ public class AfficherLogF {
                 Node card = loader.load(); // Cette ligne peut générer une IOException
                 CardV controller = loader.getController();
                 controller.setLogement(log);
-                controller.setAffichagePubController(this); // Passe la référence à ce contrôleur
+                controller.setAfficherLogFController(this); // Passe la référence à ce contrôleur
                 logementsFlowPane.getChildren().add(card);
             }
         } catch (Exception e) { // Attrape toute exception ici
             e.printStackTrace();
         }
     }
-    @FXML
-    void handleDetailButton(ActionEvent event) {
+
+ /*   @FXML
+    void handleDetailButton(ActionEvent event) throws IOException {
         for (Node node : logementsFlowPane.getChildren()) {
             if (node instanceof CardV) {
                 CardV card = (CardV) node;
@@ -74,7 +75,7 @@ public class AfficherLogF {
             }
         }
 
-    }
+    }*/
 
 
 }

@@ -72,4 +72,32 @@ public class ServiceTypelog implements IServices<typelog> {
         }
         return types;
     }
+    public typelog fetchTypeById(int typeId) throws SQLException {
+        String query = "SELECT * FROM typelog WHERE id = ?";
+        PreparedStatement pst = con.prepareStatement(query);
+        pst.setInt(1, typeId);
+        ResultSet rs = pst.executeQuery();
+        if (rs.next()) {
+            typelog type = new typelog();
+            type.setId(rs.getInt("id"));
+            type.setType(rs.getString("type"));
+            type.setDescription(rs.getString("description"));
+            // Autres attributs du type de logement si nécessaire
+            return type;
+        } else {
+            return null; // Gérer le cas où aucun type avec cet ID n'est trouvé
+        }
+    }
+
+    public List<typelog> getAllTypes() throws SQLException {
+        List<typelog> types = new ArrayList<>();
+        String req = "SELECT * FROM typelog";
+        PreparedStatement preparedStatement = con.prepareStatement(req);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            typelog type = new typelog(resultSet.getInt("id_type"), resultSet.getString("type"),resultSet.getString("description"));
+            types.add(type);
+        }
+        return types;
+    }
 }

@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.image.ImageView?>
-<AnchorPane prefHeight="445.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DetailLogement">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="169.0" prefWidth="323.0" style="-fx-background-color: #2220AB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DetailLogement">
     <children>
-<VBox layoutX="36.0" layoutY="25.0" spacing="10.0">
-    <children>
-        <Label text="Adresse:" />
-        <Label fx:id="lblAdresse" />
-        <Label text="Équipement:" />
-        <Label fx:id="lblEquipement" />
-        <Label text="Description:" />
-        <Label fx:id="lblDescription" />
-        <Label text="Tarifs:" />
-        <Label fx:id="lblTarifs" />
+        <Label fx:id="lblParagraphe" layoutX="16.0" layoutY="13.0" prefHeight="142.0" prefWidth="290.0" style="-fx-padding: 10px;" textAlignment="CENTER" textFill="#f4f1f1" wrapText="true">
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font></Label>
     </children>
-    <StackPane>
-        <ImageView fx:id="imageView" />
-    </StackPane>
-</VBox>
-</children>
-        </AnchorPane>
+</AnchorPane>

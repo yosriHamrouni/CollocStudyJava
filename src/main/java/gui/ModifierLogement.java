@@ -14,9 +14,11 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.ServiceLogement;
+import services.ServiceTypelog;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ModifierLogement {
 
@@ -24,10 +26,15 @@ public class ModifierLogement {
     private TextField AdrTextField;
 
     @FXML
+    private ChoiceBox<typelog> typeCombo;
+
+    @FXML
     private ImageView imageView;
 
     @FXML
     private TextField EquipTextField1;
+    @FXML
+    private TextField tarifsTextField;
 
     @FXML
     private ChoiceBox<String> choiceDispo;
@@ -44,9 +51,6 @@ public class ModifierLogement {
     @FXML
     private TextField descriptionTextField;
 
-    @FXML
-    private TextField tarifsTextField;
-
     private logement selectedLogement;
 
     private String imagePathInDatabase;
@@ -57,20 +61,22 @@ public class ModifierLogement {
         stage.close();
     }
 
+    public void initialize() throws SQLException {
+        ServiceTypelog serviceTypelog = new ServiceTypelog();
+        List<typelog> types = serviceTypelog.getAllTypes();
+        typeCombo.getItems().addAll(types);
+    }
+
     public void initData(logement selectedLogement) {
         this.selectedLogement = selectedLogement;
 
-        // Populate the fields in the UI with the data from selected
         AdrTextField.setText(selectedLogement.getAdresse());
         EquipTextField1.setText(selectedLogement.getEquipement());
         descriptionTextField.setText(selectedLogement.getDescription());
-        tarifsTextField.setText(String.valueOf(selectedLogement.getTarifs()));
-
-        // Initialize choice box for availability
         choiceDispo.getItems().addAll("Disponible", "Non disponible");
         choiceDispo.setValue(selectedLogement.getDispo() == 1 ? "Disponible" : "Non disponible");
+        tarifsTextField.setText(String.valueOf(selectedLogement.getTarifs()));
 
-        // Set image
         imagePathInDatabase = selectedLogement.getImage();
         if (imagePathInDatabase != null && !imagePathInDatabase.isEmpty()) {
             Image image = new Image(new File(imagePathInDatabase).toURI().toString());
@@ -86,8 +92,9 @@ public class ModifierLogement {
         float selectedTarifs = Float.parseFloat(tarifsTextField.getText());
         int selectedDispo = choiceDispo.getValue().equals("Disponible") ? 1 : 0;
 
-        // Create a new logement object with retrieved values
-        logement logement = new logement(selectedLogement.getId(), selectedAdresse, selectedEquipement, selectedDescription, imagePathInDatabase, selectedDispo, selectedTarifs);
+        typelog selectedType = typeCombo.getValue();
+
+        logement logement = new logement(selectedLogement.getId(), selectedAdresse, selectedEquipement, selectedDescription, imagePathInDatabase, selectedDispo, selectedTarifs, selectedType);
 
         ServiceLogement serviceLogement = new ServiceLogement();
 
@@ -97,7 +104,6 @@ public class ModifierLogement {
             } else if (InputValidation.isTextFieldEmpty(selectedDescription)) {
                 InputValidation.showAlert("Erreur de saisie", null, "Veuillez entrer une description valide.");
             } else {
-                // Update the logement
                 serviceLogement.modifier(logement);
                 showAlert("Succès", "Le logement a été mis à jour avec succès.");
                 Stage stage = (Stage) confirmerButton.getScene().getWindow();
@@ -113,19 +119,13 @@ public class ModifierLogement {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choisir une image");
 
-        // Filtrer les types de fichiers si nécessaire
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png", "*.gif")
         );
 
-        // Afficher la boîte de dialogue de sélection de fichier
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         if (selectedFile != null) {
-            // Stocker le chemin absolu de l'image sélectionnée dans la variable de classe
             imagePathInDatabase = selectedFile.getAbsolutePath();
-            System.out.println("Chemin de l'image sélectionnée : " + imagePathInDatabase); // Afficher le chemin dans la console
-
-            // Charger l'image sélectionnée dans l'ImageView
             Image image = new Image(selectedFile.toURI().toString());
             imageView.setImage(image);
         }

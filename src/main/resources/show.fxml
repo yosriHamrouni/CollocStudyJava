@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane prefHeight="568.0" prefWidth="817.0" style="-fx-background-color: rgba(255,178,79,0.8);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.esprit.controller.detailController">
+    <children>
+        <!-- Image -->
+        <ImageView fx:id="img" fitHeight="500.0" fitWidth="556.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
+            <image></image>     </ImageView>
+
+        <!-- Labels -->
+        <Label fx:id="nomLabel" layoutX="651.0" layoutY="82.0" text="Nom" >
+            <!-- Icône associée -->
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="36.0">
+                    <image>
+                        <Image url="@images/utilisateur (2).png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Label>
+
+        <Label fx:id="priceLabel" layoutX="651.0" layoutY="169.0" text="price">
+            <!-- Icône associée -->
+            <graphic>
+                <ImageView fitHeight="43.0" fitWidth="47.0">
+                    <image>
+                        <Image url="@images/euro.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Label>
+
+        <Label fx:id="descLabel" layoutX="651.0" layoutY="254.0" prefHeight="61.0" prefWidth="110.0" text="Description">
+            <!-- Icône associée -->
+            <graphic>
+                <ImageView fitHeight="50.0" fitWidth="47.0">
+                    <image>
+                        <Image url="@images/modifier-les-informations.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Label>
+
+        <Label fx:id="nbLabel" layoutX="651.0" layoutY="352.0" text="Nombre personne " >
+            <!-- Icône associée -->
+            <graphic>
+                <ImageView fitHeight="50.0" fitWidth="47.0">
+                    <image>
+                        <Image url="@images/equipe.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Label>
+
+        <Label fx:id="locLabel" layoutX="651.0" layoutY="459.0" text="localisation">
+            <!-- Icône associée -->
+            <graphic>
+                <ImageView fitHeight="35.0" fitWidth="36.0">
+                    <image>
+                        <Image url="@images/google-maps.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Label>
+    </children>
+</Pane>

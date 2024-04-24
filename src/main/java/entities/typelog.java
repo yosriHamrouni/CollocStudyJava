@@ -19,6 +19,13 @@ public class typelog {
 
         this.description=description;
         this.type=type;}
+
+    public typelog(int id_type, String type) {
+        this.id_type=id_type;
+        this.type=type;
+
+    }
+
     public int getId() {
         return id_type;
     }

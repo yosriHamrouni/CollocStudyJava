@@ -14,7 +14,7 @@ public class logement {
 
     public logement()
     {}
-    public logement(int id_log, String adresse, String equipement, String description, String image, int dispo, float tarifs) {
+    public logement(int id_log, String adresse, String equipement, String description, String image, int dispo, float tarifs,typelog typelog) {
         this.id_log = id_log;
         this.adresse = adresse;
         this.description = description;
@@ -22,7 +22,7 @@ public class logement {
         this.equipement = equipement;
         this.dispo = dispo;
         this.tarifs = tarifs;
-      // this.typelog = typelog;
+        this.typelog = typelog;
     }
 
 
@@ -123,6 +123,7 @@ public class logement {
                 ", typelog=" + typelog +
                 '}';
     }
+
     public int getId() {
         return id_log;
     }
@@ -130,6 +131,8 @@ public class logement {
     public void setId(int id) {
         this.id_log = id;
     }
+
+
 
  /*   public byte[] getImageData() {
 

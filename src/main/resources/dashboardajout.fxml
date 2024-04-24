@@ -156,9 +156,10 @@
                 <TableColumn fx:id="idCol" prefWidth="50.39999234676361" text="ID" visible="false" />
                 <TableColumn fx:id="adresseCol" maxWidth="312.7999572753906" prefWidth="59.20001220703125" text="Adresse" />
                 <TableColumn fx:id="descriptionCol" maxWidth="342.4000549316406" prefWidth="179.19998168945312" text="Description" />
-                <TableColumn fx:id="imageCol" maxWidth="342.4000549316406" prefWidth="198.4000244140625" text="Image" />
-                <TableColumn fx:id="dispoCol" maxWidth="342.4000549316406" prefWidth="70.39996337890625" text="Dispo" />
-                <TableColumn fx:id="tarifsCol" maxWidth="342.4000549316406" prefWidth="114.4000244140625" text="Tarifs" />
+                <TableColumn fx:id="imageCol" maxWidth="342.4000549316406" prefWidth="92.0" text="Image" />
+                <TableColumn fx:id="dispoCol" maxWidth="342.4000549316406" prefWidth="92.79998779296875" text="Dispo" />
+                <TableColumn fx:id="tarifsCol" maxWidth="342.4000549316406" prefWidth="94.4000244140625" text="Tarifs" />
+            <TableColumn fx:id="idColT" prefWidth="75.0" text="Type" />
             </columns>
         </TableView>
         <AnchorPane layoutX="-1.0" prefHeight="88.0" prefWidth="1186.0" style="-fx-background-color: #03045E;">

@@ -46,6 +46,7 @@ public class ServiceLogement implements IServices<logement> {
     }
 
 
+
     /*
   @Override
   public void ajouter(logement logement) throws SQLException {
@@ -76,19 +77,59 @@ public class ServiceLogement implements IServices<logement> {
                 logement.setImage(resultSet.getString("image"));
                 logement.setDispo(resultSet.getInt("dispo"));
                 logement.setTarifs((int) resultSet.getFloat("tarifs"));
+                logement.setId_type(resultSet.getInt("id_type"));
                 // Assuming the "id_type" column is the foreign key referencing the typelog table
                 // You may need to fetch the typelog details and set it here
-             /*   int typeId = resultSet.getInt("id_type");
-                typelog type = fetchTypeById(typeId);
-                logement.setTypelog(type);*/
+
+
                 listLogements.add(logement);
             }
         }
         return listLogements;
     }
+  /*  @Override
+    public List<logement> afficher() throws SQLException {
+        List<logement> listLogements = new ArrayList<>();
+        String query = "SELECT * FROM logement";
+        try (PreparedStatement preparedStatement = con.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                logement logement = new logement();
+                logement.setId_log(resultSet.getInt("id_log"));
+                // Récupérer les autres attributs du logement
+
+                // Récupérer le type du logement à partir de l'ID du type
+                int typeId = resultSet.getInt("id_type");
+                typelog type = fetchTypeById(typeId);
+                logement.setTypelog(type);
+
+                listLogements.add(logement);
+            }
+        }
+        return listLogements;
+    }*/
+
+    public typelog fetchTypeById(int typeId) throws SQLException {
+        String query = "SELECT * FROM typelog WHERE id = ?";
+        PreparedStatement pst = con.prepareStatement(query);
+        pst.setInt(1, typeId);
+        ResultSet rs = pst.executeQuery();
+        if (rs.next()) {
+            typelog type = new typelog();
+            type.setId(rs.getInt("id"));
+            type.setType(rs.getString("type"));
+            type.setDescription(rs.getString("description"));
+            // Autres attributs du type de logement si nécessaire
+            return type;
+        } else {
+            return null; // Gérer le cas où aucun type avec cet ID n'est trouvé
+        }
+    }
+
+
     @Override
     public void modifier(logement logement) throws SQLException {
-        String req = "UPDATE logement SET adresse=?, description=?, equipement=?, image=?, dispo=?, tarifs=? WHERE id_log=?";
+        String req = "UPDATE logement SET adresse=?, description=?, equipement=?, image=?, dispo=?, tarifs=?,id_type=? WHERE id_log=?";
         PreparedStatement pre = con.prepareStatement(req);
         pre.setString(1, logement.getAdresse());
         pre.setString(2, logement.getDescription());
@@ -96,8 +137,8 @@ public class ServiceLogement implements IServices<logement> {
         pre.setString(4, logement.getImage());
         pre.setInt(5, logement.getDispo());
         pre.setFloat(6, logement.getTarifs());
-        pre.setInt(7, logement.getId());
-        //pre.setInt(8, logement.getId_type());
+        pre.setInt(8, logement.getId());
+        pre.setInt(7, logement.getTypelog().getId());
         // pre.setInt(8, logement.getId_Type());
         pre.executeUpdate();
     }

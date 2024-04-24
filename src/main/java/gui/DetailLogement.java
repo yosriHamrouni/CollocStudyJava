@@ -2,18 +2,19 @@ package gui;
 
 import entities.logement;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 
-import java.awt.event.ActionEvent;
-import java.io.IOException;
+import java.io.File;
 
 public class DetailLogement {
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private Label lblParagraphe;
+
     @FXML
     private Label lblAdresse;
 
@@ -22,52 +23,72 @@ public class DetailLogement {
 
     @FXML
     private Label lblDescription;
-    private AfficherLogF affichageLogController;
+
     @FXML
     private Label lblTarifs;
 
-    @FXML
-    private ImageView imageView;
+    private logement logement;
 
-    private logement selectedLogement;
-    public void setAffichagePubController(AfficherLogF controller) {
-        this.affichageLogController = controller;
+    @FXML
+    private void click(MouseEvent mouseEvent) {
+        // Logique de clic (si nécessaire)
     }
-    public void initData(logement logement) {
-        System.out.println("Logement passed to initData: " + logement); // Vérifiez si logement est null ou contient les données correctes
+
+    public void setLogement(logement logement) {
+        this.logement = logement;
+
         if (logement != null) {
-            lblAdresse.setText(logement.getAdresse());
-            lblEquipement.setText(logement.getEquipement());
-            lblDescription.setText(logement.getDescription());
-            lblTarifs.setText(String.valueOf(logement.getTarifs()) + " Dinars");
+            String adresse = logement.getAdresse();
+            String equipement = logement.getEquipement();
+            String description = logement.getDescription();
+            double tarifs = logement.getTarifs();
+
+            // Ajoute un retour à la ligne après chaque point dans la description
+            description = description.replaceAll("\\.", ".\n");
+
+            String paragraph = "Ce logement est situé à " + adresse + ". ";
+            paragraph += "Il est équipé de: " + equipement + ". ";
+            paragraph += "Il comprend: " + description + ". ";
+            paragraph += "Les tarifs sont de " + tarifs + " Dinars.";
+
+            // Afficher le paragraphe dans votre interface utilisateur
+            lblParagraphe.setText(paragraph);
+
+    } else {
+            clearFields();
+            return; // Ajout de ce return pour sortir de la méthode si logement est null
+        }
+
+        String imagePath = logement.getImage();
+        if (imagePath != null && !imagePath.isEmpty()) {
+            File file = new File(imagePath);
+            if (file.exists() && !file.isDirectory()) {
+                try {
+                    Image image = new Image(file.toURI().toString());
+                    double desiredWidth = 600;
+                    double desiredHeight = 600;
+                    imageView.setImage(image);
+                    imageView.setFitWidth(desiredWidth);
+                    imageView.setFitHeight(desiredHeight);
+                } catch (Exception e) {
+                    System.err.println("Erreur lors du chargement de l'image : " + e.getMessage());
+                }
+            } else {
+                System.err.println("Le fichier image n'existe pas : " + imagePath);
+            }
         } else {
-            System.out.println("Logement is null!"); // Si logement est null, affichez un message
-            // Autres instructions...
+            System.err.println("Chemin d'accès à l'image non spécifié.");
         }
     }
 
 
-    @FXML
-    void getDetail(ActionEvent event) {
-        System.out.println("Selected logement: " + selectedLogement); // Vérifiez si selectedLogement est null ou contient les données correctes
-        try {
-            // Chargez le fichier FXML de la fenêtre des détails du logement
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../DetailLogement.fxml"));
-            Parent root = loader.load();
 
-            // Obtenez le contrôleur de la fenêtre des détails du logement
-            DetailLogement detailController = loader.getController();
 
-            // Passez les informations du logement sélectionné au contrôleur de la fenêtre des détails du logement
-            detailController.initData(selectedLogement);
-
-            // Créez une nouvelle fenêtre (stage) et affichez-la
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Détails du Logement");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void clearFields() {
+        lblAdresse.setText("");
+        lblEquipement.setText("");
+        lblDescription.setText("");
+        lblTarifs.setText("");
+        imageView.setImage(null);
     }
 }

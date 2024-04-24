@@ -45,7 +45,7 @@ public class AjouterLogement {
     @FXML
     private ComboBox<typelog> typelogComboBox;
 
-    private static final String IMAGES_DIR = "../resources/img/";
+  //  private static final String IMAGES_DIR = "../resources/img/";
 
     @FXML
     void addLogement(ActionEvent event) {

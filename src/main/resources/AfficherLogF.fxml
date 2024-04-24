@@ -23,9 +23,9 @@
             <!-- Contenu de la barre d'outils -->
         </VBox>
         <!-- Contenu principal avec ScrollPane pour afficher les logements -->
-        <ScrollPane layoutY="91.0" prefHeight="604.0" prefWidth="1053.0">
+        <ScrollPane layoutY="117.0" prefHeight="578.0" prefWidth="1042.0">
             <content>
-                <FlowPane fx:id="logementsFlowPane" prefHeight="582.0" prefWidth="1054.0" />
+                <FlowPane fx:id="logementsFlowPane" prefHeight="582.0" prefWidth="1048.0" />
             </content>
         </ScrollPane>
     </children>

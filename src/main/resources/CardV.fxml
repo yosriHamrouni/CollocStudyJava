@@ -51,7 +51,7 @@
             <HBox alignment="CENTER_RIGHT" prefHeight="56.0" prefWidth="375.0" style="-fx-background-radius: 100;">
                <children>
                   <Pane prefHeight="25.0" prefWidth="81.0" />
-                  <Button fx:id="Detail" contentDisplay="CENTER" mnemonicParsing="false" onAction="#getDetail" prefHeight="25.0" prefWidth="101.0" style="-fx-background-radius: 100;" text="Détail" />
+                  <Button fx:id="Detail" contentDisplay="CENTER" mnemonicParsing="false" onAction="#afficherDetails" prefHeight="25.0" prefWidth="101.0" style="-fx-background-radius: 100;" text="Détail" />
                   <Pane prefHeight="25.0" prefWidth="81.0" />
                   <Button fx:id="map" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" style="-fx-background-radius: 100;" text="Map" />
                   <Pane prefHeight="25.0" prefWidth="83.0" />
