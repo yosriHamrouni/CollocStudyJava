@@ -97,6 +97,7 @@ public class ServiceCoworking implements IService <Coworking>{
             c.setNomco(res.getString(9));
             c.setNumtel(res.getString(10));
             c.setAdresse(res.getString(13));
+            c.setTypeco_id(res.getInt(7));
             listcoworkings.add(c);
         }
         return listcoworkings;

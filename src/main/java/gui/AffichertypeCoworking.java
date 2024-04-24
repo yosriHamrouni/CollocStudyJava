@@ -35,9 +35,6 @@ public class AffichertypeCoworking  implements Initializable {
         private TableColumn<TypeCo,String> col_Typeco;
 
         @FXML
-        private TableColumn<TypeCo, Integer> col_id;
-
-        @FXML
         private AnchorPane midlast;
 
         @FXML
@@ -137,7 +134,6 @@ public class AffichertypeCoworking  implements Initializable {
                 table_typecoworking.getItems().clear();
 
                 // Set cell value factories for each column
-                col_id.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
                 col_Typeco.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));
                 table_typecoworking.getItems().addAll(coworkingtypeList);
                 table_typecoworking.setOnMouseClicked(event -> {

@@ -83,14 +83,7 @@ public class AjouterCoworking {
         }
     }
 
-    private String correctFilePathSeparators(String filePath) {
-        String separator = File.separator;
-        String wrongSeparator = separator.equals("/") ? "\\" : "/";
-        if (filePath.contains(wrongSeparator)) {
-            return filePath.replace(wrongSeparator, separator);
-        }
-        return filePath;
-    }
+
     @FXML
     void addcoworking(ActionEvent event) {
         try {

@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.image.Image;
+import services.ServiceTypeco;
 
 public class AfficherCoworking implements Initializable {
 
@@ -35,8 +36,11 @@ public class AfficherCoworking implements Initializable {
     @FXML
     private TableColumn<Coworking, String> col_description;
 
+
     @FXML
-    private TableColumn<Coworking, Integer> col_id;
+    private TableColumn<Coworking, Integer>col_idtype;
+
+
 
     @FXML
     private TableColumn<Coworking, String> col_image;
@@ -78,6 +82,7 @@ public class AfficherCoworking implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         try {
             populateTableView();
         } catch (SQLException e) {
@@ -94,7 +99,6 @@ public class AfficherCoworking implements Initializable {
         table_coworking.getItems().clear();
 
         // Set cell value factories for each column
-        col_id.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
         col_adresse.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAdresse()));
         col_description.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
         col_image.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getImage()));
@@ -104,6 +108,10 @@ public class AfficherCoworking implements Initializable {
         col_horairefer.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHorairefer()));
         col_nomco.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomco()));
         col_numtel.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNumtel()));
+        col_idtype.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getTypeco_id()).asObject());
+
+
+
         table_coworking.getItems().addAll(coworkingList);
         table_coworking.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) { // Double-click detected
@@ -115,21 +123,14 @@ public class AfficherCoworking implements Initializable {
             }
         });
         /*table_coworking.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) { // Double-click detected
+            if (event.getClickCount() == 1) { // Single-click detected
                 Coworking selectedCo = table_coworking.getSelectionModel().getSelectedItem();
-                String imagePath = selectedCo.getImage();
+
+                String imagePath = "file:///C:/Users/MSI/IdeaProjects/oumeima/src/main/resources/img/" + selectedCo.getImage();
+
                 if (imagePath != null && !imagePath.isEmpty()) {
-                    File imageFile = new File(imagePath);
-                    if (imageFile.exists()) {
-                        Image imageToShow = new Image(imageFile.toURI().toString());
-                        image.setImage(imageToShow);
-                    } else {
-                        // Gérer le cas où le fichier image n'existe pas
-                        System.err.println("L'image n'existe pas : " + imagePath);
-                        // Afficher une image par défaut ou un message d'erreur
-                        // Image placeholderImage = new Image("img/default-image.png");
-                        // image.setImage(placeholderImage);
-                    }
+                    Image imageToShow = new Image(imagePath);
+                    image.setImage(imageToShow);
                 } else {
                     // Gérer le cas où le chemin d'accès à l'image est null ou vide
                     System.err.println("Chemin d'accès à l'image vide ou null");

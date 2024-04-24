@@ -15,6 +15,42 @@ public class ServiceTypeco implements IService <TypeCo> {
         con = MyDB.getInstance().getConnection();
     }
 
+    public static String getTypeCoById(int typeId) throws SQLException {
+        Connection con = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        String typeName = null;
+
+        try {
+            con = MyDB.getInstance().getConnection();
+            String req = "SELECT nom_type FROM type_coworking WHERE id_type = ?";
+            pst = con.prepareStatement(req);
+            pst.setInt(1, typeId);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                typeName = rs.getString("nom_type");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Fermer les ressources dans le bloc finally pour s'assurer qu'elles sont fermées même en cas d'exception
+            if (rs != null) {
+                rs.close();
+            }
+            if (pst != null) {
+                pst.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return typeName; // Retourne null si aucun résultat n'est trouvé
+    }
+
+
+
     @Override
     public void ajouter(TypeCo typeCo) {
         String req = "INSERT INTO typeco (type) VALUES ('" + typeCo.getType() + "')";

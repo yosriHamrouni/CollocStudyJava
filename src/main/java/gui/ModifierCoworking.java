@@ -3,6 +3,7 @@ package gui;
 import entities.Coworking;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -14,6 +15,7 @@ import services.ServiceCoworking;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class ModifierCoworking {
@@ -21,8 +23,7 @@ public class ModifierCoworking {
     @FXML
     private TextField adresseTextField;
 
-    @FXML
-    private ImageView brandingImageView;
+
 
     @FXML
     private Button cancelButton;
@@ -48,8 +49,7 @@ public class ModifierCoworking {
     @FXML
     private TextField taifsTextField;
     private Coworking selectedCo;
-    @FXML
-    private TextField imageTextField;
+
     @FXML
     private TextField dispoTextField;
 
@@ -79,8 +79,11 @@ public class ModifierCoworking {
         horairefermTextField.setText(selectedCo.getHorairefer());
         adresseTextField.setText(selectedCo.getAdresse());
         taifsTextField.setText(String.valueOf( selectedCo.getTarifs()));
-        imageTextField.setText(selectedCo.getImage());
+
         dispoTextField.setText(String.valueOf( selectedCo.getDispo()));
+
+
+
         /*if (selectedImageFile != null) {
             // Affichez l'image sélectionnée dans l'ImageView
             try {
@@ -132,9 +135,24 @@ public class ModifierCoworking {
             String selectedhoraireouvr = horaireouvrTextField.getText();
             String selectedhoraireferm = horairefermTextField.getText();
             String selectedadresse = adresseTextField.getText();
-            String image=imagePathInDatabase;
+            //String image=imagePathInDatabase;
             float selectedtarifs = Float.parseFloat(taifsTextField.getText());
             Integer selecteddispo = Integer.parseInt(dispoTextField.getText());
+
+            if (selectedadresse.isEmpty()) {
+                throw new IllegalArgumentException("L'adresse ne peut pas être vide.");
+            }
+            if (selectedtarifs < 0) {
+                throw new IllegalArgumentException("Le champ 'Tarif' doit être un nombre positif.");
+            }
+            if (imagePathInDatabase == null || imagePathInDatabase.isEmpty()) {
+                throw new IllegalArgumentException("Veuillez sélectionner une image.");
+            }
+
+
+            File imageFile = new File(imagePathInDatabase); // Utilisez le chemin complet
+
+            String image = imageFile.getName();
 
 
 
@@ -149,12 +167,16 @@ public class ModifierCoworking {
             Stage stage = (Stage) confirmerButton.getScene().getWindow();
             stage.close();
         } catch (NumberFormatException e) {
-            // Handle the NumberFormatException
-            System.err.println("Error: Invalid input for tarifs or dispo.");
-            e.printStackTrace(); // Print the stack trace for debugging purposes
-            // You may show an alert or provide user feedback here
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de saisie");
+            alert.setContentText("Veuillez vérifier les champs numériques.");
+            alert.show();
+        } catch (IllegalArgumentException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de saisie");
+            alert.setContentText(e.getMessage());
+            alert.show();
         }
-
 
 
     }

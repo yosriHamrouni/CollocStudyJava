@@ -178,9 +178,8 @@
                         </DropShadow>
                     </effect>
                 </ImageView>
-                <TableView fx:id="table_typecoworking" layoutX="328.0" layoutY="261.0" prefHeight="234.0" prefWidth="661.0">
+                <TableView fx:id="table_typecoworking" layoutX="328.0" layoutY="261.0" prefHeight="234.0" prefWidth="554.0">
                     <columns>
-                        <TableColumn fx:id="col_id" prefWidth="104.79998779296875" text="ID" />
                         <TableColumn fx:id="col_Typeco" prefWidth="555.9999938964844" text="Type Coworking" />
                     </columns>
                 </TableView>
