@@ -2,6 +2,7 @@ package Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -9,6 +10,7 @@ import javafx.stage.Stage;
 import services.ServiceOffres;
 import entities.Offres;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class ModifierOffresController {
@@ -53,25 +55,45 @@ public class ModifierOffresController {
 
     @FXML
     void modifierOffre(ActionEvent event) throws SQLException, NumberFormatException {
-        // Récupérer les nouvelles valeurs saisies par l'utilisateur dans les champs de texte
-        String description = descriptiontextfield.getText();
-        double salaire = Double.parseDouble(salairetextfield.getText());
-        String horaireDeb = horairedebtextfield.getText();
-        String horaireFin = horairetertextfield.getText();
-        String lieu = lieutextfield.getText();
-        Integer numTel = Integer.parseInt(numteltextfield.getText());
+        try {
+            // Récupérer les nouvelles valeurs saisies par l'utilisateur dans les champs de texte
+            String description = descriptiontextfield.getText();
+            double salaire = Double.parseDouble(salairetextfield.getText());
+            String horaireDeb = horairedebtextfield.getText();
+            String horaireFin = horairetertextfield.getText();
+            String lieu = lieutextfield.getText();
+            Integer numTel = Integer.parseInt(numteltextfield.getText());
 
-        // Créer un objet Offres avec les nouvelles valeurs
-        Offres offreModifiee = new Offres(offre.getId(), description, horaireDeb, horaireFin, lieu, salaire, numTel);
 
-        // Utiliser le service ServiceOffres pour mettre à jour l'offre dans la base de données
-        ServiceOffres serviceOffres = new ServiceOffres();
-        serviceOffres.modifier(offreModifiee);
+            if (lieu.isEmpty()) {
+                throw new IllegalArgumentException("Lieu ne peut pas être vide.");
+            }
+            if (salaire < 0) {
+                throw new IllegalArgumentException("Le salaire doit être un nombre positif.");
+            }
 
-        System.out.println("Offre mise à jour avec succès !");
+            // Créer un objet Offres avec les nouvelles valeurs
+            Offres offreModifiee = new Offres(offre.getId(), description, horaireDeb, horaireFin, lieu, salaire, numTel);
 
-        // Fermer la fenêtre après la mise à jour
-        closeWindow(event);
+            // Utiliser le service ServiceOffres pour mettre à jour l'offre dans la base de données
+            ServiceOffres serviceOffres = new ServiceOffres();
+            serviceOffres.modifier(offreModifiee);
+
+            System.out.println("Offre mise à jour avec succès !");
+
+            // Fermer la fenêtre après la mise à jour
+            closeWindow(event);
+        }catch  (NumberFormatException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de saisie");
+            alert.setContentText("Veuillez vérifier les champs numériques.");
+            alert.show();
+        } catch (IllegalArgumentException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de saisie");
+            alert.setContentText(e.getMessage());
+            alert.show();
+        }
     }
 
     @FXML

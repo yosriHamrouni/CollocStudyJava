@@ -13,6 +13,8 @@ public class ServiceOffres implements IService<Offres> {
         con= MyDB.getInstance().getConnection();
     }
 
+
+
     @Override
     public void ajouter(Offres offres) throws SQLException  {
         String req = "INSERT INTO offres (descrip, salaire, horairedeb, horaireter, lieu,image, num_tel,id_type) VALUES ('" +
@@ -96,4 +98,45 @@ public class ServiceOffres implements IService<Offres> {
             listoffres.add(offres);
         }
         return listoffres;
-    }}
+    }
+    public static Offres getoffreId(int id ) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Offres offres= null;
+
+        try {
+            conn = MyDB.getInstance().getConnection();
+            if (conn == null) {
+                throw new SQLException("La connexion à la base de données est nulle.");
+            }
+
+            String query = "SELECT * FROM offres WHERE id = ?";
+            stmt = conn.prepareStatement(query);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            // Si une ligne est renvoyée, créer un objet Coworking
+            if (rs.next()) {
+                offres= new Offres();
+                offres.setId(rs.getInt("id"));
+                offres.setDescrip(rs.getString("descrip"));
+                offres.setSalaire(rs.getDouble("salaire"));
+                offres.setHorairedeb(rs.getString("horairedeb"));
+                offres.setHoraireter(rs.getString("horaireter"));
+                offres.setLieu(rs.getString("lieu"));
+                offres.setNum_tel(rs.getInt("num_tel"));
+                offres.setImage(rs.getString("image"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Vous pouvez gérer l'exception en renvoyant une valeur par défaut ou en lançant une nouvelle exception personnalisée
+        } finally {
+            // Ne fermez pas les ressources ici
+        }
+
+        return offres;
+    }
+
+}
