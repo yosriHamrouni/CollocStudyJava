@@ -29,7 +29,7 @@
       <TextField fx:id="txthoraireferm" layoutX="121.0" layoutY="228.0" prefHeight="25.0" prefWidth="300.0" promptText="HoraireFerm" />
       <TextField fx:id="txtadresse" layoutX="121.0" layoutY="266.0" prefHeight="25.0" prefWidth="300.0" promptText="Adresse" />
       <TextField fx:id="txtnumtel" layoutX="121.0" layoutY="311.0" prefHeight="25.0" prefWidth="300.0" promptText="Numtel" />
-      <ComboBox fx:id="typeCoComboBox" layoutX="263.0" layoutY="15.0" prefHeight="26.0" prefWidth="398.0" />
+      <ComboBox fx:id="typeCoComboBox" layoutX="121.0" layoutY="107.0" prefHeight="26.0" prefWidth="300.0" promptText="Type coworking" />
 
       <Button fx:id="selectImage" layoutX="554.0" layoutY="331.0" mnemonicParsing="false" onAction="#browseImageAction" style="-fx-background-color: #0f056b; -fx-text-fill: white;" text="Choisir Image" />
       <ImageView fx:id="imageView" fitHeight="88.0" fitWidth="142.0" layoutX="521.0" layoutY="154.0" pickOnBounds="true" preserveRatio="true" />
@@ -48,7 +48,6 @@
          </font>
       </Label>
       <TextField fx:id="txtdescription" layoutX="121.0" layoutY="62.0" prefHeight="25.0" prefWidth="300.0" promptText="Description" />
-      <TextField fx:id="txttypeco_id" layoutX="121.0" layoutY="100.0" prefHeight="25.0" prefWidth="300.0" promptText="Typeco" />
       <Text layoutX="32.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tarifs" wrappingWidth="54.39999999999998" />
       <Text layoutX="24.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horaireouvr" wrappingWidth="70.39999999999998" />
       <Text layoutX="25.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Horaireferm" wrappingWidth="70.39999999999998" />
@@ -58,6 +57,5 @@
       <Text layoutX="31.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typeco" wrappingWidth="70.39999999999998" />
       <TextField fx:id="txtnomco" layoutX="121.0" layoutY="410.0" prefHeight="25.0" prefWidth="300.0" promptText="Nom coworking" />
       <Text layoutX="22.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom Coworking" wrappingWidth="88.79999999999973" />
-      <TextField fx:id="txtimage" layoutX="448.0" layoutY="401.0" prefHeight="26.0" prefWidth="161.0" promptText="path image" />
    </children>
 </AnchorPane>

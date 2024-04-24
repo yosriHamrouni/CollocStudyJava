@@ -14,6 +14,8 @@ import javafx.scene.control.Button;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.InputStream;
+
 import javafx.stage.StageStyle;
 import javafx.scene.Scene;
 
@@ -51,17 +53,26 @@ public class Detailcoworking {
 
 
         if (coworking!= null) {
-            this.nom_id.setText(coworking.getNomco());
-            this.tarifs_id.setText(coworking.getTarifs() + " DT/Personne");
-            this.loc_id.setText(coworking.getAdresse());
-            this.numtel_id.setText(coworking.getNumtel());
-            this.discp_id.setText(coworking.getDescription());
+            this.nom_id.setText("Nom :"+coworking.getNomco());
+            this.tarifs_id.setText("Tarifs :"+coworking.getTarifs() + " DT/Personne");
+            this.loc_id.setText("Adresse :"+coworking.getAdresse());
+            this.numtel_id.setText("Num-tel :"+coworking.getNumtel());
+            this.discp_id.setText("Description :"+coworking.getDescription());
 
-            String imagePath = coworking.getImage();
-            if (imagePath != null && !imagePath.isEmpty()) {
+            String imagePath ="/img/"+coworking.getImage();
+            InputStream imageStream = getClass().getResourceAsStream(imagePath);
+            if (imageStream != null) {
+                Image image = new Image(imageStream);
+                imgview.setImage(image);
+            } else {
+                // Image par défaut si l'image spécifiée n'est pas trouvée
+                // Par exemple : imagePub.setImage(new Image("/images/default.png"));
+                System.out.println("L'image n'a pas pu être chargée : " + imagePath);
+            }
+           /* if (imagePath != null && !imagePath.isEmpty()) {
                 // Vérifiez si le fichier image existe
                 File file = new File(imagePath);
-                if (file.exists() && !file.isDirectory()) {
+               /* if (file.exists() && !file.isDirectory()) {
                     try {
                         // Charger l'image à partir du chemin d'accès spécifié
                         Image image = new Image(file.toURI().toString());
@@ -82,7 +93,7 @@ public class Detailcoworking {
             } else {
                 System.err.println("Chemin d'accès à l'image non spécifié.");
                 // Gérer le cas où le chemin d'accès de l'image n'est pas spécifié
-            }
+            }*/
         } else {
             // Gérer le cas où activite est null, par exemple, en effaçant les valeurs des labels et de l'image
             this.nom_id.setText("");

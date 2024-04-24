@@ -50,11 +50,11 @@ public class AffichcoF implements Initializable {
 
             // Créer une HBox pour chaque ligne d'éléments
             HBox hBox = new HBox();
-            hBox.setSpacing(20.0); // Espacement horizontal entre les éléments
+            hBox.setSpacing(10); // Espacement horizontal entre les éléments
 
             // Ajouter chaque paire d'éléments à une ligne dans la HBox
             for (Coworking coworking : coworkingList) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/iteam.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Items.fxml"));
                 Node itemNode = loader.load();
                 IteamController controller = loader.getController();
                 controller.setData(coworking, null);
@@ -63,7 +63,7 @@ public class AffichcoF implements Initializable {
                 hBox.getChildren().add(itemNode);
 
                 // Si la ligne est pleine (2 éléments), l'ajouter au VBox principal et créer une nouvelle ligne
-                if (hBox.getChildren().size() == 2) {
+                if (hBox.getChildren().size() == 3) {
                     mainVBox.getChildren().add(hBox);
                     hBox = new HBox();
                     hBox.setSpacing(20.0); // Réinitialiser l'espacement horizontal pour la nouvelle ligne

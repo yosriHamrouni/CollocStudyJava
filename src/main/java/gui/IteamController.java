@@ -14,6 +14,7 @@ import services.ServiceCoworking;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class IteamController {
 
@@ -49,16 +50,15 @@ public class IteamController {
         this.idLabel.setText(String.valueOf(Co.getId()));
 
 
-        String imagePath = Co.getImage();
-        if (imagePath != null) {
-            try {
-                Image image = new Image(new File(imagePath).toURI().toString());
-                this.imgview.setImage(image);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            }
+        String imagePath ="/img/"+ Co.getImage();
+        InputStream imageStream = getClass().getResourceAsStream(imagePath);
+        if (imageStream != null) {
+            Image image = new Image(imageStream);
+            imgview.setImage(image);
         } else {
-            // Gérer le cas où l'image est absente
+            // Image par défaut si l'image spécifiée n'est pas trouvée
+            // Par exemple : imagePub.setImage(new Image("/images/default.png"));
+            System.out.println("L'image n'a pas pu être chargée : " + imagePath);
         }
     }
 

@@ -103,8 +103,8 @@ public class AjouterCoworking {
             }
 
             File imageFile = new File(imagePathInDatabase); // Utilisez le chemin complet
-           // String image = imageFile.getName();
-            String image=imagePathInDatabase;
+           String image = imageFile.getName();
+           // String image=imagePathInDatabase;
 
             String horaireouv = txthoraireouv.getText();
             String horaireferm = txthoraireferm.getText();
