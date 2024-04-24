@@ -9,6 +9,10 @@ public class TypeOffres {
         this.type = type;
     }
 
+    public TypeOffres(String type) {
+    this.type = type;
+    }
+
     public int getId() {
         return id;
     }

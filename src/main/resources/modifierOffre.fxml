@@ -3,11 +3,18 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ModifierOffresController">
    <children>
-      <AnchorPane prefHeight="400.0" prefWidth="159.0" style="-fx-background-color: #060270;">
+      <ImageView fitHeight="460.0" fitWidth="621.0" layoutX="-22.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@360_F_127544074_2cTdkUiILLo4ks1kWWUsJvRL2iZDb9FT.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane prefHeight="414.0" prefWidth="159.0" style="-fx-background-color: #060270;">
          <children>
 
          </children>
@@ -27,5 +34,10 @@
       <Label layoutX="226.0" layoutY="318.0" text="Numtel" />
       <Button fx:id="ModifierBtn" layoutX="490.0" layoutY="163.0" mnemonicParsing="false" onAction="#modifierOffre" style="-fx-background-color: green; -fx-text-fill: white;" text="Modifier" />
       <Button fx:id="AnnulerBtn" layoutX="492.0" layoutY="202.0" mnemonicParsing="false" onAction="#annuler" text="Annuler" />
+      <ImageView fitHeight="184.0" fitWidth="173.0" layoutX="-4.0" layoutY="-8.0">
+         <image>
+            <Image url="@BLANC.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

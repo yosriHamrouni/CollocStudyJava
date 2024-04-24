@@ -3,6 +3,7 @@ package Controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import services.ServiceOffres;
@@ -32,6 +33,7 @@ public class ModifierOffresController {
 
     @FXML
     private Button ModifierBtn;
+
 
     @FXML
     private Button AnnulerBtn;

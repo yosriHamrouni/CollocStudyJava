@@ -15,13 +15,14 @@ public class ServiceOffres implements IService<Offres> {
 
     @Override
     public void ajouter(Offres offres) throws SQLException  {
-        String req = "INSERT INTO offres (descrip, salaire, horairedeb, horaireter, lieu, num_tel,id_type) VALUES ('" +
+        String req = "INSERT INTO offres (descrip, salaire, horairedeb, horaireter, lieu,image, num_tel,id_type) VALUES ('" +
                 offres.getDescrip() + "', " +
                 offres.getSalaire() + ", '" +
                 offres.getHorairedeb() + "', '" +
                 offres.getHoraireter() + "', '" +
                 offres.getLieu() + "', '" + // Ajout d'un guillemet simple manquant ici*
-                offres.getNum_tel()   + "', '" +
+                offres.getImage() + "', '" +
+                offres.getNum_tel() + "', '" +
                 offres.getTypeoffre_id() + "')";
 
 
@@ -39,7 +40,7 @@ public class ServiceOffres implements IService<Offres> {
             pre.setString(3, offres.getHoraireter());
             pre.setString(4, offres.getLieu());
             pre.setInt(5, offres.getNum_tel());
-
+            pre.setString(6,offres.getImage());
             // Vérifier si le salaire est null avant de l'utiliser
             if (offres.getSalaire() != null) {
                 pre.setDouble(6, offres.getSalaire());
@@ -60,6 +61,7 @@ public class ServiceOffres implements IService<Offres> {
             throw new RuntimeException("Une erreur est survenue lors de la mise à jour de l'offre.", e);
         }
     }
+
 
 
 
@@ -88,6 +90,7 @@ public class ServiceOffres implements IService<Offres> {
             offres.setHoraireter(res.getString("horaireter"));
             offres.setLieu(res.getString("lieu"));
             offres.setNum_tel(res.getInt("num_tel"));
+            offres.setImage(res.getString("image"));
 
             // Add the Offres object to the list
             listoffres.add(offres);

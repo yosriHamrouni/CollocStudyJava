@@ -16,7 +16,7 @@ public class Offres {
 
 
 
-    public Offres(String descrip, Double salaire, String horairedeb, String horaireter, String lieu, String num_tel, int typeoffre_id ) {
+    public Offres(String descrip, Double salaire, String horairedeb, String horaireter, String lieu, String num_tel, int typeoffre_id, String image) {
         this.descrip = descrip;
         this.salaire = salaire;
         this.horairedeb = horairedeb;
@@ -24,19 +24,21 @@ public class Offres {
         this.lieu = lieu;
         this.num_tel = Integer.parseInt(num_tel);
         this.typeoffre_id  = typeoffre_id ;
+        this.image = image;
     }
 
 
 
 
 
-    public Offres(String descrip,Double salaire, String horairedeb, String horaireter, String lieu, int num_tel) {
+    public Offres(String descrip,Double salaire, String horairedeb, String horaireter, String lieu, int num_tel,String image) {
         this.descrip = descrip;
         this.horairedeb = horairedeb;
         this.horaireter = horaireter;
         this.lieu = lieu;
         this.salaire = salaire;
         this.num_tel = num_tel;
+        this.image = image;
     }
 
 

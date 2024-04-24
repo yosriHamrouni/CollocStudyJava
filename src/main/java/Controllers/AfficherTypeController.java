@@ -1,8 +1,10 @@
 package Controllers;
+
 import entities.Offres;
-import javafx.beans.property.SimpleDoubleProperty;
+import entities.TypeOffres;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,136 +13,94 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import services.ServiceOffres;
-import javafx.scene.control.TableView;
-import java.awt.event.ActionEvent;
+import services.ServiceType;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AfficherOffre implements Initializable {
+public class AfficherTypeController implements Initializable {
 
     @FXML
-    private TableView<Offres> offresTableView;
+    private TableView<TypeOffres> typeOffresTableView;
 
     @FXML
-    private TableColumn<Offres, Integer> idtv;
+    private TableColumn<TypeOffres, Integer> idtv;
 
     @FXML
-    private TableColumn<Offres, String> Descriptv;
+    private TableColumn<TypeOffres, String> typetv;
 
-    @FXML
-    private TableColumn<Offres, Double> salairetv;
-
-    @FXML
-    private TableColumn<Offres, String> Horairedebtv;
-
-    @FXML
-    private TableColumn<Offres, String> Horairefintv;
-
-    @FXML
-    private TableColumn<Offres, String> lieutv;
-
-    @FXML
-    private TableColumn<Offres, Integer> numteltv;
-    @FXML
-    private TableColumn<Offres, String> imagetv;
     @FXML
     private Button deletebtn;
 
-    @FXML
-    private Button editbtn;
-
-
-    private final ServiceOffres serviceOffres = new ServiceOffres();
-
-
-    public void initTableView() throws SQLException {
-        // Retrieve data from the database
-        ServiceOffres serviceOffres = new ServiceOffres();
-        List<Offres> offresList = serviceOffres.afficher();
-
-        // Clear existing items in the TableView
-        offresTableView.getItems().clear();
-
-        // Set cell value factories for each column
-        idtv.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
-        Descriptv.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescrip()));
-        salairetv.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getSalaire()).asObject());
-        Horairedebtv.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHorairedeb()));
-        Horairefintv.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHoraireter()));
-        lieutv.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLieu()));
-        numteltv.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNum_tel()).asObject());
-        imagetv.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getImage()));
-
-
-        // Add the retrieved data to the TableView
-        offresTableView.getItems().addAll(offresList);
-        //add
-        offresTableView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) { // Double-click detected
-                Offres selectedoffre = offresTableView.getSelectionModel().getSelectedItem();
-                if (selectedoffre != null) {
-                    int selectedoffreId = selectedoffre.getId();
-                    if (selectedoffre != null) {
-                        // Navigate to UpdateUser.fxml
-                        navigateToUpdateOffre(selectedoffre );
-                    }
-                }
-            }
-        });
-
-    }
-
-    private void navigateToUpdateOffre(Offres selectedoffre) {
-        try {
-            // Charger le fichier FXML de la fenêtre de mise à jour
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../modifierOffre.fxml"));
-            Parent root = loader.load();
-
-            // Accéder au contrôleur et passer le logement sélectionné à celui-ci
-            ModifierOffresController controller = loader.getController();
-            controller.initData(selectedoffre);
-
-            // Afficher la scène contenant le fichier FXML de la mise à jour
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-
-            // Rafraîchir la TableView lorsque la fenêtre de mise à jour est fermée
-            stage.setOnCloseRequest(event -> {
-                try {
-                    initTableView(); // Rafraîchir la TableView
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-            stage.show();
-           /* // Fermer la fenêtre actuelle lorsque la fenêtre de mise à jour est affichée
-            Stage currentStage = (Stage) cancelButton.getScene().getWindow();
-            currentStage.close();*/
-
-            // Afficher la fenêtre de mise à jour
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private ServiceType serviceType = new ServiceType();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             initTableView();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
+
+    public void initTableView() throws SQLException {
+        ServiceType serviceType=new ServiceType();
+
+        List<TypeOffres> typeOffresList = serviceType.afficher();
+
+        // Clear existing items in the TableView
+        typeOffresTableView.getItems().clear();
+
+        // Set cell value factories for each column
+        idtv.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
+        typetv.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));
+
+        // Add the retrieved data to the TableView
+        typeOffresTableView.getItems().addAll(typeOffresList);
+
+        // Double-click listener for editing
+        typeOffresTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) { // Double-click detected
+                TypeOffres selectedTypeOffres = typeOffresTableView.getSelectionModel().getSelectedItem();
+                if (selectedTypeOffres != null) {
+                    navigateToUpdateTypeOffres(selectedTypeOffres);
+                }
+            }
+        });
+    }
+
+    private void navigateToUpdateTypeOffres(TypeOffres selectedTypeOffres) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../modifierType.fxml"));
+            Parent root = loader.load();
+
+            ModifierTypeController controller = loader.getController();
+            controller.initData(selectedTypeOffres);
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setOnCloseRequest(event -> {
+                try {
+                    initTableView();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
-    private void deleteOne(ActionEvent event) {
+    private void deleteOne(java.awt.event.ActionEvent event) {
         // Récupérer le logement sélectionné dans la table
 
-        Offres selectedOffres = offresTableView.getSelectionModel().getSelectedItem();
-        if (selectedOffres != null) {
+        TypeOffres selectedTypeOffre = typeOffresTableView.getSelectionModel().getSelectedItem();
+        if (selectedTypeOffre != null) {
             // Afficher une boîte de dialogue de confirmation
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmAlert.setTitle("Dialogue de Confirmation");
@@ -153,8 +113,8 @@ public class AfficherOffre implements Initializable {
                     // Logement confirmé, procéder à la suppression
                     try {
                         // Appeler la méthode deleteOne avec le logement sélectionné
-                        ServiceOffres serviceOffres = new ServiceOffres();
-                        serviceOffres.supprimer(selectedOffres);
+                        ServiceType serviceType = new ServiceType();
+                        serviceType.supprimer(selectedTypeOffre);
                         // Afficher un message de réussite
                         Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                         successAlert.setTitle("Suppression Réussie");
@@ -185,11 +145,11 @@ public class AfficherOffre implements Initializable {
 
     }
 
-    public void deleteOne(javafx.event.ActionEvent actionEvent) {
+    public void deletetype(javafx.event.ActionEvent actionEvent) {
         // Récupérer le logement sélectionné dans la table
 
-        Offres selectedOffres = offresTableView.getSelectionModel().getSelectedItem();
-        if (selectedOffres != null) {
+        TypeOffres selectedTypeOffre = typeOffresTableView.getSelectionModel().getSelectedItem();
+        if (selectedTypeOffre != null) {
             // Afficher une boîte de dialogue de confirmation
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmAlert.setTitle("Dialogue de Confirmation");
@@ -202,8 +162,8 @@ public class AfficherOffre implements Initializable {
                     // Logement confirmé, procéder à la suppression
                     try {
                         // Appeler la méthode deleteOne avec le logement sélectionné
-                        ServiceOffres serviceOffres = new ServiceOffres();
-                        serviceOffres.supprimer(selectedOffres);
+                        serviceType = new ServiceType();
+                        serviceType.supprimer(selectedTypeOffre);
                         // Afficher un message de réussite
                         Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
                         successAlert.setTitle("Suppression Réussie");
@@ -233,9 +193,5 @@ public class AfficherOffre implements Initializable {
 
 
     }
-}
-
-
-
-
+    }
 
