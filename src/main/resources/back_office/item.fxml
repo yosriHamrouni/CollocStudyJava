@@ -134,32 +134,32 @@
                 </HBox>
                 <HBox fx:id="reactionsContainer" maxWidth="-Infinity" styleClass="reactions-container" stylesheets="@../styles.css" visible="false">
                     <children>
-                        <ImageView fx:id="imgLike" fitHeight="50.0" fitWidth="50.0"  pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgLike" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/ic_like.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imgLove" fitHeight="50.0" fitWidth="50.0"  pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgLove" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/ic_love_.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imgCare" fitHeight="50.0" fitWidth="50.0"  pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgCare" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/ic_care.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imgHaha" fitHeight="50.0" fitWidth="50.0"  pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgHaha" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/ic_haha.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imgWow" fitHeight="50.0" fitWidth="50.0"  pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgWow" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/ic_wow.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imgSad" fitHeight="50.0" fitWidth="50.0"  pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imgSad" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/ic_sad.png" />
                             </image>
@@ -181,7 +181,7 @@
         </StackPane>
         <HBox maxWidth="1.7976931348623157E308" styleClass="top-border" stylesheets="@../styles.css">
             <children>
-                <HBox fx:id="likeContainer" alignment="CENTER"   spacing="10.0" HBox.hgrow="ALWAYS">
+                <HBox fx:id="likeContainer" alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
                     <children>
                         <ImageView fx:id="imgReaction" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -195,7 +195,7 @@
                         </Label>
                     </children>
                 </HBox>
-                <HBox fx:id="commentContainer" alignment="CENTER" spacing="10.0" HBox.hgrow="ALWAYS">
+                <HBox fx:id="commentContainer" alignment="CENTER" onMouseClicked="#onCommentContainerClicked" spacing="10.0" HBox.hgrow="ALWAYS">
                     <children>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>

@@ -39,7 +39,7 @@ public class ServicePosts implements  IService<Posts>{
         // Set the values of the parameters
         pre.setString(1, posts.getTitle()); // Use index 1 for the first parameter
         pre.setString(2, posts.getContent()); // Use index 2 for the second parameter
-        pre.setInt(3, Posts.getId()); // Use index 3 for the third parameter
+        pre.setInt(3, posts.getId()); // Use index 3 for the third parameter
 
 
         pre.executeUpdate();
@@ -48,9 +48,22 @@ public class ServicePosts implements  IService<Posts>{
     @Override
     public void supprimer(Posts posts) throws SQLException {
 
-                PreparedStatement pre =con.prepareStatement("delete from publication where id=?");
-                pre.setInt(1,posts.getId());
-                pre.executeUpdate();
+
+        String deleteCommentsSql = "DELETE FROM comment WHERE publication_id = ?";
+
+        try (PreparedStatement deleteCommentsStmt = con.prepareStatement(deleteCommentsSql)) {
+            deleteCommentsStmt.setInt(1, posts.getId());
+            deleteCommentsStmt.executeUpdate();
+        }
+
+         try {
+         PreparedStatement pre =con.prepareStatement("delete from publication where id=?");
+         pre.setInt(1,posts.getId());
+         pre.executeUpdate();
+         } catch (SQLException e) {
+             throw new RuntimeException(e);
+         }
+
 
     }
 
@@ -66,9 +79,12 @@ public class ServicePosts implements  IService<Posts>{
         ResultSet res= ste.executeQuery(req);
         while (res.next()){
             Posts p = new Posts();
-            p.setId(res.getInt(1));
+              p.setId(res.getInt(1));
             p.setTitle(res.getString(2));
             p.setContent(res.getString(3));
+            p.setNbLikes(res.getInt(10));
+
+
             postsList.add(p);
         }
         return postsList;
@@ -76,6 +92,18 @@ public class ServicePosts implements  IService<Posts>{
 
 
     @Override
+    public void UpdateLikes(int postId) {
+
+
+        String req = "UPDATE Publication SET likes = likes + 1 WHERE id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(req)) {
+            pstmt.setInt(1, postId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+        @Override
     public void addComment(Posts post, Comments comment) throws SQLException {
         String req = "INSERT INTO comment(publication_id, contenu, date_commentaire) VALUES (?, ?, ?)";
         try (PreparedStatement pre = con.prepareStatement(req)) {
@@ -93,6 +121,92 @@ public class ServicePosts implements  IService<Posts>{
 
 
 
+
+
+
+
+    @Override
+    public int getLikeCount(int postId) throws SQLException {
+
+
+        String sql = "SELECT likes FROM Publication WHERE id = ?";
+
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setInt(1, postId);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("likes");
+                    }
+                }
+            }
+
+        return 0;
+    }
+
+
+
+  @Override  // Function to get total likes from the database
+    public int getTotalLikesFromDatabase() {
+        int totalLikes = 0;
+        try {
+            String query = "SELECT SUM(likes) FROM publication";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                totalLikes = resultSet.getInt(10);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return totalLikes;
+    }
+
+
+    // Function to get engagement levels from the database
+    public int[] getEngagementLevels() {
+        int highEngagementThreshold = 100;
+        int moderateEngagementThreshold = 50;
+
+        int highEngagementCount = 0;
+        int moderateEngagementCount = 0;
+
+
+
+
+        int lowEngagementCount = 0;
+
+
+
+        try {
+
+
+            String query = "SELECT likes FROM publication";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int likes = resultSet.getInt("likes");
+                if (likes > highEngagementThreshold) {
+                    highEngagementCount++;
+                } else if (likes >= moderateEngagementThreshold) {
+                    moderateEngagementCount++;
+                } else {
+                    lowEngagementCount++;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con!= null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new int[]{highEngagementCount, moderateEngagementCount, lowEngagementCount};
+    }
 
 
 }

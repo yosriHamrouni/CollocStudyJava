@@ -58,7 +58,7 @@
             </VBox>
             <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label fx:id="idPost" layoutX="30.0" layoutY="21.0" managed="false" text="Label" visible="false" />
+                  <Label fx:id="idPost" layoutX="30.0" layoutY="21.0"  text="Label" visible="false"  />
                </children></Pane>
             <ImageView fitHeight="25.0" fitWidth="25.0" onMouseClicked="#editPost" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -179,7 +179,7 @@
       </StackPane>
       <HBox maxWidth="1.7976931348623157E308" styleClass="top-border" stylesheets="@../styles.css">
          <children>
-            <HBox fx:id="likeContainer" alignment="CENTER" onMousePressed="#onLikeContainerPressed" onMouseReleased="#onLikeContainerMouseReleased" spacing="10.0" HBox.hgrow="ALWAYS">
+            <HBox fx:id="likeContainer" alignment="CENTER" onMouseClicked="#onLikeContainerPressed" onMouseReleased="#onLikeContainerMouseReleased" spacing="10.0" HBox.hgrow="ALWAYS">
                <children>
                   <ImageView fx:id="imgReaction" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>

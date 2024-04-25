@@ -10,10 +10,9 @@
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AddComment">
    <VBox layoutX="20.0" layoutY="20.0" spacing="10.0" styleClass="main-container">
       <Label style="-fx-font-weight: bold; -fx-font-size: 14pt;" text="Comments" />
-      <ListView fx:id="commentListView" prefHeight="200.0" styleClass="comment-list" />
+      <ListView fx:id="commentListView" onEditStart="#onItemSelected" prefHeight="200.0" styleClass="comment-list" />
       <Label style="-fx-font-weight: bold; -fx-font-size: 14pt;" text="Add Comment" />
       <TextArea fx:id="commentTextArea" prefHeight="100.0" styleClass="comment-text-area" />
       <Button onAction="#addComment" styleClass="add-comment-button" text="Add Comment" />
-      <Button onAction="#deleteSelectedComment" styleClass="add-comment-button" text="Delete" />
    </VBox>
 </AnchorPane>

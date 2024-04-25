@@ -1,16 +1,25 @@
 package Controller;
 
 import entities.Posts;
+import entities.Reactions;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.awt.event.ActionEvent;
+import services.ServicePosts;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import java.io.IOException;
 
 public class ShowPost {
@@ -27,7 +36,25 @@ public class ShowPost {
     private Posts post;
 
     @FXML
+    private Label reactionName;
+    @FXML
     private HBox commentContainer;
+
+    @FXML
+    private Label nbReactions;
+
+
+    @FXML
+    private ImageView imgReaction;
+
+    @FXML
+    private HBox reactionsContainer;
+
+    @FXML
+    private ImageView imgLike;
+
+    private long startTime = 0;
+    private Reactions currentReaction=Reactions.NON;
     private AddPost AddPostController; // Référence au contrôleur Dashboard_Back
 
     // Méthode pour définir la référence au contrôleur Dashboard_Back
@@ -44,10 +71,18 @@ public class ShowPost {
     }
 
     private Posts getPost(){
+
+
+
         Posts post = new Posts();
+
+
         post.setId(Integer.parseInt(idPost.getText()));
         post.setTitle(username.getText());
         post.setContent(content.getText());
+        post.setNbLikes(Integer.parseInt(nbReactions.getText()));
+
+
         return post;
     }
 
@@ -58,8 +93,6 @@ public class ShowPost {
     public void setData(Posts post){
 
         this.post= post;
-        String s=Integer.toString(post.getId());
-
         idPost.setText(String.valueOf(post.getId()));
         username.setText(post.getTitle());
         if(post.getContent() != null && !post.getContent().isEmpty()){
@@ -67,6 +100,7 @@ public class ShowPost {
         }else{
             content.setManaged(false);
         }
+        nbReactions.setText(String.valueOf(post.getNbLikes()));
     }
 
 
@@ -75,12 +109,105 @@ public class ShowPost {
 
 
     public void onReactionImgPressed(MouseEvent mouseEvent) {
+
+
+
+
+
+
+
     }
 
     public void onLikeContainerPressed(MouseEvent mouseEvent) {
+
+
+
+
+
+        if (currentReaction == Reactions.NON) {
+            setReaction(Reactions.LIKE);
+        } else {
+            setReaction(Reactions.NON);
+        }
+
+        likePost(Integer.parseInt(idPost.getText()));
+
+
+
+
+    }
+    private void likePost(int postId) {
+
+        ServicePosts servicePosts=new ServicePosts();
+
+
+
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                // Simulate delay
+                Thread.sleep(1000);
+
+                servicePosts.UpdateLikes(postId);
+
+
+                // Fetch updated like count from database
+                int newLikeCount = servicePosts.getLikeCount(postId);
+                // Update UI on JavaFX Application Thread
+              //  nbReactions.setText(String.valueOf(newLikeCount));
+
+                updateUI(newLikeCount);
+
+
+
+                return null;
+            }
+        };
+
+
+        task.setOnFailed(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent event) {
+                Throwable exception = task.getException();
+                if (exception != null) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+
+        new Thread(task).start();
+    }
+
+
+    private void updateUI(int likeCount) {
+        // Update UI on JavaFX Application Thread
+      //  nbReactions.setText(String.valueOf(likeCount));
+        Platform.runLater(() -> nbReactions.setText(String.valueOf(likeCount)));
+
+
+
+    }
+
+
+
+
+    public void setReaction(Reactions reaction){
+        currentReaction = reaction; // Update the currentReaction field
+
+        Image image = new Image(getClass().getResourceAsStream(reaction.getImgSrc()));
+        imgReaction.setImage(image);
+
+        reactionName.setText(reaction.getName());
+        reactionName.setTextFill(Color.web(reaction.getColor()));
+
+
+
+       // nbReactions.setText(String.valueOf(post.getTotalReactions()));
     }
 
     public void onLikeContainerMouseReleased(MouseEvent mouseEvent) {
+
+
     }
 
 
@@ -89,7 +216,6 @@ public class ShowPost {
     void OnCommentContainerClicked(MouseEvent event) {
 
         try {
-
 
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/front_office/AddComments.fxml"));

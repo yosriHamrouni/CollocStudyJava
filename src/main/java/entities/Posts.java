@@ -12,15 +12,31 @@ import java.util.List;
 
 public class Posts {
 
-     static int id ;
+     private int id ;
 
     private List<Comments> comments; // Collection of comments associated with this post
+
+    public List<entities.Reactions> getReactions() {
+        return Reactions;
+    }
+
+    private List<Reactions> Reactions; // Collection of comments associated with this post
 
     private String content;
     private String date;
     // private String caption;
     private String image;
     private int totalReactions;
+
+    public void setNbLikes(int nbLikes) {
+        this.nbLikes = nbLikes;
+    }
+
+    public int getNbLikes() {
+        return nbLikes;
+    }
+
+    private int nbLikes;
     private int nbComments;
     private int nbShares;
     String  title ;
@@ -30,6 +46,7 @@ public class Posts {
         this.id= Integer.parseInt(text);
         this.title=text1;
         this.content=text2;
+
     }
 
     public String getContent() {
@@ -51,7 +68,7 @@ public class Posts {
 
 
 
-    public static int getId() {
+    public  int getId() {
         return id;
     }
 

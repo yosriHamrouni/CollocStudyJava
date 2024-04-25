@@ -3,12 +3,17 @@ package Controller;
 import entities.Posts;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import services.ServicePosts;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class ShowPost_back {
@@ -59,9 +64,8 @@ Dashboard_Back db;
     public void setData(Posts post){
 
         this.post= post;
-       String s=Integer.toString(post.getId());
 
-        idPost.setText(s);
+        idPost.setText(String.valueOf(post.getId()));
         username.setText(post.getTitle());
         if(post.getContent() != null && !post.getContent().isEmpty()){
             content.setText(post.getContent());
@@ -83,6 +87,58 @@ Dashboard_Back db;
 
         dashboardController.refreshPosts();
        //db.refreshPosts();
+
+
+    }
+
+    public void onCommentContainerClicked(MouseEvent mouseEvent) {
+
+
+
+
+        try {
+
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/back_office/ShowComments_back.fxml"));
+            Parent root = fxmlLoader.load();
+
+            // Get the controller instance
+            AddComment addComment = fxmlLoader.getController();
+
+            // Set the post data
+            addComment.setPost(getPost());
+            // Assuming selectedPost is the post you want to edit
+
+            Stage stage = new Stage();
+            stage.setTitle("Add Comment");
+            stage.setScene(new Scene(root, 450, 450));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

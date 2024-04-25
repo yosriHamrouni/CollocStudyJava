@@ -66,8 +66,15 @@ public class AddPost implements Initializable {
 
         Posts post= new Posts(content.getText() ,"wiw");
         ServicePosts ps=new ServicePosts();
+
+
+
         //post.setContent(content.getId());
         ps.ajouter(post);
+
+
+
+
 
 
 
@@ -99,10 +106,21 @@ public class AddPost implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resourceBundle) {
+       refreshPosts();
+    }
+
+
+    private void loadPosts() {
+
+
+      //  postContainer.getChildren().clear(); // Effacer les publications existantes
+
         Platform.runLater(() -> {
             ServicePosts ps = new ServicePosts();
             try {
                 posts = new ArrayList<>(ps.afficher());
+
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -121,6 +139,11 @@ public class AddPost implements Initializable {
             }
         });
     }
+
+    public void refreshPosts() {
+        loadPosts(); // Appeler loadPosts() pour rafraîchir les publications
+    }
+
 
 
 

@@ -13,8 +13,8 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/front_office/AjouterPost.fxml"));
-        primaryStage.setTitle("Facebook");
+        Parent root = FXMLLoader.load(getClass().getResource("/back_office/Stats.fxml"));
+        primaryStage.setTitle("Collocstudy");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
