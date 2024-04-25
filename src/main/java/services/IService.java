@@ -18,5 +18,12 @@ public interface IService<T> {
     List<T> afficher() throws SQLException;
 
 
+    void UpdateLikes(int postId);
+
     void addComment(Posts post, Comments comment) throws SQLException;
+
+    int getLikeCount(int postId) throws SQLException;
+
+    // Function to get total likes from the database
+    int getTotalLikesFromDatabase();
 }

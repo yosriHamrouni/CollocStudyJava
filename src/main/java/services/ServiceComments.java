@@ -1,5 +1,6 @@
 package services;
 
+import entities.Comments;
 import entities.Posts;
 import utils.MyDB;
 
@@ -24,7 +25,7 @@ public class ServiceComments {
 
         String query = "SELECT contenu FROM comment WHERE publication_id = ?";
         try (PreparedStatement statement = con.prepareStatement(query)) {
-            statement.setInt(1, post.getId());
+            statement.setInt(1,post.getId());
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -35,4 +36,32 @@ public class ServiceComments {
 
         return comments;
     }
+
+
+
+
+    public void delete(String contenu)
+    {
+        String query = "DELETE FROM comment WHERE contenu = ?";
+
+
+
+        try (PreparedStatement deleteCommentsStmt = con.prepareStatement(query)) {
+            deleteCommentsStmt.setString(1,contenu);
+            deleteCommentsStmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
 }
