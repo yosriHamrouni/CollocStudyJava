@@ -25,7 +25,7 @@ public class UserService implements ICrud<User>{
     }
     @Override
     public void ajouterEntite(User p) {
-        String req1 = "INSERT INTO `user`( `email`, `roles`, `password`, `nom`, `prenom`, `bloque`) VALUES (?,?,?,?,?,?)";
+        String req1 = "INSERT INTO `user`( `email`, `roles`, `password`, `nom`, `prenom`,`sexe`, `bloque`) VALUES (?,?,?,?,?,?,?)";
         try {
             PreparedStatement st = cnx2.prepareStatement(req1);
             st.setString(1, p.getEmail());
@@ -33,7 +33,8 @@ public class UserService implements ICrud<User>{
             st.setString(3,p.getPassword());
             st.setString(4, p.getName());
             st.setString(5, p.getPrenom());
-            st.setInt(6, p.getIs_banned());
+            st.setString(6, p.getSexe());
+            st.setInt(7, p.getIs_banned());
             st.executeUpdate();
             System.out.println("user ajouté");
         } catch (SQLException e) {
@@ -41,21 +42,18 @@ public class UserService implements ICrud<User>{
         }
     }
 
-    @Override
-    public List<User> afficherEntite() {
-        return null;
-    }
 
     @Override
     public void modifierEntite(User p) {
-        String requet = "UPDATE user SET email=?, password=?,nom=?,prenom=? WHERE id =?";
+        String requet = "UPDATE user SET email=?, password=?,nom=?,prenom=?,sexe=? WHERE id =?";
         try {
             PreparedStatement st = cnx2.prepareStatement(requet);
-            st.setInt(5,p.getId());
+            st.setInt(6,p.getId());
             st.setString(1, p.getEmail());
             st.setString(2, p.getPassword());
             st.setString(3, p.getName());
             st.setString(4, p.getPrenom());
+            st.setString(5, p.getSexe());
             int rowsAffected = st.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Modification réussie");

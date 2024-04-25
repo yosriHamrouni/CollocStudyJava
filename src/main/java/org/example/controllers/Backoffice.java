@@ -1,26 +1,32 @@
 package org.example.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import org.example.entities.User;
 import org.example.service.UserService;
-import org.example.tools.DBconnexion;
-import java.sql.PreparedStatement;
+
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Interface {
+public class Backoffice {
 
     @FXML
     private Label id;
@@ -77,6 +83,67 @@ public class Interface {
     User tmpp = new User();
     UserService us = new UserService();
     @FXML
+    private GridPane grid;
+
+    @FXML
+    public void initialize() {
+        grid.getChildren().clear();
+        displayg();
+    }
+
+
+    @FXML
+    void refresh(ActionEvent event) {
+        grid.getChildren().clear();
+        displayg();
+    }
+    private void displayg() {
+        ///////////////////////////////////////////////////////////////
+        ResultSet resultSet2 = us.Getall();
+        User pppp = new User();
+        int column = 0;
+        int row = 2;
+        try {
+            while (resultSet2.next()) {
+                //chargement de 'etiquette
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/User.fxml"));
+                try {
+                    //chargement du controller
+                    AnchorPane anchorPane = fxmlLoader.load();
+                    UserC itemController = fxmlLoader.getController();
+                    int id=resultSet2.getInt("id");
+                    String mail=resultSet2.getString("email");
+                    String pass=resultSet2.getString("password");
+                    String ln=resultSet2.getString("nom");
+                    String fn=resultSet2.getString("prenom");
+                    String sexe=resultSet2.getString("sexe");
+                    int isbanned= resultSet2.getInt("bloque");
+                    User ppppp = new User(id,mail,"",pass,ln,fn,sexe,isbanned);
+                    itemController.setData(ppppp);
+                    if (column == 1) {
+                        column = 0;
+                        row++;
+                    }
+                    grid.add(anchorPane, column++, row); //(child,column,row)
+                    //set grid width
+                    grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+                    grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                    grid.setMaxWidth(Region.USE_PREF_SIZE);
+                    //set grid height
+                    grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                    grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                    grid.setMaxHeight(Region.USE_PREF_SIZE);
+                    GridPane.setMargin(anchorPane, new Insets(10));
+                } catch (IOException ex) {
+                    Logger.getLogger(Backoffice.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Backoffice.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    @FXML
     void signup(ActionEvent event) {
         if (tf_ln.getText().isEmpty() ||tf_sexe.getText().isEmpty() || tf_fn.getText().isEmpty() ||tf_email.getText().isEmpty()||tf_pass.getText().isEmpty()) {
             // Afficher un message d'alerte
@@ -106,7 +173,7 @@ public class Interface {
         String mail = tf_email.getText();
         String pass = tf_pass.getText();
         //    public User(String email, String roles, String password, String nom, String prenom, int tel, int bloque) {
-        User u = new User(mail,"[\"ROLE_ETUDIANT\"]",pass,fn,ln,tf_sexe.getText(),0);
+        User u = new User(mail,"[\"ROLE_ADMIN\"]",pass,fn,ln,tf_sexe.getText(),0);
         us.ajouterEntite(u);
         tf_fn.clear();
         tf_ln.clear();
@@ -192,7 +259,7 @@ public class Interface {
         String mail = tf_email1.getText();
         String pass = tf_pass1.getText();
         //    public User(String email, String roles, String password, String nom, String prenom, int tel, int bloque) {
-        User u = new User(Integer.parseInt(id.getText()),mail,"[\"ROLE_ETUDIANT\"]",pass,fn,ln,tf_sexe1.getText(),0);
+        User u = new User(Integer.parseInt(id.getText()),mail,"[\"ROLE_USER\"]",pass,fn,ln,tf_sexe1.getText(),0);
         us.modifierEntite(u);
 
     }
@@ -206,13 +273,12 @@ public class Interface {
     void toUpdate(ActionEvent event) {
         pn_update.toFront();
     }
-    //logout
+
     @FXML
     void tosignin(ActionEvent event) {
         pn_signin.toFront();
-        tmpp= null;
     }
-    // j'ai deja un cmpt
+
     @FXML
     void toSignin(ActionEvent event) {
         pn_signin.toFront();
@@ -242,6 +308,16 @@ public class Interface {
                 tf_sexe1.setText(tmpp.getSexe());
                 pn_home.toFront();
                 pn_index.toFront();
+                System.out.println(tmpp.getRoles());
+                if(Objects.equals(tmpp.getRoles(), "[\"ROLE_ETUDIANT\"]"))
+                {
+                    pn_signin.toFront();
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Information incorrect");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Entrez un compte admin !");
+                    alert.showAndWait();
+                }
             }else
             {
                 Alert alert = new Alert(Alert.AlertType.WARNING);

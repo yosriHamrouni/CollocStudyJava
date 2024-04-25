@@ -7,27 +7,55 @@ public class User {
     private String password ;
     private String nom ;
     private String prenom ;
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getSexe() {
+        return sexe;
+    }
+
+    public void setSexe(String sexe) {
+        this.sexe = sexe;
+    }
+
+    public int getBloque() {
+        return bloque;
+    }
+
+    public void setBloque(int bloque) {
+        this.bloque = bloque;
+    }
+
+    private String sexe ;
     private int bloque ;
 
     public User() {
     }
 
-    public User(int id, String email, String roles, String password, String nom, String prenom, int bloque) {
+    public User(int id, String email, String roles, String password, String nom, String prenom,String sexe, int bloque) {
         this.id = id;
         this.email = email;
         this.roles = roles;
         this.password = password;
         this.nom = nom;
         this.prenom = prenom;
+        this.sexe=sexe;
         this.bloque = bloque;
     }
 
-    public User(String email, String roles, String password, String nom, String prenom, int bloque) {
+    public User(String email, String roles, String password, String nom, String prenom,String sexe, int bloque) {
         this.email = email;
         this.roles = roles;
         this.password = password;
         this.nom = nom;
         this.prenom = prenom;
+        this.sexe=sexe;
         this.bloque = bloque;
     }
 
