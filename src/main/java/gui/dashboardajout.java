@@ -1,29 +1,55 @@
 package gui;
 
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfWriter;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import entities.logement;
+import org.dom4j.DocumentException;
 import services.ServiceLogement;
 
+
+import java.io.FileOutputStream;
+import com.itextpdf.text.Document;
+
+
+import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.scene.control.Alert;
+import java.awt.Desktop;
+import java.util.function.Predicate;
+
+
+import static config.InputValidation.showAlert;
 
 public class dashboardajout implements Initializable {
 
@@ -32,11 +58,16 @@ public class dashboardajout implements Initializable {
 
     @FXML
     private Button cancelButton;
+    @FXML
+    private TextField filtrefield;
 
     @FXML
     private ImageView img;
 
-
+    private ObservableList<logement> logList = FXCollections.observableArrayList();
+    private FilteredList<logement> filteredList;
+    @FXML
+    private Button stats;
     @FXML
     private TableColumn<logement, String> descriptionCol;
 
@@ -56,7 +87,8 @@ public class dashboardajout implements Initializable {
 
     @FXML
     private TableColumn<logement, Float> tarifsCol;
-
+    @FXML
+    private Button QrcodeB;
     @FXML
     private Button supprimerButton;
 
@@ -95,7 +127,7 @@ public class dashboardajout implements Initializable {
         imageCol.setCellValueFactory(new PropertyValueFactory<>("image"));
         dispoCol.setCellValueFactory(new PropertyValueFactory<>("dispo"));
         tarifsCol.setCellValueFactory(new PropertyValueFactory<>("tarifs"));
-        idColT.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId_type()).asObject()); // Ajout de cette ligne
+        typeIdCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId_type()).asObject()); // Ajout de cette ligne
 
         // Add the retrieved data to the TableView
         devisTableView.getItems().addAll(logementList);
@@ -109,6 +141,15 @@ public class dashboardajout implements Initializable {
                 }
             }
         });
+        // Wrap the ObservableList in a FilteredList (initially display all data).
+        filteredList = new FilteredList<>(devisTableView.getItems(), b -> true);
+
+        // Set the filter Predicate whenever the filter changes.
+        // Ajouter un écouteur de changement de texte au TextField
+        filtrefield.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterTableView();
+        });
+
     }
 
     private void navigateToUpdateLogement(logement logement) {
@@ -178,6 +219,9 @@ public class dashboardajout implements Initializable {
         }
     }
 
+
+
+
     public void ouvrirAjouterLogement(ActionEvent actionEvent) {
         ouvrirFenetre("../AjouterLogement.fxml", "Ajouter");
     }
@@ -234,5 +278,89 @@ public class dashboardajout implements Initializable {
             alert.setContentText("Veuillez sélectionner un logement à supprimer.");
             alert.showAndWait();
         }
+    }
+    @FXML
+    private void filterTableView() {
+        // Créer un prédicat pour filtrer les éléments de la TableView
+        Predicate<logement> filterPredicate = logement -> {
+            // Vérifier si le texte de filtrage correspond à l'une des propriétés du logement
+            return logement.getDescription().toLowerCase().contains(filtrefield.getText().toLowerCase())
+                    || logement.getAdresse().toLowerCase().contains(filtrefield.getText().toLowerCase())
+                    || logement.getEquipement().toLowerCase().contains(filtrefield.getText().toLowerCase())
+                    || String.valueOf(logement.getId()).contains(filtrefield.getText());
+        };
+
+        // Mettre à jour la liste filtrée
+        filteredList.setPredicate(filterPredicate);
+
+        // Lier la liste filtrée à la TableView
+        SortedList<logement> sortedData = new SortedList<>(filteredList);
+        sortedData.comparatorProperty().bind(devisTableView.comparatorProperty());
+        devisTableView.setItems(sortedData);
+    }
+    public void ouvrirFenetreS(String fxmlPath,String title) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle(title);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    private void ouvrirS(ActionEvent event) {
+        ouvrirFenetreS("../stats.fxml", "Statistiques");
+
+    }
+
+
+    @FXML
+    void printLogPdf(ActionEvent event) {
+        try {
+            logement selectedLogement = devisTableView.getSelectionModel().getSelectedItem();
+            if (selectedLogement == null) {
+                showAlert("No logement Selected", "Please select a logement to print.");
+                return;
+            }
+// Appeler la méthode generatePdf de la classe pdfgenerator pour générer le PDF avec les détails du logement sélectionné
+            pdfgenerator.generatePdf(selectedLogement.getAdresse(), selectedLogement.getDescription(),selectedLogement.getEquipement(), selectedLogement.getTarifs());
+
+
+            showAlert("PDF Created", "Logement details printed to PDF successfully.");
+
+
+
+        } catch (Exception e) {
+            showAlert("Error", "An error occurred while printing the logement to PDF.");
+            e.printStackTrace();
+        }
+    }
+
+
+
+    void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void handleFiltering(KeyEvent event) {
+        // Obtenez le texte saisi dans le champ texte filtrefield
+        String filterText = filtrefield.getText().toLowerCase();
+
+        // Appliquez le filtre en fonction du texte saisi
+        filteredList.setPredicate(logement -> {
+            // Vérifiez si l'une des propriétés du logement contient le texte filtré
+            return logement.getDescription().toLowerCase().contains(filterText)
+                    || logement.getAdresse().toLowerCase().contains(filterText)
+                    || logement.getEquipement().toLowerCase().contains(filterText)
+                    || String.valueOf(logement.getId()).contains(filterText);
+        });
     }
 }

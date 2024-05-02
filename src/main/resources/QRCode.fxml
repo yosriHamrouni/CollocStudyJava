@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="171.0" prefWidth="204.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.QRCode">
+
+    <ImageView fx:id="qrCodeImageView" fitHeight="138.0" fitWidth="165.0" layoutX="20.0" layoutY="14.0" />
+
+</AnchorPane>

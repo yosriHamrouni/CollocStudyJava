@@ -132,9 +132,11 @@ public class logement {
         this.id_log = id;
     }
 
+    public void setTarifs(float tarifs) {
+        this.tarifs = tarifs;
+    }
 
-
- /*   public byte[] getImageData() {
+   /*   public byte[] getImageData() {
 
         byte[] imageData = new byte[0];
         return imageData;

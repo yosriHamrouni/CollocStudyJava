@@ -35,6 +35,8 @@ public class CardV {
 
     @FXML
     private Label Equip;
+    @FXML
+    private Button Qrcode;
 
     private logement logement;
 
@@ -64,7 +66,30 @@ public class CardV {
             System.out.println("L'image n'a pas pu être chargée : " + imagePath);
         }
     }
+    @FXML
+    void QrCode(ActionEvent event) {
+// Récupérer le logement associé à cette carte
+        logement selectedLogement = getLogement();
 
+        try {
+            // Chargez le fichier FXML des détails du logement
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../QRCode.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+
+            // Obtenez le contrôleur des détails du logement
+            QRCode QrController = loader.getController();
+
+            // Passez les informations du logement sélectionné au contrôleur des détails du logement
+            QrController.setLog(selectedLogement);
+
+            // Afficher la fenêtre modale des détails du logement
+            stage.setTitle("Scan du QrCode");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     @FXML
     void afficherDetails(ActionEvent event) {
         // Récupérer le logement associé à cette carte

@@ -78,8 +78,7 @@ public class ServiceLogement implements IServices<logement> {
                 logement.setDispo(resultSet.getInt("dispo"));
                 logement.setTarifs((int) resultSet.getFloat("tarifs"));
                 logement.setId_type(resultSet.getInt("id_type"));
-                // Assuming the "id_type" column is the foreign key referencing the typelog table
-                // You may need to fetch the typelog details and set it here
+
 
 
                 listLogements.add(logement);
@@ -87,6 +86,52 @@ public class ServiceLogement implements IServices<logement> {
         }
         return listLogements;
     }
+    // Function to get engagement levels from the database
+    public int[] getPriceLevels() {
+        int highEngagementThreshold = 700;
+        int moderateEngagementThreshold = 300;
+
+        int highEngagementCount = 0;
+        int moderateEngagementCount = 0;
+
+
+
+
+        int lowEngagementCount = 0;
+
+
+
+        try {
+
+
+            String query = "SELECT tarifs FROM logement";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int tarifs = resultSet.getInt("tarifs");
+                if (tarifs > highEngagementThreshold) {
+                    highEngagementCount++;
+                } else if (tarifs >= moderateEngagementThreshold) {
+                    moderateEngagementCount++;
+                } else {
+                    lowEngagementCount++;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con!= null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new int[]{highEngagementCount, moderateEngagementCount, lowEngagementCount};
+    }
+
   /*  @Override
     public List<logement> afficher() throws SQLException {
         List<logement> listLogements = new ArrayList<>();

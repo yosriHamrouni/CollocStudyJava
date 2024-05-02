@@ -2,6 +2,7 @@ package gui;
 
 import entities.logement;
 import entities.typelog;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import services.ServiceLogement;
 import services.ServiceTypelog;
-
+import org.controlsfx.control.Notifications;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -79,11 +80,20 @@ public class AjouterLogement {
             // Récupérer le type de logement sélectionné
             typelog selectedType = typelogComboBox.getValue();
 
+// Vérifier si un type de logement a été sélectionné
+            if (selectedType != null) {
+                // Utilisez le type de logement sélectionné
+                String type = selectedType.getType(); // Suppose que getType() renvoie le nom du type de logement
+                System.out.println("Type de logement sélectionné : " + type);
+            } else {
+                System.out.println("Aucun type de logement sélectionné.");
+            }
+
             // Créer un nouveau logement avec le type sélectionné
             ServiceLogement sl = new ServiceLogement();
             logement l = new logement(adresse, equipement, description, imageName, choiceDispo.getValue().equals("Disponible") ? 1 : 0, tarifs, selectedType);
             sl.ajouter(l);
-
+            showNotification("Success", "Logement added successfully!");
             // Clear the form fields
             clearFields();
 
@@ -97,7 +107,13 @@ public class AjouterLogement {
             showAlert("Erreur SQL", "Une erreur s'est produite lors de l'ajout du logement dans la base de données!");
         }
     }
+    private void showNotification(String title, String content) {
+        Notifications notification =Notifications.create()
+                .title(title)
+                .text(content);
 
+        Platform.runLater(() -> notification.showInformation());
+    }
     @FXML
     void selecttypelog(ActionEvent event) {
         typelog selectedType = typelogComboBox.getValue();

@@ -69,6 +69,7 @@ public class AfficherType {
         // Clear existing items in the TableView
         typeTable.getItems().clear();
 
+
         // Set cell value factories for each column
         //idCol.setCellValueFactory(cellData -> cellData.getValue().getIdProperty().asObject());
         typeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));

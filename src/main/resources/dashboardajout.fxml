@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -15,7 +16,7 @@
 
 <AnchorPane fx:id="midlast" prefHeight="768.0" prefWidth="1143.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.dashboardajout">
     <children>
-        <AnchorPane layoutY="-1.0" prefHeight="756.0" prefWidth="1179.0" styleClass="middle-menu" stylesheets="@../resources/img/UI.css">
+        <AnchorPane layoutY="-1.0" prefHeight="756.0" prefWidth="1194.0" style="-fx-background-color: #e7f0fd;" stylesheets="@../resources/img/UI.css">
             <children>
                 <Button layoutX="711.0" layoutY="32.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="btn-trans" />
                 <Label layoutX="14.0" layoutY="13.0" prefHeight="25.0" prefWidth="130.0">
@@ -53,6 +54,11 @@
                                 <Image url="@../resources/img/arrow1.png" />
                             </image>
                         </ImageView>
+                  <ImageView fitHeight="26.0" fitWidth="25.0" layoutX="13.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/maison.png" />
+                     </image>
+                  </ImageView>
                         
 
                     </children>
@@ -145,13 +151,59 @@
                         </DropShadow>
                     </effect>
                 </ImageView>
-                <Button fx:id="PoubelleButton" layoutX="848.0" layoutY="215.0" mnemonicParsing="false" onAction="#deleteOne" prefHeight="34.0" prefWidth="62.0" style="-fx-background-color: #f00020; -fx-background-radius: 100;" text="Supprimer" textFill="WHITE" />
-                <Button fx:id="supprimerButton" layoutX="918.0" layoutY="215.0" mnemonicParsing="false" onAction="#ouvrirAjouterLogement" prefHeight="34.0" prefWidth="62.0" style="-fx-background-color: #2A914D; -fx-background-radius: 100;" text="Ajouter" textFill="WHITE" />
-            <Button fx:id="typebutton" layoutX="1000.0" layoutY="620.0" mnemonicParsing="false" onAction="#ouvrirtypes" style="-fx-background-color: #3353b4;" text="Types" textFill="#232326" />
-            <ImageView fx:id="img" fitHeight="104.0" fitWidth="116.0" layoutX="1024.0" layoutY="399.0" pickOnBounds="true" preserveRatio="true" />
+                <!-- Champ de texte pour le filtrage -->
+                <TextField fx:id="filtrefield" layoutX="406.0" layoutY="114.0" onKeyReleased="#handleFiltering" prefHeight="26.0" prefWidth="436.0" />
+
+                <Button fx:id="PoubelleButton" layoutX="928.0" layoutY="214.0" mnemonicParsing="false" onAction="#deleteOne" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: #fffff; -fx-background-radius: 100;" textFill="#080e56" />
+                <Button fx:id="supprimerButton" layoutX="889.0" layoutY="214.0" mnemonicParsing="false" onAction="#ouvrirAjouterLogement" prefHeight="25.0" prefWidth="26.0" style="-fx-background-color: #2A914D; -fx-background-radius: 100;" textFill="WHITE" />
+            <Button fx:id="typebutton" layoutX="1030.0" layoutY="108.0" mnemonicParsing="false" onAction="#ouvrirtypes" prefHeight="39.0" prefWidth="35.0" style="-fx-background-color: #3353b4;" textFill="#232326" />
+            <Button fx:id="stats" layoutX="1077.0" layoutY="108.0" mnemonicParsing="false" onAction="#ouvrirS" prefHeight="39.0" prefWidth="35.0" textFill="#e2e2ea" />
+            <Button fx:id="pdf" layoutX="1122.0" layoutY="108.0" mnemonicParsing="false" onAction="#printLogPdf" prefHeight="39.0" prefWidth="35.0" />
+            <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="1127.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/format-de-fichier-pdf.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="1082.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/statistique.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="16.0" fitWidth="15.0" layoutX="895.0" layoutY="220.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/plus.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="934.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/supprimer (1).png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="25.0" layoutX="1035.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/type-2.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="850.0" layoutY="114.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="26.0" />
+            <ImageView fitHeight="26.0" fitWidth="35.0" layoutX="850.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/search.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="1128.0" layoutY="653.0" pickOnBounds="true" preserveRatio="true" styleClass="menu-btn">
+               <image>
+                  <Image url="@../../../../Na9ra-23-24-Pidev--ahmed/src/main/resources/gui/resources/shutdown.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="1117.0" layoutY="635.0" text="Log out">
+               <font>
+                  <Font name="Tahoma Bold" size="12.0" />
+               </font>
+            </Label>
+
             </children>
         </AnchorPane>
-        <TableView fx:id="devisTableView" layoutX="372.0" layoutY="268.0" prefHeight="386.0" prefWidth="612.0">
+        <TableView fx:id="devisTableView" layoutX="383.0" layoutY="268.0" prefHeight="386.0" prefWidth="583.0" stylesheets="@img/UI.css">
             <columns>
                 <TableColumn fx:id="idCol" prefWidth="50.39999234676361" text="ID" visible="false" />
                 <TableColumn fx:id="adresseCol" maxWidth="312.7999572753906" prefWidth="59.20001220703125" text="Adresse" />
@@ -159,12 +211,22 @@
                 <TableColumn fx:id="imageCol" maxWidth="342.4000549316406" prefWidth="92.0" text="Image" />
                 <TableColumn fx:id="dispoCol" maxWidth="342.4000549316406" prefWidth="92.79998779296875" text="Dispo" />
                 <TableColumn fx:id="tarifsCol" maxWidth="342.4000549316406" prefWidth="94.4000244140625" text="Tarifs" />
-            <TableColumn fx:id="idColT" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="typeIdCol" prefWidth="75.0" text="Type" />
             </columns>
+         <styleClass>
+            <String fx:value="progress-bar" />
+            <String fx:value="mid-menu2" />
+            <String fx:value="left-form" />
+         </styleClass>
         </TableView>
-        <AnchorPane layoutX="-1.0" prefHeight="88.0" prefWidth="1186.0" style="-fx-background-color: #03045E;">
+        <AnchorPane layoutX="-1.0" prefHeight="88.0" prefWidth="1202.0" style="-fx-background-color: #03045E;">
             <children>
                 <Text fill="WHITE" layoutX="237.0" layoutY="-3.0" scaleX="3.0" scaleY="3.0" scaleZ="3.0" strokeType="OUTSIDE" strokeWidth="0.0" text="          Colocstudy Back'Office" translateX="200.0" translateY="50.0" />
+            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="754.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Na9ra-23-24-Pidev--ahmed/src/main/resources/gui/resources/dashboard.png" />
+               </image>
+            </ImageView>
             </children>
         </AnchorPane>
     </children>

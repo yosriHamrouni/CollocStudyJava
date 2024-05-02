@@ -1,20 +1,18 @@
 package gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.FlowPane;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import services.ServiceLogement;
 import entities.logement;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import gui.CardV;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class AfficherLogF {
 
@@ -26,56 +24,67 @@ public class AfficherLogF {
 
     private final ServiceLogement serviceLogement = new ServiceLogement();
 
+    private List<logement> allLogements; // Liste de tous les logements
+    private static final int pageSize = 2; // Nombre de logements par page
+    private int currentPage = 0; // Page actuelle
+
     @FXML
     private void initialize() {
-        loadLogement(null); // Charge tous les logements initialement
+        loadLogement(); // Charge tous les logements initialement
     }
 
-    private void loadLogement(String searchTerm) {
+    private void loadLogement() {
         try {
-            List<logement> logements = serviceLogement.afficher();
-
-            // Nettoie le conteneur avant d'ajouter de nouveaux logements
-            logementsFlowPane.getChildren().clear();
-
-            for (logement log : logements) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../CardV.fxml"));
-                Node card = loader.load(); // Cette ligne peut générer une IOException
-                CardV controller = loader.getController();
-                controller.setLogement(log);
-                controller.setAfficherLogFController(this); // Passe la référence à ce contrôleur
-                logementsFlowPane.getChildren().add(card);
-            }
-        } catch (Exception e) { // Attrape toute exception ici
+            allLogements = serviceLogement.afficher();
+            updatePage(currentPage);
+        } catch (Exception e) {
             e.printStackTrace();
+            showAlert("Erreur", "Une erreur s'est produite lors du chargement des logements.");
         }
     }
 
- /*   @FXML
-    void handleDetailButton(ActionEvent event) throws IOException {
-        for (Node node : logementsFlowPane.getChildren()) {
-            if (node instanceof CardV) {
-                CardV card = (CardV) node;
-                logement selectedLogement = card.getLogement();
-                if (selectedLogement != null) {
-                    // Passer le logement sélectionné à l'interface DetailLogement
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../DetailLogement.fxml"));
-                    Parent root = loader.load();
 
-                    DetailLogement detailController = loader.getController();
-                    detailController.initData(selectedLogement);
+    private void updatePage(int page) {
+        logementsFlowPane.getChildren().clear();
+        int startIndex = page * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, allLogements.size());
 
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.setTitle("Détails du Logement");
-                    stage.show();
-                } else {
-                    // Gérer le cas où aucun logement n'est sélectionné
-                }
+        for (int i = startIndex; i < endIndex; i++) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../CardV.fxml"));
+                Node card = loader.load();
+                CardV controller = loader.getController();
+                controller.setLogement(allLogements.get(i));
+                controller.setAfficherLogFController(this);
+                logementsFlowPane.getChildren().add(card);
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert("Erreur", "Une erreur s'est produite lors de la création de la carte de logement.");
             }
         }
+    }
 
-    }*/
+    @FXML
+    public void previousPage() {
+        if (currentPage > 0) {
+            currentPage--;
+            updatePage(currentPage);
+        }
+    }
 
+    @FXML
+    public void nextPage() {
+        int totalPages = (int) Math.ceil((double) allLogements.size() / pageSize);
+        if (currentPage < totalPages - 1) {
+            currentPage++;
+            updatePage(currentPage);
+        }
+    }
 
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

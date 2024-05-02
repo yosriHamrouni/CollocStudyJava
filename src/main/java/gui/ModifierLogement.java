@@ -3,6 +3,7 @@ package gui;
 import config.InputValidation;
 import entities.logement;
 import entities.typelog;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -13,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.controlsfx.control.Notifications;
 import services.ServiceLogement;
 import services.ServiceTypelog;
 
@@ -106,6 +108,7 @@ public class ModifierLogement {
             } else {
                 serviceLogement.modifier(logement);
                 showAlert("Succès", "Le logement a été mis à jour avec succès.");
+                showNotification("Success", "Logement added successfully!");
                 Stage stage = (Stage) confirmerButton.getScene().getWindow();
                 stage.close();
             }
@@ -113,7 +116,13 @@ public class ModifierLogement {
             showAlert("Erreur SQL", "Échec de la mise à jour du logement : " + e.getMessage());
         }
     }
+    private void showNotification(String title, String content) {
+        Notifications notification =Notifications.create()
+                .title(title)
+                .text(content);
 
+        Platform.runLater(() -> notification.showInformation());
+    }
     @FXML
     void browseImageAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
