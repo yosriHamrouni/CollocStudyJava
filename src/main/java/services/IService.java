@@ -18,7 +18,10 @@ public interface IService<T> {
     List<T> afficher() throws SQLException;
 
 
-    void UpdateLikes(int postId);
+
+    void incrementLikes(int postId);
+
+    void DecrementLikes(int postId);
 
     void addComment(Posts post, Comments comment) throws SQLException;
 
