@@ -92,7 +92,7 @@ public class ServicePosts implements  IService<Posts>{
 
 
     @Override
-    public void UpdateLikes(int postId) {
+    public void incrementLikes(int postId) {
 
 
         String req = "UPDATE Publication SET likes = likes + 1 WHERE id = ?";
@@ -103,6 +103,23 @@ public class ServicePosts implements  IService<Posts>{
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public void DecrementLikes(int postId) {
+
+
+        String req = "UPDATE Publication SET likes = likes - 1 WHERE id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(req)) {
+            pstmt.setInt(1, postId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+
+
         @Override
     public void addComment(Posts post, Comments comment) throws SQLException {
         String req = "INSERT INTO comment(publication_id, contenu, date_commentaire) VALUES (?, ?, ?)";

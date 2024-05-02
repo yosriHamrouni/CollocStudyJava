@@ -126,11 +126,17 @@ public class ShowPost {
 
         if (currentReaction == Reactions.NON) {
             setReaction(Reactions.LIKE);
+            likePost(Integer.parseInt(idPost.getText()));
+
+
+
         } else {
             setReaction(Reactions.NON);
+            unlikePost(Integer.parseInt(idPost.getText()));
+
         }
 
-        likePost(Integer.parseInt(idPost.getText()));
+
 
 
 
@@ -148,11 +154,16 @@ public class ShowPost {
                 // Simulate delay
                 Thread.sleep(1000);
 
-                servicePosts.UpdateLikes(postId);
+
+                servicePosts.incrementLikes(postId);
 
 
                 // Fetch updated like count from database
                 int newLikeCount = servicePosts.getLikeCount(postId);
+
+
+
+
                 // Update UI on JavaFX Application Thread
               //  nbReactions.setText(String.valueOf(newLikeCount));
 
@@ -177,6 +188,62 @@ public class ShowPost {
 
         new Thread(task).start();
     }
+
+    private void unlikePost(int postId) {
+
+        ServicePosts servicePosts=new ServicePosts();
+
+
+
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                // Simulate delay
+                Thread.sleep(1000);
+
+
+                servicePosts.DecrementLikes(postId);
+
+
+                // Fetch updated like count from database
+                int newLikeCount = servicePosts.getLikeCount(postId);
+
+
+
+
+                // Update UI on JavaFX Application Thread
+                //  nbReactions.setText(String.valueOf(newLikeCount));
+
+                updateUI(newLikeCount);
+
+
+
+                return null;
+            }
+        };
+
+
+        task.setOnFailed(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent event) {
+                Throwable exception = task.getException();
+                if (exception != null) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+
+        new Thread(task).start();
+    }
+
+
+
+
+
+
+
+
+
 
 
     private void updateUI(int likeCount) {
