@@ -71,6 +71,9 @@ public class AjouterCoworking {
     private File selectedImageFile;
     @FXML
     private TextField txtimage;
+    public static final String ACCOUNT_SID = "ACafcc6da8edac3b6b83141b831c51f111";
+    public static final String AUTH_TOKEN = "ff28b1ff9e01c0f47cb693813d9f9ea6";
+
 
 
 
@@ -94,6 +97,18 @@ public class AjouterCoworking {
             stringBuilder.append(characters.charAt(random.nextInt(characters.length())));
         }
         return stringBuilder.toString();
+    }
+    // Méthode pour envoyer un SMS
+    public void sendSMS(String recipientPhoneNumber, String messageBody) {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+
+        Message message = Message.creator(
+                        new PhoneNumber(recipientPhoneNumber),
+                        new PhoneNumber("+14697079006"),
+                        messageBody)
+                .create();
+
+        System.out.println("SMS envoyé avec SID: " + message.getSid());
     }
     @FXML
     void browseImageAction(ActionEvent event) {
@@ -179,9 +194,9 @@ public class AjouterCoworking {
 
             sc.ajouter(c);
             String recipientPhoneNumber = "+21652977655";
-            String messageBody = "Un nouveau coworking a été ajouté ! Nom du coworking : " ;
+            String messageBody = "Un nouveau coworking a été ajouté ! Nom du coworking : "+nomco ;
 
-           // sendSMS(recipientPhoneNumber, messageBody);
+            sendSMS(recipientPhoneNumber, messageBody);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Ajout Réussi");
