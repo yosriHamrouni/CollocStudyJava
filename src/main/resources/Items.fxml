@@ -60,8 +60,7 @@
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
             <Label fx:id="idLabel" prefHeight="18.0" prefWidth="10.0" style="-fx-opacity: 0;" text="" />
-            <Button fx:id="detail" layoutX="38.0" layoutY="4.0" mnemonicParsing="false" onAction="#onclickdetail" prefHeight="18.0" prefWidth="61.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-radius: 100;" text="Détails" />
-            <Button fx:id="map" contentDisplay="CENTER" layoutX="161.0" layoutY="4.0" mnemonicParsing="false" onAction="#ShowMap" prefHeight="25.0" prefWidth="75.0" style="-fx-background-radius: 100;" text="Map" />
+            <Button fx:id="detail" layoutX="105.0" layoutY="4.0" mnemonicParsing="false" onAction="#onclickdetail" prefHeight="18.0" prefWidth="61.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-radius: 100;" text="Détails" />
          </children>
       </Pane>
    </children>
