@@ -74,7 +74,7 @@ public class AjouterCoworking {
     public static final String AUTH_TOKEN = "ff28b1ff9e01c0f47cb693813d9f9ea6";
 
     // Méthode pour envoyer un SMS
-    public void sendSMS(String recipientPhoneNumber, String messageBody) {
+    /*public void sendSMS(String recipientPhoneNumber, String messageBody) {
        // Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
         Message message = Message.creator(
@@ -84,7 +84,7 @@ public class AjouterCoworking {
                 .create();
 
         System.out.println("SMS envoyé avec SID: " + message.getSid());
-    }
+    }*/
 
 
     @FXML
@@ -165,7 +165,7 @@ public class AjouterCoworking {
             String recipientPhoneNumber = "+21652977655";
             String messageBody = "Un nouveau coworking a été ajouté ! Nom du coworking : " ;
 
-            sendSMS(recipientPhoneNumber, messageBody);
+           // sendSMS(recipientPhoneNumber, messageBody);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Ajout Réussi");
