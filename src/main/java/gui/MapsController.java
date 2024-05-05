@@ -65,8 +65,14 @@ public class MapsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            File file = new File("C:\\Users\\MSI\\IdeaProjects\\oumeima\\src\\main\\resources\\map.html");
-            URL htmlUrl = file.toURI().toURL();
+            // Charger le fichier HTML à partir d'un chemin relatif
+            URL htmlUrl = getClass().getResource("/map/map.html");
+            if (htmlUrl == null) {
+                System.err.println("Le fichier HTML n'a pas été trouvé.");
+                return;
+            }
+
+            // Charger le fichier HTML dans le WebView
             engine = wv.getEngine();
             engine.load(htmlUrl.toString());
         } catch (Exception ex) {
