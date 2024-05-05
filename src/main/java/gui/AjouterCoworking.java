@@ -70,8 +70,7 @@ public class AjouterCoworking {
     private String imagePathInDatabase;
     @FXML
     private ChoiceBox<String> choiceDispo;
-    public static final String ACCOUNT_SID = "ACafcc6da8edac3b6b83141b831c51f111";
-    public static final String AUTH_TOKEN = "ff28b1ff9e01c0f47cb693813d9f9ea6";
+
 
     // Méthode pour envoyer un SMS
     public void sendSMS(String recipientPhoneNumber, String messageBody) {
