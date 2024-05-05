@@ -57,5 +57,7 @@
       <Text layoutX="31.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Typeco" wrappingWidth="70.39999999999998" />
       <TextField fx:id="txtnomco" layoutX="121.0" layoutY="410.0" prefHeight="25.0" prefWidth="300.0" promptText="Nom coworking" />
       <Text layoutX="22.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nom Coworking" wrappingWidth="88.79999999999973" />
+      <Label fx:id="captchaLabel" layoutX="557.0" layoutY="414.0" text="Label" />
+      <TextField fx:id="captchaInput" layoutX="534.0" layoutY="448.0" />
    </children>
 </AnchorPane>

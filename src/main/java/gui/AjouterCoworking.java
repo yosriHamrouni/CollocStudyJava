@@ -3,6 +3,7 @@ package gui;
 import com.mysql.cj.BindValue;
 import entities.Coworking;
 import entities.TypeCo;
+import javafx.scene.control.Label;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Random;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -49,7 +51,12 @@ public class AjouterCoworking {
 
     @FXML
     private TextField txtnomco;
+    private String captchaChallenge;
+    @FXML
+    private Label captchaLabel;
 
+    @FXML
+    private TextField captchaInput;
     @FXML
     private TextField txtnumtel;
 
@@ -85,7 +92,20 @@ public class AjouterCoworking {
         System.out.println("SMS envoyé avec SID: " + message.getSid());
     }
 
-
+    @FXML
+    private void generateCaptcha() {
+        captchaChallenge = generateRandomString(6); // Generate a random string for CAPTCHA
+        captchaLabel.setText(captchaChallenge);
+    }
+    private String generateRandomString(int length) {
+        Random random = new Random();
+        StringBuilder stringBuilder = new StringBuilder();
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (int i = 0; i < length; i++) {
+            stringBuilder.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return stringBuilder.toString();
+    }
     @FXML
     void browseImageAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -127,6 +147,14 @@ public class AjouterCoworking {
             String numtel = txtnumtel.getText();
 
             int tarifs = Integer.parseInt(txttarifs.getText());
+            // Validate CAPTCHA
+            String userInput = captchaInput.getText().trim();
+            if (!userInput.equals(captchaChallenge)) {
+                showAlert("Erreur de CAPTCHA", "CAPTCHA invalide.");
+                return;
+            }
+
+            // CAPTCHA is valid, proceed with adding the seminar
 
             if (adresse.isEmpty()) {
                 throw new IllegalArgumentException("L'adresse ne peut pas être vide.");
@@ -194,7 +222,12 @@ public class AjouterCoworking {
 
     }
 
-
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.show();
+    }
 
 
     @FXML
@@ -204,6 +237,7 @@ public class AjouterCoworking {
             ServiceTypeco serviceTypeCo = new ServiceTypeco();
             List<TypeCo> types = serviceTypeCo.afficher();
             typeCoComboBox.getItems().addAll(types);
+            generateCaptcha();
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
