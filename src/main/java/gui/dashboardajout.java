@@ -1,5 +1,6 @@
 package gui;
 
+import com.google.protobuf.Service;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -16,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -43,6 +45,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import java.awt.Desktop;
@@ -63,6 +66,9 @@ public class dashboardajout implements Initializable {
 
     @FXML
     private ImageView img;
+    @FXML
+    private PieChart pieChart;
+
 
     private ObservableList<logement> logList = FXCollections.observableArrayList();
     private FilteredList<logement> filteredList;
@@ -76,8 +82,8 @@ public class dashboardajout implements Initializable {
 
     @FXML
     private TableColumn<logement, String> imageCol;
-    @FXML
-    private TableColumn<logement, Integer> typeIdCol;
+   /* @FXML
+    private TableColumn<logement, Integer> typeIdCol;*/
 
     @FXML
     private TableView<logement> devisTableView;
@@ -127,7 +133,7 @@ public class dashboardajout implements Initializable {
         imageCol.setCellValueFactory(new PropertyValueFactory<>("image"));
         dispoCol.setCellValueFactory(new PropertyValueFactory<>("dispo"));
         tarifsCol.setCellValueFactory(new PropertyValueFactory<>("tarifs"));
-        typeIdCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId_type()).asObject()); // Ajout de cette ligne
+        //typeIdCol.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId_type()).asObject()); // Ajout de cette ligne
 
         // Add the retrieved data to the TableView
         devisTableView.getItems().addAll(logementList);
@@ -149,10 +155,31 @@ public class dashboardajout implements Initializable {
         filtrefield.textProperty().addListener((observable, oldValue, newValue) -> {
             filterTableView();
         });
+        updatePieChart();
 
     }
 
-    private void navigateToUpdateLogement(logement logement) {
+    private void updatePieChart() {
+        ServiceLogement serviceLogement = new ServiceLogement();
+
+        // Récupération des statistiques sur les logements par adresse
+        Map<String, Integer> logementByAdresse = serviceLogement.getLogementByAdresse();
+
+        // Création des données pour le graphique PieChart
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        for (Map.Entry<String, Integer> entry : logementByAdresse.entrySet()) {
+            pieChartData.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+        }
+
+        // Configuration du PieChart
+        pieChart.setData(pieChartData);
+        pieChart.setTitle("Statistique des logements par adresse");
+    }
+
+
+
+
+        private void navigateToUpdateLogement(logement logement) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../ModifierLogement.fxml"));
             Parent root = loader.load();
@@ -364,3 +391,4 @@ public class dashboardajout implements Initializable {
         });
     }
 }
+

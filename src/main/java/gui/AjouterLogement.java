@@ -4,12 +4,16 @@ import entities.logement;
 import entities.typelog;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
+import nl.captcha.Captcha;
 import services.ServiceLogement;
 import services.ServiceTypelog;
 import org.controlsfx.control.Notifications;
@@ -22,10 +26,13 @@ public class AjouterLogement {
 
     @FXML
     private TextField txtadr;
+    Captcha captcha;
     @FXML
     private Label labelNomType;
     @FXML
     private TextField txtdescr;
+    @FXML
+    private WebView webViewRecaptcha;
 
     @FXML
     private ChoiceBox<String> choiceDispo;
@@ -41,6 +48,11 @@ public class AjouterLogement {
 
     private String imagePathInDatabase;
     private ServiceTypelog serviceType;
+    @FXML
+    public ImageView captchaIV;
+    @FXML
+    public TextField captchaTF;
+
 
     // ComboBox pour les types de logement
     @FXML
@@ -80,13 +92,15 @@ public class AjouterLogement {
             // Récupérer le type de logement sélectionné
             typelog selectedType = typelogComboBox.getValue();
 
-// Vérifier si un type de logement a été sélectionné
-            if (selectedType != null) {
-                // Utilisez le type de logement sélectionné
-                String type = selectedType.getType(); // Suppose que getType() renvoie le nom du type de logement
-                System.out.println("Type de logement sélectionné : " + type);
-            } else {
-                System.out.println("Aucun type de logement sélectionné.");
+            // Vérifier si un type de logement a été sélectionné
+            if (selectedType == null) {
+                throw new IllegalArgumentException("Veuillez sélectionner un type de logement.");
+            }
+
+            // Vérifier le captcha
+            String userCaptcha = captchaTF.getText().trim();
+            if (!captcha.isCorrect(userCaptcha)) {
+                throw new IllegalArgumentException("Captcha incorrect.");
             }
 
             // Créer un nouveau logement avec le type sélectionné
@@ -94,8 +108,8 @@ public class AjouterLogement {
             logement l = new logement(adresse, equipement, description, imageName, choiceDispo.getValue().equals("Disponible") ? 1 : 0, tarifs, selectedType);
             sl.ajouter(l);
             showNotification("Success", "Logement added successfully!");
-            // Clear the form fields
-            clearFields();
+            setCaptcha(); // Réinitialiser le captcha
+            clearFields(); // Effacer les champs du formulaire
 
             showAlert("Succès", "Le logement a été ajouté avec succès.");
 
@@ -107,6 +121,7 @@ public class AjouterLogement {
             showAlert("Erreur SQL", "Une erreur s'est produite lors de l'ajout du logement dans la base de données!");
         }
     }
+
     private void showNotification(String title, String content) {
         Notifications notification =Notifications.create()
                 .title(title)
@@ -147,6 +162,8 @@ public class AjouterLogement {
             serviceType = new ServiceTypelog();
             List<typelog> types = serviceType.afficher();
             typelogComboBox.setItems(FXCollections.observableArrayList(types));
+          //  WebEngine webEngine = webViewRecaptcha.getEngine();
+          //  webEngine.load("https://www.google.com/recaptcha/enterprise.js?render=6LegstApAAAAAFAQ3cyhCK0twk3McSgGxptJYmPf");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -158,6 +175,22 @@ public class AjouterLogement {
         txtequip.clear();
         txttarif.clear();
         imageView.setImage(null);
+    }
+    void setCaptcha() {
+        captcha = new Captcha.Builder(250, 200)
+                .addText()
+                .addBackground()
+                .addNoise()
+                .addBorder()
+                .build();
+
+        Image image = SwingFXUtils.toFXImage(captcha.getImage(), null);
+        captchaIV.setImage(image);
+    }
+    @FXML
+    public void resetCaptcha(ActionEvent ignored) {
+        setCaptcha();
+        captchaTF.clear();
     }
 
     private void showAlert(String title, String content) {

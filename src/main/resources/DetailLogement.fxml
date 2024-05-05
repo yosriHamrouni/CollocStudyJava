@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="169.0" prefWidth="323.0" style="-fx-background-color: #2220AB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DetailLogement">
+<AnchorPane prefHeight="431.0" prefWidth="499.0" style="-fx-background-color: #2220AB;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DetailLogement">
     <children>
-        <Label fx:id="lblParagraphe" layoutX="16.0" layoutY="13.0" prefHeight="142.0" prefWidth="290.0" style="-fx-padding: 10px;" textAlignment="CENTER" textFill="#f4f1f1" wrapText="true">
-         <font>
-            <Font name="Times New Roman" size="18.0" />
-         </font></Label>
+        <Label fx:id="lblParagraphe" layoutX="97.0" layoutY="190.0" prefHeight="159.0" prefWidth="305.0" style="-fx-padding: 10px;" textAlignment="CENTER" textFill="#f4f1f1" wrapText="true">
+            <font>
+                <Font name="Times New Roman" size="18.0" />
+            </font>
+        </Label>
+        <ImageView fx:id="imgview" fitHeight="150.0" fitWidth="200.0" layoutX="149.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" />
+        
+
+
     </children>
 </AnchorPane>

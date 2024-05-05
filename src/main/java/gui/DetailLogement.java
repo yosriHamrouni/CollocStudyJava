@@ -8,10 +8,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class DetailLogement {
     @FXML
-    private ImageView imageView;
+    private ImageView imgview;
     @FXML
     private Label lblParagraphe;
 
@@ -34,6 +37,8 @@ public class DetailLogement {
         // Logique de clic (si nécessaire)
     }
 
+
+
     public void setLogement(logement logement) {
         this.logement = logement;
 
@@ -54,7 +59,7 @@ public class DetailLogement {
             // Afficher le paragraphe dans votre interface utilisateur
             lblParagraphe.setText(paragraph);
 
-    } else {
+        } else {
             clearFields();
             return; // Ajout de ce return pour sortir de la méthode si logement est null
         }
@@ -67,9 +72,9 @@ public class DetailLogement {
                     Image image = new Image(file.toURI().toString());
                     double desiredWidth = 600;
                     double desiredHeight = 600;
-                    imageView.setImage(image);
-                    imageView.setFitWidth(desiredWidth);
-                    imageView.setFitHeight(desiredHeight);
+                    imgview.setImage(image);
+                    imgview.setFitWidth(desiredWidth);
+                    imgview.setFitHeight(desiredHeight);
                 } catch (Exception e) {
                     System.err.println("Erreur lors du chargement de l'image : " + e.getMessage());
                 }
@@ -82,13 +87,11 @@ public class DetailLogement {
     }
 
 
-
-
     private void clearFields() {
         lblAdresse.setText("");
         lblEquipement.setText("");
         lblDescription.setText("");
         lblTarifs.setText("");
-        imageView.setImage(null);
+        imgview.setImage(null);
     }
 }

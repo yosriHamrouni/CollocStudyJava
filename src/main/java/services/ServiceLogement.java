@@ -8,7 +8,9 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServiceLogement implements IServices<logement> {
     private Connection con;
@@ -262,6 +264,45 @@ public class ServiceLogement implements IServices<logement> {
       }
       return logements;
   }*/
+ public List<logement> trierParTarifs() throws SQLException {
+     List<logement> listLogements = new ArrayList<>();
+     String req = "SELECT * FROM logement ORDER BY tarifs";
+     try (PreparedStatement preparedStatement = con.prepareStatement(req);
+          ResultSet resultSet = preparedStatement.executeQuery()) {
+         while (resultSet.next()) {
+             logement logement = new logement();
+             logement.setId_log(resultSet.getInt("id_log"));
+             logement.setAdresse(resultSet.getString("adresse"));
+             logement.setEquipement(resultSet.getString("equipement"));
+             logement.setDescription(resultSet.getString("description"));
+             logement.setImage(resultSet.getString("image"));
+             logement.setDispo(resultSet.getInt("dispo"));
+             logement.setTarifs(resultSet.getInt("tarifs"));
+             logement.setId_type(resultSet.getInt("id_type"));
+
+             listLogements.add(logement);
+         }
+     }
+     return listLogements;
+ }
+    public Map<String, Integer> getLogementByAdresse() {
+        Map<String, Integer> logementByAdresse = new HashMap<>();
+
+        try {
+            String query = "SELECT adresse, COUNT(*) AS count FROM logement GROUP BY adresse";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String adresse = resultSet.getString("adresse");
+                int count = resultSet.getInt("count");
+                logementByAdresse.put(adresse, count);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return logementByAdresse;
+    }
 
 
 }
