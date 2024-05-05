@@ -1,6 +1,7 @@
 package gui;
 
 import entities.Coworking;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,12 +10,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import services.ServiceCoworking;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+//import com.esri.arcgisruntime.mapping.ArcGISMap;
+
 
 public class IteamController {
 
@@ -41,6 +46,8 @@ public class IteamController {
 
     @FXML
     private Label idLabel;
+
+
 
     public void setData(Coworking Co, Object o) {
         this.nomco.setText(Co.getNomco());
@@ -109,4 +116,33 @@ public class IteamController {
             System.out.println("Format d'ID invalide : " + idText);
         }
     }
+
+
+
+    public void ShowMap(ActionEvent actionEvent) {
+        String location = adresse.getText(); // Récupérer la localisation de l'activité
+        openMap(location);
+    }
+    private void openMap(String location) {
+        try {
+            // Charger le fichier FXML de la vue de la carte
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../mapView.fxml"));
+            Parent root = loader.load();
+
+            // Obtenir le contrôleur de la vue de la carte
+            MapsController mapController = loader.getController();
+
+            // Passer la localisation au contrôleur de la vue de la carte
+            mapController.setLocation(location);
+
+            // Afficher la vue de la carte dans une nouvelle fenêtre
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+

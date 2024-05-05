@@ -9,6 +9,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -35,7 +36,10 @@
                   <Font name="Tahoma Bold" size="23.0" />
                </font>
             </Label>
-            <Label layoutX="763.0" layoutY="676.0" text="Deconexion " />
+            <Label layoutX="110.0" layoutY="719.0" text="Deconexion ">
+               <font>
+                  <Font name="AdobeGothicStd-Bold" size="13.0" />
+               </font></Label>
             <AnchorPane layoutX="27.0" layoutY="205.0" prefHeight="68.0" prefWidth="210.0" stylesheets="@../resources/img/UI.css">
                <children>
                   <ImageView fitHeight="36.0" fitWidth="25.0" layoutX="171.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
@@ -87,11 +91,6 @@
             <ImageView fitHeight="150.0" fitWidth="258.0" layoutX="721.0" layoutY="68.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../resources/img/work.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="19.0" fitWidth="50.0" layoutX="830.0" layoutY="675.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/img/arrow.png" />
                </image>
             </ImageView>
             <AnchorPane layoutX="27.0" layoutY="451.0" prefHeight="68.0" prefWidth="210.0">
@@ -178,7 +177,7 @@
                   </DropShadow>
                </effect>
             </ImageView>
-            <TableView fx:id="table_coworking" layoutX="274.0" layoutY="261.0" prefHeight="234.0" prefWidth="593.0">
+            <TableView fx:id="table_coworking" layoutX="274.0" layoutY="261.0" prefHeight="264.0" prefWidth="594.0">
                <columns>
                   <TableColumn fx:id="col_description" prefWidth="131.19999313354492" text="Description" />
                   <TableColumn fx:id="col_horaireouvr" prefWidth="146.3999786376953" text="Horaire Ouverture" />
@@ -192,20 +191,65 @@
                   <TableColumn fx:id="col_idtype" prefWidth="180.8001708984375" text="idtype" />
                </columns>
             </TableView>
-            <Button fx:id="cancelButton" layoutX="313.0" layoutY="634.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="34.0" prefWidth="85.0" style="-fx-background-color: #E96151;" text="Fermer" />
-            <Button fx:id="supprimerButton" layoutX="721.0" layoutY="529.0" mnemonicParsing="false" onAction="#Supprimercoworking" prefHeight="34.0" prefWidth="109.0" style="-fx-background-color: #E96151;" text="        supprimer" textFill="WHITE" />
-            <Button fx:id="AjouterButton" layoutX="869.0" layoutY="529.0" mnemonicParsing="false" onAction="#addcoworking" prefHeight="34.0" prefWidth="109.0" style="-fx-background-color: #2A914D;" text="     Ajouter" textFill="WHITE" />
-            <Button fx:id="typeco" layoutX="356.0" layoutY="529.0" mnemonicParsing="false" onAction="#opentypeco" prefHeight="34.0" prefWidth="142.0" style="-fx-background-color: #9AC8EB;" text="Type Coworking" />
-            <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" layoutX="937.0" layoutY="303.0" pickOnBounds="true" preserveRatio="true" />
-            
-            <ImageView fitHeight="34.0" fitWidth="36.0" layoutX="869.0" layoutY="529.0">
+            <Button fx:id="cancelButton" layoutX="548.0" layoutY="706.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="38.0" prefWidth="46.0" style="-fx-background-color: #E96151; -fx-background-radius: 100;" text="Fermer" />
+            <ImageView fx:id="image" fitHeight="172.0" fitWidth="229.0" layoutX="908.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true" />
+            <Pane layoutX="263.0" layoutY="502.0" prefHeight="185.0" prefWidth="654.0">
+               <children>
+                  <Button fx:id="AjouterButton" layoutX="97.0" layoutY="38.0" mnemonicParsing="false" onAction="#addcoworking" prefHeight="34.0" prefWidth="109.0" style="-fx-background-color: #6962AD; -fx-background-radius: 100;" text="Ajouter" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="36.0">
+                           <image>
+                              <Image url="@img/add-button.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="supprimerButton" layoutX="223.0" layoutY="36.0" mnemonicParsing="false" onAction="#Supprimercoworking" prefHeight="46.0" prefWidth="120.0" style="-fx-background-color: #6962AD; -fx-background-radius: 100;" text="Supprimer" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="37.0">
+                           <image>
+                              <Image url="@img/bin.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="ModifierCoworking" layoutX="360.0" layoutY="35.0" mnemonicParsing="false" onAction="#ModifierCoworking" prefHeight="34.0" prefWidth="109.0" style="-fx-background-color: #6962AD; -fx-background-radius: 100;" text="Modifier" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="38.0" fitWidth="30.0">
+                           <image>
+                              <Image url="@img/edit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="stat" layoutX="532.0" layoutY="147.0" mnemonicParsing="false" onAction="#afficherStat" style="-fx-background-radius: 100;" text="Statistique" />
+                  <Button fx:id="pdfid" layoutX="544.0" layoutY="103.0" mnemonicParsing="false" onAction="#GeneratePdf" style="-fx-background-radius: 100;" text="PDF" />
+                  <ImageView fitHeight="34.0" fitWidth="36.0" layoutX="489.0" layoutY="139.0">
+                     <image>
+                        <Image url="@img/analytics.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Button fx:id="typeco" layoutX="654.0" layoutY="705.0" mnemonicParsing="false" onAction="#opentypeco" prefHeight="38.0" prefWidth="46.0" style="-fx-background-color: #C5FF95; -fx-background-radius: 100;" text="Type " />
+            <ImageView fitHeight="38.0" fitWidth="36.0" layoutX="749.0" layoutY="594.0">
                <image>
-                  <Image url="@img/add.png" />
+                  <Image url="@img/pdf.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="34.0" fitWidth="36.0" layoutX="719.0" layoutY="529.0">
+            <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="77.0" layoutY="714.0">
                <image>
-                  <Image url="@img/remove.png" />
+                  <Image url="@img/exit.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="38.0" fitWidth="36.0" layoutX="548.0" layoutY="707.0">
+               <image>
+                  <Image url="@img/cancel.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="55.0" fitWidth="26.0" layoutX="636.0" layoutY="698.0">
+               <image>
+                  <Image url="@img/arrow-right.png" />
                </image>
             </ImageView>
          </children>

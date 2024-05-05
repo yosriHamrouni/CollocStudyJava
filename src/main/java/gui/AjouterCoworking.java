@@ -29,6 +29,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+
 public class AjouterCoworking {
 
     @FXML
@@ -66,6 +70,21 @@ public class AjouterCoworking {
     private String imagePathInDatabase;
     @FXML
     private ChoiceBox<String> choiceDispo;
+    public static final String ACCOUNT_SID = "ACafcc6da8edac3b6b83141b831c51f111";
+    public static final String AUTH_TOKEN = "ff28b1ff9e01c0f47cb693813d9f9ea6";
+
+    // Méthode pour envoyer un SMS
+    public void sendSMS(String recipientPhoneNumber, String messageBody) {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+
+        Message message = Message.creator(
+                        new PhoneNumber(recipientPhoneNumber),
+                        new PhoneNumber("+14697079006"),
+                        messageBody)
+                .create();
+
+        System.out.println("SMS envoyé avec SID: " + message.getSid());
+    }
 
 
     @FXML
@@ -86,17 +105,21 @@ public class AjouterCoworking {
 
     @FXML
     void addcoworking(ActionEvent event) {
+
+
+
         try {
             String description = txtdescription.getText();
             String adresse = txtadresse.getText();
-            TypeCo selectedType = typeCoComboBox.getValue();
+            //TypeCo selectedType = typeCoComboBox.getValue();
 
-            if (selectedType == null) {
-                throw new IllegalArgumentException("Veuillez sélectionner un type de coworking.");
+            if (imagePathInDatabase == null) {
+                throw new IllegalArgumentException("Veuillez sélectionner une image.");
             }
+            File imageFile = new File(imagePathInDatabase);
 
-            File imageFile = new File(imagePathInDatabase); // Utilisez le chemin complet
-           String image = imageFile.getName();
+
+            String image = imageFile.getName();
            // String image=imagePathInDatabase;
 
             String horaireouv = txthoraireouv.getText();
@@ -116,11 +139,33 @@ public class AjouterCoworking {
                 throw new IllegalArgumentException("Veuillez sélectionner une image.");
             }
 
+
+// Vérifier si le numéro de téléphone a une longueur de 8 chiffres
+            if (numtel.length() != 8 || !numtel.matches("[0-9]+")) {
+                throw new IllegalArgumentException("Le numéro de téléphone doit être composé de 8 chiffres.");
+            }
+
+// Vérifier si la description est vide ou non
+            if (description.isEmpty()) {
+                throw new IllegalArgumentException("La description ne peut pas être vide.");
+            }
+
+            TypeCo selectedType = typeCoComboBox.getValue();
+            if (selectedType == null) {
+                throw new IllegalArgumentException("Veuillez sélectionner un type de coworking.");
+            }
+
+
+
             ServiceCoworking sc = new ServiceCoworking();
 
             Coworking c = new Coworking(description, horaireouv, horaireferm, image, nomco, numtel, adresse, tarifs, choiceDispo.getValue().equals("Disponible") ? 1 : 0, selectedType.getId());
 
             sc.ajouter(c);
+            String recipientPhoneNumber = "+21652977655";
+            String messageBody = "Un nouveau coworking a été ajouté ! Nom du coworking : " ;
+
+            sendSMS(recipientPhoneNumber, messageBody);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Ajout Réussi");
@@ -145,6 +190,9 @@ public class AjouterCoworking {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
+
     }
 
 

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="707.0" prefWidth="1049.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AffichcoF">
@@ -18,19 +17,6 @@
          </image>
       </ImageView>
       <Pane layoutX="-2.0" prefHeight="74.0" prefWidth="1067.0" style="-fx-background-color: #212E53;" />
-      <VBox layoutX="72.0" layoutY="78.0" prefHeight="582.0" prefWidth="813.0">
-         <children>
-            <ScrollPane fx:id="scroll" prefHeight="490.0" prefWidth="775.0" style="-fx-background-color: #00BFFF;">
-               <VBox.margin>
-                  <Insets bottom="14.0" left="67.0" top="29.0" />
-               </VBox.margin></ScrollPane>
-            <Pane prefHeight="52.0" prefWidth="766.0" style="-fx-background-color: #808080;">
-            </Pane>
-
-
-
-         </children>
-      </VBox>
       <ImageView fitHeight="78.0" fitWidth="1075.0">
          <image>
             <Image url="@img/360_F_377556992_oHSk9AdGzYdi6smI8kEahbcJjSFiGDRv.jpg" />
@@ -46,5 +32,11 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
+      <ScrollPane fx:id="scroll" layoutX="92.0" layoutY="95.0" prefHeight="594.0" prefWidth="827.0" style="-fx-background-color: #00BFFF;">
+         <content>
+            <Button fx:id="precedente" mnemonicParsing="false" onAction="#onclickprecedente" text="precedente" />
+         </content>
+      </ScrollPane>
+      <Button fx:id="suivant" layoutX="96.0" layoutY="687.0" mnemonicParsing="false" onAction="#onclicksuivant" text="suivant" />
    </children>
 </AnchorPane>

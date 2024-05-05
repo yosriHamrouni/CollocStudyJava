@@ -1,18 +1,21 @@
 package test;
 
+import com.itextpdf.text.DocumentException;
 import entities.Coworking;
 import entities.TypeCo;
-import services.PDFGenerator;
+import services.CoworkingPDFGenerator;
 import services.ServiceCoworking;
 import services.ServiceTypeco;
 import utils.MyDB;
 
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.SQLException;
 import java.util.List;
 
 public class Main {
-    public static void main (String[] args) throws SQLException{
+    public static void main (String[] args) throws SQLException, DocumentException, FileNotFoundException {
 
 
 
@@ -61,7 +64,7 @@ public class Main {
 
     }
 
-    private static void generatePDFAfterAdd(ServiceCoworking sp) {
+    private static void generatePDFAfterAdd(ServiceCoworking sp) throws FileNotFoundException, SQLException, DocumentException {
         ServiceCoworking tp = new ServiceCoworking();
         List<Coworking> coworkingList = null;
         try {
@@ -72,7 +75,8 @@ public class Main {
 
         // Générer le PDF avec les données des espaces de coworking
         String outputPath = "coworking_list.pdf"; // Chemin de sortie du fichier PDF
-        PDFGenerator.generatePDF(coworkingList, outputPath);
+
+        CoworkingPDFGenerator.generatePDF(coworkingList, new FileOutputStream("C:\\Users\\MSI\\IdeaProjects\\oumeima\\Coworkings.pdf"), "C:\\Users\\MSI\\IdeaProjects\\oumeima\\src\\main\\resources\\img\\colocstudy.jpg");
         System.out.println("PDF généré avec succès !");
 
     }

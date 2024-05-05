@@ -1,14 +1,24 @@
 package services;
 
 import entities.Coworking;
+import javafx.collections.ObservableList;
 import utils.MyDB;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServiceCoworking implements IService <Coworking>{
     private Connection con;
+    private List<Coworking> coworkingList;
+
+
+
+    public ServiceCoworking(List<Coworking> coworkingList) {
+        this.coworkingList = coworkingList;
+    }
     public ServiceCoworking(){
         con= MyDB.getInstance().getConnection();
     }
@@ -171,5 +181,46 @@ public class ServiceCoworking implements IService <Coworking>{
     }
 
 
+    public Map<String, Integer> getCoworkingByAdresse() {
+        Map<String, Integer> coworkingByAdresse = new HashMap<>();
 
+        try {
+            String query = "SELECT adresse, COUNT(*) AS count FROM coworking GROUP BY adresse";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String adresse = resultSet.getString("adresse");
+                int count = resultSet.getInt("count");
+                coworkingByAdresse.put(adresse, count);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return coworkingByAdresse;
+    }
+
+    public List<Coworking> trierParTarifs(ObservableList<Coworking> coworkingList)throws SQLException {
+        List<Coworking> listcoworkings = new ArrayList<>();
+        String req = "SELECT * FROM coworking ORDER BY tarifs";
+        try (Statement ste = con.createStatement();
+             ResultSet res = ste.executeQuery(req)) {
+            while (res.next()) {
+                Coworking c = new Coworking();
+                c.setId(res.getInt(1));
+                c.setDescription(res.getString(2));
+                c.setTarifs(res.getFloat(3));
+                c.setDispo(res.getInt(4));
+                c.setHoraireouvr(res.getString(5));
+                c.setHorairefer(res.getString(6));
+                c.setImage(res.getString(8));
+                c.setNomco(res.getString(9));
+                c.setNumtel(res.getString(10));
+                c.setAdresse(res.getString(13));
+                c.setTypeco_id(res.getInt(7));
+                listcoworkings.add(c);
+            }
+        }
+        return listcoworkings;
+    }
 }

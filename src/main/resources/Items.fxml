@@ -5,13 +5,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="240.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.IteamController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="267.0" style="-fx-background-radius: 100;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.IteamController">
    <children>
-      <ImageView fitHeight="240.0" fitWidth="240.0">
+      <ImageView fitHeight="255.0" fitWidth="272.0">
          <image>
-            <Image url="@img/360_F_127544074_2cTdkUiILLo4ks1kWWUsJvRL2iZDb9FT.jpg" />
+            <Image url="@img/b95a24b2989e1bbbd372a9296a68b30f.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="imgview" fitHeight="96.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
@@ -20,31 +21,52 @@
             <Insets bottom="20.0" left="58.0" top="-204.0" />
          </VBox.margin>
       </ImageView>
-      <Label fx:id="nomco" style="-fx-font-family: poppins; -fx-font-weight: bold;" text="Nom">
-         <VBox.margin>
-            <Insets left="26.0" />
-         </VBox.margin>
-      </Label>
-      <Button fx:id="detail" mnemonicParsing="false" onAction="#onclickdetail" prefHeight="18.0" prefWidth="61.0" style="-fx-font-family: poppins; -fx-font-weight: bold;" text="Détails">
-         <VBox.margin>
-            <Insets left="88.0" top="38.0" />
-         </VBox.margin>
-      </Button>
-      <Label fx:id="adresse" style="-fx-font-family: poppins; -fx-font-weight: bold;" text="Localisation">
-         <VBox.margin>
-            <Insets left="26.0" top="-54.0" />
-         </VBox.margin>
-      </Label>
-      <Label fx:id="numtel" style="-fx-font-family: poppins; -fx-font-weight: bold;" text="Num Tel">
-         <VBox.margin>
-            <Insets left="159.0" right="12.0" top="-18.0" />
-         </VBox.margin>
-      </Label>
-      <Label fx:id="tarifs" style="-fx-font-family: poppins; -fx-font-weight: bold;" text="Tarifs">
-         <VBox.margin>
-            <Insets left="158.0" top="-46.0" />
-         </VBox.margin>
-      </Label>
-      <Label fx:id="idLabel" prefHeight="18.0" prefWidth="10.0" style="-fx-opacity: 0;" text="" />
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Pane layoutX="-18.0" layoutY="8.0" prefHeight="18.0" prefWidth="297.0">
+               <children>
+                  <Label fx:id="nomco" layoutX="66.0" layoutY="-3.0" style="-fx-font-family: poppins; -fx-font-weight: bold;" text="Nom" textFill="#fffefe" />
+                  <Label fx:id="tarifs" layoutX="206.0" layoutY="-4.0" style="-fx-font-family: poppins; -fx-font-weight: bold;" text="Tarifs" textFill="WHITE" />
+               </children>
+            </Pane>
+            <ImageView fitHeight="17.0" fitWidth="23.0" layoutX="147.0" layoutY="3.0">
+               <image>
+                  <Image url="@img/money.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="17.0" layoutX="8.0">
+               <image>
+                  <Image url="@img/working.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="adresse" layoutX="171.0" layoutY="9.0" style="-fx-font-family: poppins; -fx-font-weight: bold;" text="Localisation" textFill="WHITE" />
+            <Label fx:id="numtel" layoutX="37.0" layoutY="10.0" style="-fx-font-family: poppins; -fx-font-weight: bold;" text="Num Tel" textFill="WHITE" />
+            <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="150.0" layoutY="6.0">
+               <image>
+                  <Image url="@img/google-maps.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="18.0" fitWidth="17.0" layoutX="4.0" layoutY="5.0">
+               <image>
+                  <Image url="@img/telephone.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="idLabel" prefHeight="18.0" prefWidth="10.0" style="-fx-opacity: 0;" text="" />
+            <Button fx:id="detail" layoutX="38.0" layoutY="17.0" mnemonicParsing="false" onAction="#onclickdetail" prefHeight="18.0" prefWidth="61.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-radius: 100;" text="Détails" />
+         </children>
+      </Pane>
+      <Pane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="map" contentDisplay="CENTER" mnemonicParsing="false" onAction="#ShowMap" prefHeight="25.0" prefWidth="89.0" style="-fx-background-radius: 100;" text="Map" />
+         </children>
+      </Pane>
    </children>
 </VBox>

@@ -9,23 +9,23 @@
 
 <AnchorPane fx:id="det_id" prefHeight="513.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Detailcoworking">
     <children>
-      <ImageView fitHeight="707.0" fitWidth="1074.0" layoutX="-262.0" layoutY="-5.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="537.0" fitWidth="1092.0" layoutX="-264.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/abstract-luxury-gradient-blue-background-smooth-dark-blue-with-black-vignette-studio-banner.jpg" />
          </image>
       </ImageView>
-        <ImageView fx:id="imgview" fitHeight="363.0" fitWidth="423.0" layoutX="135.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" />
-        <Label fx:id="nom_id" layoutX="594.0" layoutY="220.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Nom">
+        <ImageView fx:id="imgview" fitHeight="363.0" fitWidth="423.0" layoutX="96.0" layoutY="67.0" pickOnBounds="true" preserveRatio="true" />
+        <Label fx:id="nom_id" layoutX="544.0" layoutY="94.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Nom">
          <font>
             <Font name="ACaslonPro-Regular" size="12.0" />
          </font></Label>
-        <Label fx:id="tarifs_id" layoutX="594.0" layoutY="255.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Tarifs">
+        <Label fx:id="tarifs_id" layoutX="544.0" layoutY="138.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Tarifs">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-        <Label fx:id="numtel_id" layoutX="594.0" layoutY="291.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Num Tel" />
-        <Label fx:id="discp_id" layoutX="594.0" layoutY="327.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Description" />
-        <Label fx:id="loc_id" layoutX="594.0" layoutY="366.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Localisation" />
+        <Label fx:id="numtel_id" layoutX="544.0" layoutY="184.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Num Tel" />
+        <Label fx:id="discp_id" layoutX="551.0" layoutY="230.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Description" />
+        <Label fx:id="loc_id" layoutX="551.0" layoutY="267.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Localisation" />
       <Button fx:id="cancelButton" layoutX="28.0" layoutY="454.0" mnemonicParsing="false" onAction="#onclickfermer" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-family: poppins; -fx-font-weight: bold;" text="Fermer" />
       <ImageView fitHeight="137.0" fitWidth="137.0" layoutX="-7.0" layoutY="-8.0">
          <image>
@@ -37,5 +37,6 @@
             <Font name="ACaslonPro-Bold" size="22.0" />
          </font>
       </Label>
+      <!--<WebView fx:id="webView" layoutX="571.0" layoutY="304.0" prefHeight="200.0" prefWidth="200.0" />!-->
     </children>
 </AnchorPane>

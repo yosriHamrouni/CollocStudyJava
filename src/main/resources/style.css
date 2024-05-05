@@ -2,6 +2,18 @@
     -fx-background-color:#FFFFFF;
     -fx-background-radius: 100;
 }
+/* Style CSS pour le graphique PieChart */
+.chart-pie.data0 {
+    -fx-pie-color: #007bff; /* Bleu */
+}
+
+.chart-pie.data1 {
+    -fx-pie-color: #87CEFA; /* Bleu ciel */
+}
+
+.chart-pie.data2 {
+    -fx-pie-color: #FF69B4; /* Rose */
+}
 
 .transparent{
     -fx-background-color: rgba(0,0,0,0);

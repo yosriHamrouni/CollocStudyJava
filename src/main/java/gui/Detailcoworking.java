@@ -7,8 +7,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+
 
 
 import java.awt.*;
@@ -18,6 +22,9 @@ import java.io.InputStream;
 
 import javafx.stage.StageStyle;
 import javafx.scene.Scene;
+
+import javafx.scene.web.WebView;
+
 
 
 
@@ -45,9 +52,10 @@ public class Detailcoworking {
 
     private Coworking coworking;
     private TypeCo typeCo;
-    //private MyListener myListener;
+
 
     // Méthode pour définir les données de l'activité
+
     public void setDatadetail(Coworking coworking) {
         this.coworking = coworking;
 
@@ -58,6 +66,8 @@ public class Detailcoworking {
             this.loc_id.setText("Adresse :"+coworking.getAdresse());
             this.numtel_id.setText("Num-tel :"+coworking.getNumtel());
             this.discp_id.setText("Description :"+coworking.getDescription());
+
+
 
             String imagePath ="/img/"+coworking.getImage();
             InputStream imageStream = getClass().getResourceAsStream(imagePath);
@@ -103,6 +113,7 @@ public class Detailcoworking {
             this.loc_id.setText("");
             this.imgview.setImage(null); // Effacer l'image
         }
+
     }
 
 

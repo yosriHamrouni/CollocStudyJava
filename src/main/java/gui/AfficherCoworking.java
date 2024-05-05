@@ -1,5 +1,6 @@
 package gui;
 
+import com.itextpdf.text.DocumentException;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,18 +13,26 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import entities.Coworking;
-import javafx.stage.StageStyle;
+import services.CoworkingPDFGenerator;
 import services.ServiceCoworking;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javafx.scene.image.Image;
-import services.ServiceTypeco;
+
+
+
+
+
 
 public class AfficherCoworking implements Initializable {
 
@@ -73,6 +82,13 @@ public class AfficherCoworking implements Initializable {
     private File selectedImageFile;
     @FXML
     private ImageView image;
+    @FXML
+    private Button stat;
+
+    private List<Coworking> coworkingList; // Déclaration de la variable membre coworkingList
+
+
+
 
     @FXML
     void cancelButtonOnAction(ActionEvent event) {
@@ -122,7 +138,7 @@ public class AfficherCoworking implements Initializable {
                 }
             }
         });
-        /*table_coworking.setOnMouseClicked(event -> {
+        table_coworking.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) { // Single-click detected
                 Coworking selectedCo = table_coworking.getSelectionModel().getSelectedItem();
 
@@ -139,11 +155,48 @@ public class AfficherCoworking implements Initializable {
                     // image.setImage(placeholderImage);
                 }
             }
-        });*/
+        });
     }
 
     private void navigateToModifierCoworking(Coworking selectedCo) {
+
+    }
+
+   /* @FXML
+    private void AjoutOne(ActionEvent event) {
         try {
+            // Load the AjouterCoworking.fxml file
+            Parent root = FXMLLoader.load(getClass().getResource("../AjouterCoworking.fxml"));
+
+            // Show the scene containing the AjouterCoworking.fxml file
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
+
+    @FXML
+    void addcoworking(ActionEvent event) {
+        try {
+            // Load the AjouterCoworking.fxml file
+            Parent root = FXMLLoader.load(getClass().getResource("../AjouterCoworking.fxml"));
+
+            // Show the scene containing the AjouterCoworking.fxml file
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    @FXML
+    void ModifierCoworking(ActionEvent event) {
+        try {
+            Coworking selectedCo = table_coworking.getSelectionModel().getSelectedItem();
+
             // Load the UpdateUser.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../ModifierCoworking.fxml"));
             Parent root = loader.load();
@@ -158,47 +211,17 @@ public class AfficherCoworking implements Initializable {
             // Show the scene containing the UpdateUser.fxml file
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setOnCloseRequest(event -> {
+           /* stage.setOnCloseRequest(event -> {
                 try {
                     // Refresh the TableView when the PopUp stage is closed
                     populateTableView();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            });
+            });*/
             stage.show();
             Stage gg = (Stage) cancelButton.getScene().getWindow();
             gg.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void AjoutOne(ActionEvent event) {
-        try {
-            // Load the AjouterCoworking.fxml file
-            Parent root = FXMLLoader.load(getClass().getResource("../AjouterCoworking.fxml"));
-
-            // Show the scene containing the AjouterCoworking.fxml file
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void addcoworking(ActionEvent event) {
-        try {
-            // Load the AjouterCoworking.fxml file
-            Parent root = FXMLLoader.load(getClass().getResource("../AjouterCoworking.fxml"));
-
-            // Show the scene containing the AjouterCoworking.fxml file
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -269,6 +292,42 @@ public class AfficherCoworking implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void GeneratePdf(ActionEvent event) throws DocumentException, SQLException {
+        try {
+            ArrayList<Coworking> coworkings = (ArrayList<Coworking>) new ServiceCoworking().afficher();
+            CoworkingPDFGenerator.generatePDF(coworkings, new FileOutputStream("C:\\Users\\MSI\\IdeaProjects\\oumeima\\Coworkings.pdf"), "C:\\Users\\MSI\\IdeaProjects\\oumeima\\src\\main\\resources\\img\\colocstudy.jpg");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("PDF Généré");
+            alert.setHeaderText(null);
+            alert.setContentText("Le PDF des coworkings a été généré avec succès!");
+            alert.showAndWait();
+        } catch (FileNotFoundException | DocumentException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Erreur lors de la génération du PDF des Coworkings: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+    @FXML
+    void afficherStat(ActionEvent event) {
+        try {
+            // Load the AjouterCoworking.fxml file
+            Parent root = FXMLLoader.load(getClass().getResource("../Stat.fxml"));
+
+            // Show the scene containing the AjouterCoworking.fxml file
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
 
 
