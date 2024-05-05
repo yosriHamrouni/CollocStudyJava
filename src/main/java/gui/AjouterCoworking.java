@@ -79,18 +79,7 @@ public class AjouterCoworking {
     private ChoiceBox<String> choiceDispo;
 
 
-    // Méthode pour envoyer un SMS
-    public void sendSMS(String recipientPhoneNumber, String messageBody) {
-       // Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-        Message message = Message.creator(
-                        new PhoneNumber(recipientPhoneNumber),
-                        new PhoneNumber("+14697079006"),
-                        messageBody)
-                .create();
-
-        System.out.println("SMS envoyé avec SID: " + message.getSid());
-    }
 
     @FXML
     private void generateCaptcha() {
