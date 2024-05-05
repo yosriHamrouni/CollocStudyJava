@@ -65,7 +65,7 @@
       </Pane>
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Button fx:id="map" contentDisplay="CENTER" mnemonicParsing="false" onAction="#ShowMap" prefHeight="25.0" prefWidth="89.0" style="-fx-background-radius: 100;" text="Map" />
+            <Button fx:id="map" contentDisplay="CENTER" layoutX="173.0" layoutY="-5.0" mnemonicParsing="false" onAction="#ShowMap" prefHeight="25.0" prefWidth="75.0" style="-fx-background-radius: 100;" text="Map" />
          </children>
       </Pane>
    </children>
