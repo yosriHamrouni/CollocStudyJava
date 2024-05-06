@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -35,7 +36,14 @@ public class itemoffreControlleur {
     @FXML
     private Label idLabel;
 
+    @FXML
+    private Button toggleFavoriteButton;
+
+    private Offres offres;
+    private ServiceOffres serviceOffres;
+
     public void setData(Offres offres) {
+        this.offres = offres;
         this.descrip.setText("Description : " + offres.getDescrip());
         this.salaire.setText("Salaire : " + String.valueOf(offres.getSalaire()));
         this.lieu.setText("Lieu : " + offres.getLieu());
@@ -47,44 +55,33 @@ public class itemoffreControlleur {
             imageoffre.setImage(image);
         } else {
             // Image par défaut si l'image spécifiée n'est pas trouvée
-            // Par exemple : imagePub.setImage(new Image("/images/default.png"));
             System.out.println("L'image n'a pas pu être chargée : " + imagePath);
         }
+
+        // Mettre à jour l'apparence du bouton en fonction de l'état de favoris de l'offre
+        updateFavoriteButtonAppearance();
     }
 
     @FXML
     void onclickdetail(javafx.event.ActionEvent event) {
-        // Récupérer le texte de l'ID Label
         String idText = idLabel.getText().trim();
 
-        //System.out.println("Valeur de idLabel : " + idText); // Ajout pour débogage
-
-        // Vérifier si le texte est vide
         if (idText.isEmpty()) {
             System.out.println("ID Label est vide.");
-            return; // Sortir de la méthode
+            return;
         }
 
         try {
-            // Convertir le texte en entier
             int id = Integer.parseInt(idText);
-
-            // Récupérer l'offre correspondante à partir de votre source de données
-            Offres offre = ServiceOffres.getoffreId(id); // Assurez-vous que ServiceOffres est correctement défini
+            Offres offre = ServiceOffres.getoffreId(id);
 
             if (offre != null) {
                 try {
-                    // Charger la vue FXML de détails
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsoffres.fxml"));
                     Parent root = loader.load();
-
-                    // Accéder au contrôleur de vue de détails
                     DetailsOffresController controller = loader.getController();
-
-                    // Appeler la méthode setDatadetail du contrôleur de vue de détails pour initialiser les données de l'offre
                     controller.setDatadetail(offre);
 
-                    // Créer une nouvelle fenêtre (Stage) pour afficher les détails de l'offre
                     Stage stage = new Stage();
                     stage.setScene(new Scene(root));
                     stage.show();
@@ -92,11 +89,59 @@ public class itemoffreControlleur {
                     e.printStackTrace();
                 }
             } else {
-                // Gérer le cas où l'offre est null
                 System.out.println("Aucune offre trouvée avec l'ID : " + id);
             }
         } catch (NumberFormatException e) {
             System.out.println("Format d'ID invalide : " + idText);
+        }
+    }
+
+    public void initialize() {
+        serviceOffres = new ServiceOffres();
+    }
+
+    public void setOffre(Offres offres) {
+        this.offres = offres;
+    }
+
+    @FXML
+    public void toggleFavorite(javafx.event.ActionEvent actionEvent) {
+        if (offres != null) {
+            // Inverser la valeur de l'attribut favoris
+            offres.setFavoris(!offres.getFavoris());
+
+            // Mettre à jour l'offre dans la base de données
+            updateFavoriteInDatabase();
+
+            // Afficher un message pour indiquer que l'offre a été ajoutée aux favoris
+            showAlert(offres.getFavoris() ? "L'offre a été ajoutée aux favoris." : "L'offre a été retirée des favoris.");
+
+            // Mettre à jour l'apparence du bouton en fonction de la nouvelle valeur de favoris
+            updateFavoriteButtonAppearance();
+        }
+    }
+
+    private void updateFavoriteInDatabase() {
+        // Mettre à jour l'offre dans la base de données ou votre source de données
+        ServiceOffres serviceOffres = new ServiceOffres();
+        serviceOffres.modifier(offres);
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Favoris");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void updateFavoriteButtonAppearance() {
+        if (offres != null) {
+            if (offres.getFavoris()) {
+                toggleFavoriteButton.setText("Retirer des favoris");
+            } else {
+                toggleFavoriteButton.setText("Ajouter aux favoris");
+            }
         }
     }
 }

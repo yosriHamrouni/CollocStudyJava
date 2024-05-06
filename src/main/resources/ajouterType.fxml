@@ -9,19 +9,22 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #060092;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterTypeController">
    <children>
-      <AnchorPane layoutX="46.0" prefHeight="400.0" prefWidth="493.0" style="-fx-background-color: #060270;">
+      <ImageView fitHeight="400.0" fitWidth="600.0">
+         <image>
+            <Image url="@img/rm218batch4-ning-29.jpg" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="46.0" prefHeight="400.0" prefWidth="493.0">
          <children>
             <TextField fx:id="Ajoutertype" layoutX="172.0" layoutY="241.0" onAction="#addType" onMouseClicked="#addType" promptText="Entrez le type" />
             <Button layoutX="218.0" layoutY="281.0" mnemonicParsing="false" text="Ajouter" />
             <Label layoutX="190.0" layoutY="216.0" style="-fx-background-color: white; -fx-font-family: poppins;" text="Nouveau Type offre" />
             <Label layoutX="134.0" layoutY="178.0" style="-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: BOLD; -fx-font-family: poppins;" text="Ajout d'un type d'offre" />
-            <ImageView fitHeight="182.0" fitWidth="179.0" layoutX="160.0" layoutY="14.0">
+            <ImageView fitHeight="248.0" fitWidth="244.0" layoutX="134.0" layoutY="-12.0">
                <image>
-                  <Image url="@BLANC.png" />
+                  <Image url="@img/BLANC.png" />
                </image>
             </ImageView>
-            <AnchorPane layoutX="-9.0" prefHeight="400.0" prefWidth="10.0" style="-fx-background-color: white;" />
-            <AnchorPane layoutX="488.0" prefHeight="400.0" prefWidth="10.0" style="-fx-background-color: white;" />
          </children>
       </AnchorPane>
    </children>

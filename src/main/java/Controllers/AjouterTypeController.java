@@ -5,14 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import services.ServiceOffres;
 import services.ServiceType;
 
 import java.sql.SQLException;
 
-
 public class AjouterTypeController {
+
     private final ServiceType serviceType = new ServiceType();
+
     @FXML
     private TextField Ajoutertype;
 
@@ -31,15 +31,12 @@ public class AjouterTypeController {
                 throw new IllegalArgumentException("Le type ne peut pas contenir de symboles.");
             }
 
-            // Création du service des types d'offres
-            ServiceType serviceType = new ServiceType();
-
             // Ajout du nouveau type d'offre
             TypeOffres typeOffres = new TypeOffres(type);
             serviceType.ajouter(typeOffres);
 
             // Effacement du champ de texte
-            //clearFields();
+            clearFields();
 
             // Affichage d'une alerte de succès
             showAlert("Succès", "Le type a été ajouté avec succès.");
@@ -53,12 +50,11 @@ public class AjouterTypeController {
         }
     }
 
+    private void clearFields() {
+        Ajoutertype.clear();
+    }
 
-    //private void clearFields() {
-       // Ajoutertype.clear();
-    //}
-
-    private void showAlert(String title, String content) {
+    private static void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);

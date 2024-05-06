@@ -9,12 +9,12 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherTypeController">
    <children>
-      <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="400.0" fitWidth="607.0">
          <image>
-            <Image url="@360_F_127544074_2cTdkUiILLo4ks1kWWUsJvRL2iZDb9FT.jpg" />
+            <Image url="@img/rm218batch4-ning-29.jpg" />
          </image>
       </ImageView>
-      <TableView fx:id="typeOffresTableView" layoutX="185.0" layoutY="51.0" prefHeight="312.0" prefWidth="316.0" style="-fx-background-color: #90CAFC; -fx-border-color: #036BC7;">
+      <TableView fx:id="typeOffresTableView" layoutX="185.0" layoutY="51.0" prefHeight="312.0" prefWidth="316.0" style="-fx-background-color: white; -fx-border-color: #036BC7;">
         <columns>
           <TableColumn fx:id="idtv" prefWidth="37.5999755859375" text="Id" />
           <TableColumn fx:id="typetv" prefWidth="277.5999755859375" text="Type" />
@@ -22,7 +22,7 @@
       </TableView>
       <ImageView fitHeight="141.0" fitWidth="141.0">
          <image>
-            <Image url="@logo-v2.png" />
+            <Image url="@img/logo-v2.png" />
          </image>
       </ImageView>
       <Button fx:id="deletebtn" layoutX="26.0" layoutY="335.0" mnemonicParsing="false" onAction="#deletetype" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: red; -fx-font-family: poppins; -fx-text-fill: white;" text="Supprimer Type" />

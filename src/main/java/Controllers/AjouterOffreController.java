@@ -1,5 +1,6 @@
 package Controllers;
 
+import Controllers.AfficherOffre;
 import entities.Offres;
 import entities.TypeOffres;
 import javafx.event.ActionEvent;
@@ -13,11 +14,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
+import javafx.util.StringConverter;
 import services.ServiceOffres;
 import services.ServiceType;
-import javafx.scene.control.Button;
-import java.awt.*;
+import org.controlsfx.control.Notifications;
+
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -40,12 +42,9 @@ public class AjouterOffreController {
 
     @FXML
     private TextField HoraireterTF;
+
     @FXML
     private ImageView imageview;
-
-    @FXML
-    private Button selectImage;
-
 
     @FXML
     private TextField LieuTF;
@@ -57,54 +56,6 @@ public class AjouterOffreController {
     private TextField SalaireTF;
 
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    /*@FXML
-    void AjouterOffre(ActionEvent event) {
-        try {
-            TypeOffres selectedType = typeComboBox.getValue();
-
-            // Vérification de la validité de la saisie du salaire
-            if (SalaireTF.getText().isEmpty() || Double.parseDouble(SalaireTF.getText()) <= 0) {
-                throw new IllegalArgumentException("Le salaire doit être spécifié et supérieur à zéro.");
-            }
-
-            // Vérification de la validité du numéro de téléphone
-            if (NumtelTF.getText().length() != 8) {
-                throw new IllegalArgumentException("Le numéro de téléphone doit contenir 8 chiffres.");
-            }
-
-            Offres off = new Offres(
-                    DescripTF.getText(),
-                    Double.parseDouble(SalaireTF.getText()),
-                    HorairedebTF.getText(),
-                    HoraireterTF.getText(),
-                    LieuTF.getText(),
-                    NumtelTF.getText(),
-                    selectedType.getId()
-            );
-            so.ajouter(off);
-
-            // Vous pouvez également afficher une boîte de dialogue pour informer l'utilisateur que l'offre a été ajoutée avec succès
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Succès");
-            alert.setContentText("L'offre a été ajoutée avec succès!");
-            alert.show();
-        } catch (SQLException | NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setContentText("Vous avez une erreur dans la saisie de vos données!");
-            System.out.println(e);
-            alert.show();
-        } catch (IllegalArgumentException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setContentText(e.getMessage());
-            alert.show();
-        }
-    }*/
     @FXML
     void AjouterOffre(ActionEvent event) {
         try {
@@ -133,22 +84,41 @@ public class AjouterOffreController {
                 throw new IllegalArgumentException("Veuillez sélectionner une image.");
             }
 
-            ServiceOffres so = new ServiceOffres();
-
-            // Creating an instance of Offres
+            // Création d'une nouvelle instance de Offres
             Offres o = new Offres(description, salaire, horairedeb, horaireter, lieu, numtel, selectedType.getId(), image);
 
+            // Ajout de l'offre à la base de données
             so.ajouter(o);
 
+            // Envoi d'un e-mail d'information avec les détails de l'offre
+            String recipientEmail = "skandernacheb@gmail.com"; // Mettez l'adresse e-mail du destinataire ici
+            controllers.serviceemail.sendEmail(recipientEmail, o);
+
+            // Affichage d'une boîte de dialogue pour informer l'utilisateur que l'offre a été ajoutée avec succès
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Ajout Réussi");
             alert.setContentText("Offre ajoutée avec succès !");
             alert.showAndWait();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../AfficherOffres.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../afficherOffre.fxml"));
             Parent root = loader.load();
             AfficherOffre ao = loader.getController();
             DescripTF.getScene().setRoot(root);
+            // Code pour ajouter l'offre
+
+            // Création de l'image du logo
+            Image logoImage = new Image("file:///C:/Users/MSI/IdeaProjects/ColocS/src/main/resources/img/logo-v2.png");
+            ImageView logoImageView = new ImageView(logoImage);
+            logoImageView.setFitWidth(50); // Taille du logo
+            logoImageView.setFitHeight(50);
+
+            // Affichage de la notification
+            Notifications.create()
+                    .graphic(logoImageView) // Utilisation du logo comme icône de la notification
+                    .title("Nouvelle Offre")
+                    .text("Une nouvelle offre a été ajoutée!")
+                    .darkStyle() // Style sombre pour la notification
+                    .show();
 
         } catch (NumberFormatException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -163,7 +133,9 @@ public class AjouterOffreController {
         } catch (IOException | SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
+
     @FXML
     void browseImageAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -176,14 +148,35 @@ public class AjouterOffreController {
         }
     }
 
-
     @FXML
     void initialize() {
         // Initialisation du ComboBox avec les types de offres
         try {
             ServiceType serviceType = new ServiceType();
             List<TypeOffres> types = serviceType.afficher();
+
+            // Utilisation de la méthode getType() pour afficher uniquement le type d'offre
+            typeComboBox.setConverter(new StringConverter<TypeOffres>() {
+                @Override
+                public String toString(TypeOffres typeOffres) {
+                    return typeOffres.getType();
+                }
+
+                @Override
+                public TypeOffres fromString(String string) {
+                    return typeComboBox.getItems().stream()
+                            .filter(t -> t.getType().equals(string))
+                            .findFirst()
+                            .orElse(null);
+                }
+            });
+
             typeComboBox.getItems().addAll(types);
+
+            // Sélectionner le premier élément du ComboBox par défaut
+            if (!typeComboBox.getItems().isEmpty()) {
+                typeComboBox.getSelectionModel().selectFirst();
+            }
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
@@ -191,4 +184,5 @@ public class AjouterOffreController {
             alert.show();
         }
     }
+
 }

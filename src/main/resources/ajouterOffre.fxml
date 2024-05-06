@@ -12,7 +12,7 @@
    <children>
       <ImageView fitHeight="400.0" fitWidth="608.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@360_F_127544074_2cTdkUiILLo4ks1kWWUsJvRL2iZDb9FT.jpg" />
+            <Image url="@img/rm218batch4-ning-29.jpg" />
          </image>
       </ImageView>
       <TextField fx:id="DescripTF" layoutX="105.0" layoutY="139.0" />
@@ -33,7 +33,7 @@
       <Button fx:id="AjouterOffre" layoutX="255.0" layoutY="324.0" mnemonicParsing="false" onAction="#AjouterOffre" onMouseClicked="#AjouterOffre" text="Ajouter" />
       <ImageView fitHeight="181.0" fitWidth="181.0" layoutX="-18.0" layoutY="-16.0">
          <image>
-            <Image url="@logo-v2.png" />
+            <Image url="@img/logo-v2.png" />
          </image>
       </ImageView>
       <ComboBox fx:id="typeComboBox" layoutX="381.0" layoutY="139.0" prefWidth="150.0" />

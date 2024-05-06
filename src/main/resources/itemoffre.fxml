@@ -13,7 +13,7 @@
             <Insets left="61.0" top="17.0" />
          </VBox.margin>
       </ImageView>
-      <Label fx:id="idLabel" text="." />
+      <Label fx:id="idLabel" style="-fx-opacity: 0;" text="." />
       <Label fx:id="descrip" alignment="CENTER" style="-fx-text-fill: white; -fx-font-family: poppins; -fx-font-weight: bold;" text="Description:" textAlignment="CENTER">
          <VBox.margin>
             <Insets left="34.0" />
@@ -31,8 +31,21 @@
       </Label>
       <Button fx:id="detailsbutton" mnemonicParsing="false" onAction="#onclickdetail" style="-fx-background-color: #0C273F; -fx-text-fill: white;" text="Détails">
          <VBox.margin>
-            <Insets left="93.0" />
+            <Insets left="70.0" />
          </VBox.margin>
+         <padding>
+            <Insets left="1.0" right="1.0" />
+         </padding>
       </Button>
+      <Button fx:id="toggleFavoriteButton" mnemonicParsing="false" onAction="#toggleFavorite" style="-fx-background-color: orange; -fx-text-fill: white;" text="Ajouter aux favoris">
+         <VBox.margin>
+            <Insets bottom="7.0" left="117.0" right="-1.0" top="-18.0" />
+         </VBox.margin>
+         <padding>
+            <Insets left="1.0" />
+         </padding>
+      </Button>
+
+
    </children>
 </VBox>

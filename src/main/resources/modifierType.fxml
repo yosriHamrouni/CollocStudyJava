@@ -13,7 +13,7 @@
          <children>
             <ImageView fitHeight="432.0" fitWidth="625.0" layoutX="-48.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@360_F_127544074_2cTdkUiILLo4ks1kWWUsJvRL2iZDb9FT.jpg" />
+                  <Image url="@img/360_F_127544074_2cTdkUiILLo4ks1kWWUsJvRL2iZDb9FT.jpg" />
                </image>
             </ImageView>
             <TextField fx:id="Modifiertype" layoutX="172.0" layoutY="241.0" onAction="#ModifierType" onMouseClicked="#ModifierType" promptText="Entrez le type" />
@@ -22,7 +22,7 @@
             <Label layoutX="116.0" layoutY="181.0" style="-fx-text-fill: black; -fx-font-size: 20; -fx-font-weight: BOLD; -fx-font-family: poppins;" text="Modification du type d'offre" />
             <ImageView fitHeight="182.0" fitWidth="179.0" layoutX="160.0" layoutY="14.0">
                <image>
-                  <Image url="@logo-v2.png" />
+                  <Image url="@img/logo-v2.png" />
                </image>
             </ImageView>
             <Button fx:id="Annulerbtn" layoutX="220.0" layoutY="316.0" mnemonicParsing="false" onAction="#annulermodif" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-weight: bold;" text="Annuler" />
