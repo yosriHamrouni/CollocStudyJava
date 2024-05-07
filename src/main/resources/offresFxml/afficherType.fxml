@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherTypeController">
+   <children>
+      <ImageView fitHeight="400.0" fitWidth="607.0">
+         <image>
+            <Image url="@../img/rm218batch4-ning-29.jpg" />
+         </image>
+      </ImageView>
+      <TableView fx:id="typeOffresTableView" layoutX="185.0" layoutY="51.0" prefHeight="312.0" prefWidth="316.0" style="-fx-background-color: white; -fx-border-color: #036BC7;">
+        <columns>
+          <TableColumn fx:id="idtv" prefWidth="37.5999755859375" text="Id" />
+          <TableColumn fx:id="typetv" prefWidth="277.5999755859375" text="Type" />
+        </columns>
+      </TableView>
+      <ImageView fitHeight="141.0" fitWidth="141.0">
+         <image>
+            <Image url="@../img/logo-v2.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="deletebtn" layoutX="26.0" layoutY="335.0" mnemonicParsing="false" onAction="#deletetype" prefHeight="26.0" prefWidth="114.0" style="-fx-background-color: red; -fx-font-family: poppins; -fx-text-fill: white;" text="Supprimer Type" />
+   </children>
+</AnchorPane>

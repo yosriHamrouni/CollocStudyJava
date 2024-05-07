@@ -1,0 +1,47 @@
+/* Styles pour l'ensemble de l'interface */
+.anchor-pane {
+    -fx-background-color: #f0f0f0; /* Couleur de fond */
+}
+
+/* Style pour les libellés */
+.label {
+    -fx-font-family: "Poppins";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333; /* Couleur du texte */
+}
+
+/* Style pour les boutons */
+.button {
+    -fx-background-color: #66aaff; /* Couleur de fond */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-font-family: "Poppins";
+    -fx-font-weight: bold;
+}
+
+/* Style pour les images */
+.image-view {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 0); /* Ombre portée */
+}
+
+/* Style pour le titre */
+#title-label {
+    -fx-font-size: 28px;
+    -fx-text-fill: white; /* Couleur du texte */
+}
+
+/* Style pour les champs de texte */
+.text-field {
+    -fx-background-color: #ffffff; /* Couleur de fond */
+}
+
+/* Style pour le bouton de filtrage */
+#filtreButton {
+    -fx-background-color: #66aaff; /* Couleur de fond */
+    -fx-text-fill: white; /* Couleur du texte */
+}
+
+/* Style pour le ScrollPane */
+.scroll-pane {
+    -fx-background-color: #e0e0e0; /* Couleur de fond */
+}
