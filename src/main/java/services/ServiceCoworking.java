@@ -50,11 +50,8 @@ public class ServiceCoworking implements IServiceCoworking <Coworking>{
 
     }
 
-<<<<<<< HEAD
-=======
 
 
->>>>>>> ff868ae (Gestion coworking+ gestion logement + gestion newsfeed)
     @Override
     public void modifer(Coworking coworking) {
         String req = "UPDATE coworking SET description=?, horaireouvr=?, horairefer=?, image=?, nomco=?, numtel=?, adresse=?, tarifs=?, dispo=? WHERE id=?";
