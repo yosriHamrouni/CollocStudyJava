@@ -5,8 +5,14 @@ import entities.Posts;
 import utils.MyDB;
 
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class ServicePosts implements  IService<Posts>{
@@ -82,6 +88,7 @@ public class ServicePosts implements  IService<Posts>{
               p.setId(res.getInt(1));
             p.setTitle(res.getString(2));
             p.setContent(res.getString(3));
+            p.setImage(res.getString(7));
             p.setNbLikes(res.getInt(10));
 
 
@@ -224,6 +231,35 @@ public class ServicePosts implements  IService<Posts>{
 
         return new int[]{highEngagementCount, moderateEngagementCount, lowEngagementCount};
     }
+
+
+
+    @Override
+    public void saveImageToDatabase(File imageFile, Posts posts) {
+        try {
+            String query = "INSERT INTO Publication (title, contenu_pub, image_file) VALUES (?, ?, ?)";
+
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+
+            // Set the image path as a parameter
+            preparedStatement.setString(1, posts.getTitle()); // Use index 1 for the first parameter
+            preparedStatement.setString(2, posts.getContent()); // Use index 2 for the second parameter
+            preparedStatement.setString(3, imageFile.getName()); // Use index 3 for the third parameter
+
+            // Execute the query
+            preparedStatement.executeUpdate();
+
+            System.out.println("Image path added to the database");
+
+            // Close the connection
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Failed to add image path to the database");
+        }
+    }
+
+
 
 
 }

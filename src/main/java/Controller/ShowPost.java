@@ -21,6 +21,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class ShowPost {
 
@@ -53,6 +54,8 @@ public class ShowPost {
     @FXML
     private ImageView imgLike;
 
+    @FXML
+    private ImageView imgPost;
     private long startTime = 0;
     private Reactions currentReaction=Reactions.NON;
     private AddPost AddPostController; // Référence au contrôleur Dashboard_Back
@@ -101,6 +104,22 @@ public class ShowPost {
             content.setManaged(false);
         }
         nbReactions.setText(String.valueOf(post.getNbLikes()));
+
+
+
+
+        String imagePath = "/img/" + post.getImage();
+        InputStream imageStream = getClass().getResourceAsStream(imagePath);
+        if (imageStream != null) {
+            Image image = new Image(imageStream);
+            imgPost.setImage(image);
+        } else {
+            // Image par défaut si l'image spécifiée n'est pas trouvée
+            System.out.println("L'image n'a pas pu être chargée : " + imagePath);
+        }
+
+
+
     }
 
 
