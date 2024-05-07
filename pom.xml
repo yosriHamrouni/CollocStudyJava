@@ -8,73 +8,100 @@
     <artifactId>PidevJ</artifactId>
     <version>1.0-SNAPSHOT</version>
     <repositories>
-        <!--  <repository>
-              <id>onehippo</id>
-              <name>onehippo</name>
-              <url>https://mvnrepository.com/artifact/com.octo.captcha/jcaptcha-api</url>
-          </repository>-->
-      </repositories>
-      <properties>
-          <maven.compiler.source>17</maven.compiler.source>
-          <maven.compiler.target>17</maven.compiler.target>
-          <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      </properties>
-      <dependencies>
-          <dependency>
-              <groupId>mysql</groupId>
-              <artifactId>mysql-connector-java</artifactId>
-              <version>8.0.33</version>
-          </dependency>
-          <dependency>
-              <groupId>javax.persistence</groupId>
-              <artifactId>javax.persistence-api</artifactId>
-              <version>2.2</version>
-          </dependency>
-          <dependency>
-              <groupId>org.openjfx</groupId>
-              <artifactId>javafx-fxml</artifactId>
-              <version>21.0.2</version>
-          </dependency>
-          <dependency>
-              <groupId>org.openjfx</groupId>
-              <artifactId>javafx-controls</artifactId>
-              <version>21.0.2</version>
-          </dependency>
-          <dependency>
-              <groupId>dom4j</groupId>
-              <artifactId>dom4j</artifactId>
-              <version>1.1</version>
-          </dependency>
-          <dependency>
-              <groupId>org.openjfx</groupId>
-              <artifactId>javafx-graphics</artifactId>
-              <version>21.0.2</version>
-          </dependency>
-          <dependency>
-              <groupId>com.google.zxing</groupId>
-              <artifactId>core</artifactId>
-              <version>3.5.2</version>
-          </dependency>
-          <dependency>
-              <groupId>org.openjfx</groupId>
-              <artifactId>javafx-swing</artifactId>
-              <version>19</version>
-          </dependency>
-          <dependency>
-              <groupId>com.itextpdf</groupId>
-              <artifactId>itextpdf</artifactId>
-              <version>5.5.13.3</version>
-          </dependency>
-          <dependency>
-              <groupId>org.controlsfx</groupId>
-              <artifactId>controlsfx</artifactId>
-              <version>11.1.0</version>
-          </dependency>
-          <dependency>
-              <groupId>com.squareup.okhttp3</groupId>
-              <artifactId>okhttp</artifactId>
-              <version>4.9.1</version> <!-- Replace with the latest version available -->
+        <repository>
+            <id>onehippo</id>
+            <name>onehippo</name>
+            <url>https://mvnrepository.com/artifact/com.octo.captcha/jcaptcha-api</url>
+        </repository>
+    </repositories>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+
+
+
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
         </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>javax.persistence-api</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>21.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>21.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>21.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>19</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.13.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.1</version> <!-- Replace with the latest version available -->
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-ai-translation-text</artifactId>
+            <version>1.0.0-beta.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>16</version> <!-- Assurez-vous de spécifier la version de JavaFX compatible avec votre environnement -->
+        </dependency>
+        <dependency>
+            <groupId>nl.captcha</groupId>
+            <artifactId>simplecaptcha</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.1.0</version>
+        </dependency>
+
     </dependencies>
 
         <dependency>

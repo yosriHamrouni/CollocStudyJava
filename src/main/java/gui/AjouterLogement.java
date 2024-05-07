@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
-import nl.captcha.Captcha;
+//import nl.captcha.Captcha;
 import services.ServiceLogement;
 import services.ServiceTypelog;
 import org.controlsfx.control.Notifications;
@@ -26,7 +26,7 @@ public class AjouterLogement {
 
     @FXML
     private TextField txtadr;
-    Captcha captcha;
+    //Captcha captcha;
     @FXML
     private Label labelNomType;
     @FXML
@@ -98,17 +98,17 @@ public class AjouterLogement {
             }
 
             // Vérifier le captcha
-            String userCaptcha = captchaTF.getText().trim();
+            /*String userCaptcha = captchaTF.getText().trim();
             if (!captcha.isCorrect(userCaptcha)) {
                 throw new IllegalArgumentException("Captcha incorrect.");
             }
-
+*/
             // Créer un nouveau logement avec le type sélectionné
             ServiceLogement sl = new ServiceLogement();
             logement l = new logement(adresse, equipement, description, imageName, choiceDispo.getValue().equals("Disponible") ? 1 : 0, tarifs, selectedType);
             sl.ajouter(l);
             showNotification("Success", "Logement added successfully!");
-            setCaptcha(); // Réinitialiser le captcha
+            //setCaptcha(); // Réinitialiser le captcha
             clearFields(); // Effacer les champs du formulaire
 
             showAlert("Succès", "Le logement a été ajouté avec succès.");
@@ -176,6 +176,7 @@ public class AjouterLogement {
         txttarif.clear();
         imageView.setImage(null);
     }
+    /*
     void setCaptcha() {
         captcha = new Captcha.Builder(250, 200)
                 .addText()
@@ -186,10 +187,10 @@ public class AjouterLogement {
 
         Image image = SwingFXUtils.toFXImage(captcha.getImage(), null);
         captchaIV.setImage(image);
-    }
+    }*/
     @FXML
     public void resetCaptcha(ActionEvent ignored) {
-        setCaptcha();
+        //setCaptcha();
         captchaTF.clear();
     }
 

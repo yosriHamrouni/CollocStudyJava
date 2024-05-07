@@ -204,11 +204,6 @@
                                 <Bloom />
                             </effect>
                         </Button>
-                  <ImageView fitHeight="26.0" fitWidth="25.0" layoutX="10.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@img/maison.png" />
-                     </image>
-                  </ImageView>
                     </children>
                     <styleClass>
                         <String fx:value="low-mid-menu2" />

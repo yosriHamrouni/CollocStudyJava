@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ServiceCoworking implements IService <Coworking>{
+public class ServiceCoworking implements IServiceCoworking <Coworking>{
     private Connection con;
     private List<Coworking> coworkingList;
 
@@ -50,6 +50,11 @@ public class ServiceCoworking implements IService <Coworking>{
 
     }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> ff868ae (Gestion coworking+ gestion logement + gestion newsfeed)
     @Override
     public void modifer(Coworking coworking) {
         String req = "UPDATE coworking SET description=?, horaireouvr=?, horairefer=?, image=?, nomco=?, numtel=?, adresse=?, tarifs=?, dispo=? WHERE id=?";
