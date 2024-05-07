@@ -107,6 +107,8 @@ public class AjouterLogement {
             ServiceLogement sl = new ServiceLogement();
             logement l = new logement(adresse, equipement, description, imageName, choiceDispo.getValue().equals("Disponible") ? 1 : 0, tarifs, selectedType);
             sl.ajouter(l);
+            String recipientEmail = "nourchehida3@gmail.com"; // Mettez l'adresse e-mail du destinataire ici
+            gui.Mail.sendEmail(recipientEmail,l);
             showNotification("Success", "Logement added successfully!");
             //setCaptcha(); // Réinitialiser le captcha
             clearFields(); // Effacer les champs du formulaire
