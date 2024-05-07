@@ -8,7 +8,7 @@ public class MyDB {
 
     public final String USERNAME = "root";
     public final String PWD="";
-    public final String URL = "jdbc:mysql://localhost:3306/logg";
+    public final String URL = "jdbc:mysql://localhost:3306/colocstudy";
 
     private Connection con;
 

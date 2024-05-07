@@ -68,7 +68,8 @@ public class dashboardajout implements Initializable {
     private ImageView img;
     @FXML
     private PieChart pieChart;
-
+    @FXML
+    private Button cancel;
 
     private ObservableList<logement> logList = FXCollections.observableArrayList();
     private FilteredList<logement> filteredList;
@@ -389,6 +390,27 @@ public class dashboardajout implements Initializable {
                     || logement.getEquipement().toLowerCase().contains(filterText)
                     || String.valueOf(logement.getId()).contains(filterText);
         });
+    }
+
+    public void AfficherCoworking(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../AfficherCoworking.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cancelButton(ActionEvent actionEvent) {
+        Stage stage = (Stage) cancel.getScene().getWindow();
+        stage.close();
+
     }
 }
 

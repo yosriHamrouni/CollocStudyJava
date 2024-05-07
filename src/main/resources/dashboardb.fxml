@@ -30,7 +30,7 @@
         </Button>
 
 
-      <Button fx:id="logf" layoutX="917.0" layoutY="28.0" mnemonicParsing="false" onAction="#logement" prefHeight="30.0" prefWidth="117.0" styleClass="transparent" stylesheets="@style.css" textFill="#3c3c3c">
+      <Button fx:id="logf" layoutX="917.0" layoutY="28.0" mnemonicParsing="false" onAction="#AfficherLogF" prefHeight="30.0" prefWidth="117.0" styleClass="transparent" stylesheets="@style.css" textFill="#3c3c3c">
          <font>
             <Font name="Walkway Bold" size="17.0" />
          </font>

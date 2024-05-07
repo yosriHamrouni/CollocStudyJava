@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="695.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AfficherLogF">
+<AnchorPane prefHeight="695.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AfficherLogF">
     <children>
         <!-- Barre d'outils si nécessaire -->
         <VBox layoutY="55.0" prefHeight="36.0" prefWidth="1053.0" style="-fx-background-radius: 100;">
@@ -66,7 +66,7 @@
                </graphic>
             </Button>
          </children></Pane>
-      <Pane layoutY="-1.0" prefHeight="83.0" prefWidth="1054.0" style="-fx-background-color: #2220AB;">
+      <Pane layoutY="-1.0" prefHeight="83.0" prefWidth="1189.0" style="-fx-background-color: #2220AB;">
          <children>
             <Button layoutX="254.0" layoutY="19.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="122.0" style="-fx-background-radius: 100; -fx-background-color: #6278FF;" text="Activites" textFill="WHITE">
                <font>
@@ -116,7 +116,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="907.0" layoutY="15.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="122.0" style="-fx-background-radius: 100; -fx-background-color: #6278FF;" text="Coworking" textFill="WHITE">
+            <Button layoutX="907.0" layoutY="15.0" mnemonicParsing="false" onAction="#AfficherCow" prefHeight="46.0" prefWidth="122.0" style="-fx-background-radius: 100; -fx-background-color: #6278FF;" text="Coworking" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -144,6 +144,18 @@
                   <Font name="System Italic" size="12.0" />
                </font>
             </TextField>
+            <Button layoutX="1058.0" layoutY="13.0" mnemonicParsing="false" onAction="#AfficherCow" prefHeight="46.0" prefWidth="122.0" style="-fx-background-radius: 100; -fx-background-color: #6278FF;" text="Fil d'actualité" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="24.0">
+                     <image>
+                        <Image url="@img/cotravail.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </Pane>
     </children>

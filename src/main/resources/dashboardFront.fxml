@@ -160,7 +160,7 @@
                 <Label layoutX="763.0" layoutY="676.0" text="Deconexion " />
                 <AnchorPane layoutX="27.0" layoutY="205.0" prefHeight="68.0" prefWidth="210.0" stylesheets="@../resources/img/UI.css">
                     <children>
-                        <Label layoutX="47.0" layoutY="21.0" prefHeight="25.0" prefWidth="103.0" text="Coworkings" textFill="WHITE">
+                        <Label fx:id="clickCo" layoutX="47.0" layoutY="21.0" prefHeight="25.0" prefWidth="103.0" text="Coworkings" textFill="WHITE">
                             <font>
                                 <Font name="Tahoma Bold" size="17.0" />
                             </font>
@@ -170,6 +170,14 @@
                                 <Image url="@../resources/img/arrow1.png" />
                             </image>
                         </ImageView>
+                  <Button fx:id="clickco" layoutX="34.0" layoutY="24.0" mnemonicParsing="false" onAction="#AfficherCoworking" prefHeight="19.0" prefWidth="142.0" styleClass="transparent" stylesheets="@style.css">
+                     <font>
+                        <Font size="0.5" />
+                     </font>
+                     <effect>
+                        <Bloom />
+                     </effect>
+                  </Button>
                     </children>
                     <styleClass>
                         <String fx:value="low-mid-menu1" />
@@ -196,11 +204,6 @@
                                 <Bloom />
                             </effect>
                         </Button>
-                  <ImageView fitHeight="26.0" fitWidth="25.0" layoutX="10.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@img/maison.png" />
-                     </image>
-                  </ImageView>
                     </children>
                     <styleClass>
                         <String fx:value="low-mid-menu2" />

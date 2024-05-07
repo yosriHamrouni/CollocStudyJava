@@ -170,4 +170,20 @@ public class AfficherLogF {
             // Gérer l'exception
         }
     }
+    @FXML
+    void AfficherCow(ActionEvent event) {
+        try {
+            // Load the AjouterCoworking.fxml file
+            Parent root = FXMLLoader.load(getClass().getResource("../AffichercoF.fxml"));
+
+            // Show the scene containing the AjouterCoworking.fxml file
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

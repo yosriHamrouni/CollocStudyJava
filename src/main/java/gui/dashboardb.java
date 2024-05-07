@@ -20,15 +20,8 @@ public class dashboardb {
 
     @FXML
     void coworking(ActionEvent event) {
-
-    }
-
-
-
-    @FXML
-    void logement(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../AfficherLogF.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../AffichercoF.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
@@ -41,6 +34,11 @@ public class dashboardb {
         }
 
     }
+
+
+
+
+
 
 
     public void restaurent(ActionEvent actionEvent) {
@@ -56,5 +54,20 @@ public class dashboardb {
     }
 
     public void activite(ActionEvent actionEvent) {
+    }
+
+    public void AfficherLogF(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../AfficherLogF.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

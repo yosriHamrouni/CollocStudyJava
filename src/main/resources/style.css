@@ -20,6 +20,9 @@
     -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
 }
 
+.chatbot-response {
+    -fx-text-fill: blue;
+}
 
 
 .comboBox{
@@ -31,6 +34,11 @@
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 100;
 }
+.user-message {
+    -fx-text-fill: black;
+}
+
+
 
 .but
 {
