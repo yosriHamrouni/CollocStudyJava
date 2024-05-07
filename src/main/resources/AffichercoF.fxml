@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -90,11 +91,6 @@
                      <Font name="System Bold Italic" size="14.0" />
                   </font>
                </Label>
-            <Button fx:id="trier" layoutX="32.0" layoutY="382.0" mnemonicParsing="false" onAction="#OnclickTrier" prefHeight="25.0" prefWidth="64.0" style="-fx-background-radius: 100;" text="tarifs">
-               <font>
-                  <Font name="AdobeGothicStd-Bold" size="12.0" />
-               </font>
-            </Button>
             <Label layoutX="9.0" layoutY="344.0" text="Trier par :" textFill="#4a81f7">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
@@ -110,6 +106,8 @@
                   <Image url="@img/exit.png" />
                </image>
             </ImageView>
+            <RadioButton layoutX="32.0" layoutY="389.0" mnemonicParsing="false" onAction="#OnclickTrier" text="Tarifs par ordre croissant" textFill="#fffafa" />
+            <RadioButton layoutX="31.0" layoutY="422.0" mnemonicParsing="false" onAction="#OnclickTrierdecroissant" text="Tarifs par ordre decroissant" textFill="#fffafa" />
             </children>
          </Pane>
              <VBox layoutX="326.0" layoutY="151.0" prefHeight="604.0" prefWidth="750.0">

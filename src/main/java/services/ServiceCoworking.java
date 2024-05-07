@@ -223,4 +223,29 @@ public class ServiceCoworking implements IService <Coworking>{
         }
         return listcoworkings;
     }
+
+    public List<Coworking> trierParTarifsdecroissant(ObservableList<Coworking> coworkingList) throws SQLException {
+        List<Coworking> listcoworkings = new ArrayList<>();
+        String req = "SELECT * FROM coworking ORDER BY tarifs DESC"; // Requête SQL pour obtenir les données triées par tarifs décroissants
+        try (Statement ste = con.createStatement();
+             ResultSet res = ste.executeQuery(req)) {
+            while (res.next()) {
+                Coworking c = new Coworking();
+                c.setId(res.getInt(1));
+                c.setDescription(res.getString(2));
+                c.setTarifs(res.getFloat(3));
+                c.setDispo(res.getInt(4));
+                c.setHoraireouvr(res.getString(5));
+                c.setHorairefer(res.getString(6));
+                c.setImage(res.getString(8));
+                c.setNomco(res.getString(9));
+                c.setNumtel(res.getString(10));
+                c.setAdresse(res.getString(13));
+                c.setTypeco_id(res.getInt(7));
+                listcoworkings.add(c);
+            }
+        }
+        return listcoworkings;
+    }
+
 }

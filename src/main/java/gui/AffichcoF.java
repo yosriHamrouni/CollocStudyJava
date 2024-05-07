@@ -176,4 +176,11 @@ public class AffichcoF implements Initializable {
 
     }
 
+    public void OnclickTrierdecroissant(ActionEvent actionEvent) throws SQLException {
+        ServiceCoworking serviceCoworking = new ServiceCoworking();
+        List<Coworking> coworkingListTrie = serviceCoworking.trierParTarifsdecroissant(coworkingList);
+        // Mettre à jour la liste filtrée et afficher la première page
+        listeFiltree.setAll(coworkingListTrie);
+        afficherPage(0);
+    }
 }

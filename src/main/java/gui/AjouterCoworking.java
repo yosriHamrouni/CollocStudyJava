@@ -30,10 +30,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
-
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+
+
 
 public class AjouterCoworking {
 
@@ -75,13 +76,9 @@ public class AjouterCoworking {
     public static final String AUTH_TOKEN = "ff28b1ff9e01c0f47cb693813d9f9ea6";
 
 
-
-
     private String imagePathInDatabase;
     @FXML
     private ChoiceBox<String> choiceDispo;
-
-
 
 
     @FXML
@@ -89,6 +86,7 @@ public class AjouterCoworking {
         captchaChallenge = generateRandomString(6); // Generate a random string for CAPTCHA
         captchaLabel.setText(captchaChallenge);
     }
+
     private String generateRandomString(int length) {
         Random random = new Random();
         StringBuilder stringBuilder = new StringBuilder();
@@ -98,6 +96,7 @@ public class AjouterCoworking {
         }
         return stringBuilder.toString();
     }
+
     // Méthode pour envoyer un SMS
     public void sendSMS(String recipientPhoneNumber, String messageBody) {
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
@@ -110,6 +109,7 @@ public class AjouterCoworking {
 
         System.out.println("SMS envoyé avec SID: " + message.getSid());
     }
+
     @FXML
     void browseImageAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -130,7 +130,6 @@ public class AjouterCoworking {
     void addcoworking(ActionEvent event) {
 
 
-
         try {
             String description = txtdescription.getText();
             String adresse = txtadresse.getText();
@@ -143,7 +142,7 @@ public class AjouterCoworking {
 
 
             String image = imageFile.getName();
-           // String image=imagePathInDatabase;
+            // String image=imagePathInDatabase;
 
             String horaireouv = txthoraireouv.getText();
             String horaireferm = txthoraireferm.getText();
@@ -187,14 +186,13 @@ public class AjouterCoworking {
             }
 
 
-
             ServiceCoworking sc = new ServiceCoworking();
 
             Coworking c = new Coworking(description, horaireouv, horaireferm, image, nomco, numtel, adresse, tarifs, choiceDispo.getValue().equals("Disponible") ? 1 : 0, selectedType.getId());
 
             sc.ajouter(c);
             String recipientPhoneNumber = "+21652977655";
-            String messageBody = "Un nouveau coworking a été ajouté ! Nom du coworking : "+nomco ;
+            String messageBody = "Un nouveau coworking a été ajouté ! Nom du coworking : " + nomco;
 
             sendSMS(recipientPhoneNumber, messageBody);
 
@@ -223,7 +221,6 @@ public class AjouterCoworking {
         }
 
 
-
     }
 
     private void showAlert(String title, String content) {
@@ -240,13 +237,36 @@ public class AjouterCoworking {
         try {
             ServiceTypeco serviceTypeCo = new ServiceTypeco();
             List<TypeCo> types = serviceTypeCo.afficher();
+
+            typeCoComboBox.setConverter(new StringConverter<TypeCo>() {
+                @Override
+                public String toString(TypeCo typeCo) {
+                    return typeCo.getType();
+                }
+
+                @Override
+                public TypeCo fromString(String string) {
+                    return typeCoComboBox.getItems().stream()
+                            .filter(t -> t.getType().equals(string))
+                            .findFirst()
+                            .orElse(null);
+                }
+            });
+
             typeCoComboBox.getItems().addAll(types);
-            generateCaptcha();
+
+            // Sélectionner le premier élément du ComboBox par défaut
+            if (!typeCoComboBox.getItems().isEmpty()) {
+                typeCoComboBox.getSelectionModel().selectFirst();
+            }
+
+            generateCaptcha(); // Appel à votre méthode pour générer le captcha
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
             alert.setContentText("Erreur lors de la récupération des types de coworking.");
             alert.show();
         }
+
     }
 }

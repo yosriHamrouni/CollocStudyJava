@@ -118,6 +118,32 @@ public class IteamController {
     }
 
 
+    public void AfficherMap(ActionEvent actionEvent) {
+
+        String location = adresse.getText(); // Récupérer la localisation de coworking
+        openMap(location);
+    }
+    private void openMap(String location) {
+        try {
+            // Charger le fichier FXML de la vue de la carte
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../affichermap.fxml"));
+            Parent root = loader.load();
+
+            // Obtenir le contrôleur de la vue de la carte
+            MapController mapController = loader.getController();
+
+            // Passer la localisation au contrôleur de la vue de la carte
+            mapController.setLocation(location);
+
+            // Afficher la vue de la carte dans une nouvelle fenêtre
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
 
