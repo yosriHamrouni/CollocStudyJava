@@ -1,9 +1,6 @@
 package services;
 
-<<<<<<< HEAD
 import entities.Coworking;
-=======
->>>>>>> ff868ae (Gestion coworking+ gestion logement + gestion newsfeed)
 import entities.TypeCo;
 import config.MyDB;
 
