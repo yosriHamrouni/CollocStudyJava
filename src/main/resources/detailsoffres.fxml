@@ -7,36 +7,38 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="det_id" prefHeight="513.0" prefWidth="809.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DetailsOffresController">
+<AnchorPane fx:id="det_id" prefHeight="584.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DetailsOffresController" stylesheets="@styledetail.css">
     <children>
-        <ImageView fitHeight="707.0" fitWidth="1075.0" layoutX="-251.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="797.0" fitWidth="1057.0" layoutX="-251.0" layoutY="-104.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@img/rm218batch4-ning-29.jpg" />
+                <Image url="@img/bck.png" />
             </image>
         </ImageView>
-        <ImageView fx:id="imgview" fitHeight="363.0" fitWidth="423.0" layoutX="135.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="imgview" fitHeight="363.0" fitWidth="423.0" layoutX="135.0" layoutY="153.0" pickOnBounds="true" preserveRatio="true" />
         <Label fx:id="descrip" layoutX="594.0" layoutY="220.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Description">
             <font>
                 <Font name="ACaslonPro-Regular" size="12.0" />
-            </font></Label>
+            </font>
+      </Label>
         <Label fx:id="salaire" layoutX="594.0" layoutY="255.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Salaire">
             <font>
                 <Font name="System Bold" size="12.0" />
-            </font></Label>
+            </font>
+      </Label>
         <Label fx:id="horairedeb" layoutX="594.0" layoutY="291.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="HoraireDeb" />
         <Label fx:id="horairefin" layoutX="594.0" layoutY="327.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="HoraireFin" />
         <Label fx:id="lieu" layoutX="594.0" layoutY="366.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Lieu" />
-        <Button fx:id="cancelButton" layoutX="28.0" layoutY="454.0" mnemonicParsing="false" onAction="#onclickfermer" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-family: poppins; -fx-font-weight: bold;" text="Fermer" />
+        <Button fx:id="cancelButton" layoutX="629.0" layoutY="450.0" mnemonicParsing="false" onAction="#onclickfermer" prefHeight="26.0" prefWidth="68.0" style="-fx-background-color: #66aaff; -fx-text-fill: white; -fx-font-family: poppins; -fx-font-weight: bold;" text="Fermer" />
         <ImageView fitHeight="137.0" fitWidth="137.0" layoutX="-7.0" layoutY="-8.0">
             <image>
                 <Image url="@img/logo-v2.png" />
             </image>
         </ImageView>
-        <Label layoutX="245.0" layoutY="29.0" prefHeight="18.0" prefWidth="244.0" style="-fx-font-family: poppins;" text="Détails de l'offre">
-            <font>
-                <Font name="ACaslonPro-Bold" size="22.0" />
-            </font>
-        </Label>
       <Label fx:id="Numtel" layoutX="594.0" layoutY="401.0" prefHeight="18.0" prefWidth="158.0" style="-fx-font-family: poppins; -fx-font-weight: bold; -fx-background-color: white;" text="Num tel" />
+      <ImageView fitHeight="64.0" fitWidth="356.0" layoutX="246.0" layoutY="29.0">
+         <image>
+            <Image url="@img/textdetail.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>

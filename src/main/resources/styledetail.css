@@ -1,0 +1,35 @@
+/* Styles pour l'arrière-plan et les éléments principaux */
+.anchor-pane {
+    -fx-background-color: #f0f0f0; /* Couleur de fond */
+}
+
+/* Styles pour les libellés */
+.label {
+    -fx-font-family: "Poppins";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333; /* Couleur du texte */
+}
+
+/* Style pour le bouton */
+.button {
+    -fx-background-color: #66aaff; /* Couleur de fond */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-font-family: "Poppins";
+    -fx-font-weight: bold;
+}
+
+/* Style pour les images */
+.image-view {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 0); /* Ombre portée */
+}
+
+/* Style pour le logo */
+#logo-image {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 0); /* Ombre portée */
+}
+
+/* Style pour le titre */
+#title-image {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 0); /* Ombre portée */
+}

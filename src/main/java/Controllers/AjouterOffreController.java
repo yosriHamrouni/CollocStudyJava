@@ -92,7 +92,7 @@ public class AjouterOffreController {
 
             // Envoi d'un e-mail d'information avec les détails de l'offre
             String recipientEmail = "skandernacheb@gmail.com"; // Mettez l'adresse e-mail du destinataire ici
-            controllers.serviceemail.sendEmail(recipientEmail, o);
+            Controllers.serviceemail.sendEmail(recipientEmail, o);
 
             // Affichage d'une boîte de dialogue pour informer l'utilisateur que l'offre a été ajoutée avec succès
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

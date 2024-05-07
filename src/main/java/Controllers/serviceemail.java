@@ -1,4 +1,4 @@
-package controllers;
+package Controllers;
 
 import entities.Offres;
 import javax.mail.*;
@@ -38,13 +38,16 @@ public class serviceemail {
 
             // Construct email content with offer details
             StringBuilder emailContent = new StringBuilder();
-            emailContent.append("<html><body style='font-family: Arial, sans-serif;'>");
-            emailContent.append("<div style='text-align: center;'>");
-            emailContent.append("<img src='https://i.ibb.co/nL8W7jS/logo-v2.png' alt='Logo' style='width: 100px; height: 100px;'>");
-            emailContent.append("<h1 style='color: #007bff;'>ColocStudy</h1>");
-            emailContent.append("<p style='font-size: 16px;'>Service Offres d'emplois</p>");
-            emailContent.append("</div>");
-            emailContent.append("<p>Cher Client,</p>");
+            emailContent.append("<html><head><style>");
+            emailContent.append("body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin: 0; padding: 0; }");
+            emailContent.append(".container { max-width: 600px; margin: auto; padding: 20px; }");
+            emailContent.append(".header { background-color: #007bff; color: #fff; padding: 10px; text-align: center; }");
+            emailContent.append(".content { padding: 20px; background-color: #fff; }");
+            emailContent.append("</style></head><body>");
+            emailContent.append("<div class='container'>");
+            emailContent.append("<div class='header'><img src='https://i.ibb.co/nL8W7jS/logo-v2.png' alt='Logo' style='width: 100px; height: 100px;'><h1>ColocStudy</h1></div>");
+            emailContent.append("<div class='content'>");
+            emailContent.append("<p>Cher ColocStudent,</p>");
             emailContent.append("<p>Voici les détails de l'offre :</p>");
             emailContent.append("<p><strong>Description:</strong> ").append(offres.getDescrip()).append("</p>");
             emailContent.append("<p><strong>Salaire:</strong> ").append(offres.getSalaire()).append(" DT</p>");
@@ -52,7 +55,7 @@ public class serviceemail {
             emailContent.append("<p><strong>Horaire début:</strong> ").append(offres.getHorairedeb()).append("</p>");
             emailContent.append("<p><strong>Horaire fin:</strong> ").append(offres.getHoraireter()).append("</p>");
             emailContent.append("<p><strong>Numéro de tel:</strong> ").append(offres.getNum_tel()).append("</p>");
-            emailContent.append("</body></html>");
+            emailContent.append("</div></div></body></html>");
 
             // Set email content
             message.setContent(emailContent.toString(), "text/html");
