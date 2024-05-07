@@ -77,7 +77,7 @@ public class OffresindexController implements Initializable {
         // Ajouter chaque paire d'éléments à la VBox de la page
         for (int i = startIndex; i < endIndex; i++) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/itemoffre.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../offresFxml/itemoffre.fxml"));
                 Node itemNode = loader.load();
                 itemoffreControlleur controller = loader.getController();
                 controller.setData(offresList.get(i));

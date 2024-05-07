@@ -16,8 +16,8 @@
       </ImageView>
       <AnchorPane layoutX="46.0" prefHeight="400.0" prefWidth="493.0">
          <children>
-            <TextField fx:id="Ajoutertype" layoutX="172.0" layoutY="241.0" onAction="#addType" onMouseClicked="#addType" promptText="Entrez le type" />
-            <Button layoutX="218.0" layoutY="281.0" mnemonicParsing="false" text="Ajouter" />
+            <TextField fx:id="Ajoutertype" layoutX="172.0" layoutY="241.0"   promptText="Entrez le type" />
+            <Button layoutX="218.0" layoutY="281.0" mnemonicParsing="false" text="Ajouter"  onAction="#addType"/>
             <Label layoutX="190.0" layoutY="216.0" style="-fx-background-color: white; -fx-font-family: poppins;" text="Nouveau Type offre" />
             <Label layoutX="134.0" layoutY="178.0" style="-fx-text-fill: white; -fx-font-size: 20; -fx-font-weight: BOLD; -fx-font-family: poppins;" text="Ajout d'un type d'offre" />
             <ImageView fitHeight="248.0" fitWidth="244.0" layoutX="134.0" layoutY="-12.0">

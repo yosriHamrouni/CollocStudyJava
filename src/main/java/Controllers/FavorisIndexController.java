@@ -71,7 +71,7 @@ public class FavorisIndexController implements Initializable {
             // Ajouter chaque offre du groupe actuel à la HBox horizontale
             for (int j = i; j < Math.min(i + 3, endIndex); j++) {
                 try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/itemoffre.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../offresFxml/itemoffre.fxml"));
                     Node itemNode = loader.load();
                     itemoffreControlleur controller = loader.getController();
                     controller.setData(favorisList.get(j));
