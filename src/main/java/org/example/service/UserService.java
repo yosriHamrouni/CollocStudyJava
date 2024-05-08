@@ -4,6 +4,8 @@ import org.example.entities.User;
 import org.example.tools.DBconnexion;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserService implements ICrud<User>{
@@ -25,7 +27,7 @@ public class UserService implements ICrud<User>{
     }
     @Override
     public void ajouterEntite(User p) {
-        String req1 = "INSERT INTO `user` (`email`, `roles`, `password`, `nom`, `prenom`, `sexe`, `bloque`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String req1 = "INSERT INTO `user` (`email`, `roles`, `password`, `nom`, `prenom`, `sexe`, `bloque`, `phone`, `register_time`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement st = cnx2.prepareStatement(req1)) {
             st.setString(1, p.getEmail());
             st.setString(2, p.getRoles());
@@ -35,6 +37,11 @@ public class UserService implements ICrud<User>{
             st.setString(6, p.getSexe());
             st.setInt(7, p.getIs_banned());
             st.setString(8, p.getPhone());
+
+            // Add current timestamp as register time
+            LocalDateTime currentTime = LocalDateTime.now();
+            Timestamp timestamp = Timestamp.valueOf(currentTime);
+            st.setTimestamp(9, timestamp);
 
             st.executeUpdate();
             System.out.println("User ajouté");
@@ -155,6 +162,47 @@ public class UserService implements ICrud<User>{
             System.err.println(ex.getMessage());
         }
         return null;
+    }
+    public int countActivatedAccounts() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM user WHERE isActive = TRUE";
+        try (PreparedStatement stmt = cnx2.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return count;
+    }
+
+    public int countDeactivatedAccounts() {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM user WHERE isActive = FALSE";
+        try (PreparedStatement stmt = cnx2.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return count;
+    }
+    public int countRegistrationsForDay(LocalDate date) {
+        int count = 0;
+        String sql = "SELECT COUNT(*) FROM user WHERE DATE(register_time) = ?";
+        try (PreparedStatement stmt = cnx2.prepareStatement(sql)) {
+            stmt.setDate(1, java.sql.Date.valueOf(date));
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return count;
     }
 }
 

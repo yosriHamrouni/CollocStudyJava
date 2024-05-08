@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -20,9 +21,8 @@ import org.example.service.UserService;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -46,6 +46,8 @@ public class Backoffice {
 
     @FXML
     private Pane pn_signin;
+    @FXML
+    private PieChart accountPieChart;
 
     @FXML
     private Pane pn_signup;
@@ -54,7 +56,9 @@ public class Backoffice {
     private Pane pn_update;
 
     @FXML
-    private Pane pn_forgotpassword;
+    private Pane pn_forgotPassword;
+    @FXML
+    private Pane pn_stats;
     @FXML
     private TextField tf_email;
 
@@ -90,15 +94,74 @@ public class Backoffice {
 
     User tmpp = new User();
     UserService us = new UserService();
-   
+
     @FXML
     private GridPane grid;
+    @FXML
+    private BarChart<String, Number> userRegistrationChart;
 
     @FXML
     public void initialize() {
+
+
         grid.getChildren().clear();
         displayg();
+
+        int activatedCount = us.countActivatedAccounts();
+        int deactivatedCount = us.countDeactivatedAccounts();
+
+        // Create data for the pie chart
+        PieChart.Data activatedData = new PieChart.Data("Activated Accounts", activatedCount);
+        PieChart.Data deactivatedData = new PieChart.Data("Deactivated Accounts", deactivatedCount);
+
+        // Add data to the pie chart
+        accountPieChart.getData().addAll(activatedData, deactivatedData);
+
+        // Show legend
+        accountPieChart.setLegendVisible(true);
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Date");
+
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Number of Registrations");
+
+        userRegistrationChart.setTitle("User Registrations in Last 5 Days");
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Registrations");
+
+        // Retrieve registration data for the last 5 days
+        Map<LocalDate, Integer> registrations = getRegistrationsForLast5Days();
+
+        // Populate series with registration data
+        registrations.forEach((date, count) -> {
+            series.getData().add(new XYChart.Data<>(date.toString(), count));
+        });
+
+        // Add series to the chart
+        userRegistrationChart.getData().add(series);
     }
+    private Map<LocalDate, Integer> getRegistrationsForLast5Days() {
+        Map<LocalDate, Integer> registrations = new HashMap<>();
+
+        // Calculate the start date (5 days ago)
+        LocalDate startDate = LocalDate.now().minusDays(4); // Subtract 4 to get 5 days ago
+
+        // Query the database for registrations for each day in the last 5 days
+        for (int i = 0; i < 5; i++) {
+            LocalDate currentDate = startDate.plusDays(i);
+            int count = us.countRegistrationsForDay(currentDate);
+            registrations.put(currentDate, count);
+        }
+
+        return registrations;
+    }
+
+
+
+
+
+
 
 
     @FXML
@@ -292,12 +355,16 @@ public class Backoffice {
     }
     @FXML
     void toForgotPassword(ActionEvent event) {
-        pn_forgotpassword.toFront();
+        pn_forgotPassword.toFront();
     }
 
     @FXML
     void toUpdate(ActionEvent event) {
         pn_update.toFront();
+    }
+    @FXML
+    void toStats(ActionEvent event) {
+        pn_stats.toFront();
     }
 
     @FXML
@@ -438,4 +505,5 @@ public class Backoffice {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
 }

@@ -1,15 +1,25 @@
 package org.example.controllers;
 
+import com.google.gson.Gson;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import org.example.entities.User;
 import org.example.service.UserService;
 import org.example.tools.DBconnexion;
+
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,6 +36,8 @@ public class Interface {
 
     @FXML
     private Label id;
+    @FXML
+    private WebView webView;
     @FXML
     private TextField tf_log;
     @FXML
@@ -84,7 +96,7 @@ public class Interface {
 
     User tmpp = new User();
     UserService us = new UserService();
-
+    
     @FXML
     void signup(ActionEvent event) {
         if (tf_ln.getText().isEmpty() || tf_sexe.getText().isEmpty() || tf_fn.getText().isEmpty() || tf_email.getText().isEmpty() || tf_pass.getText().isEmpty() || tf_phone.getText().isEmpty()) {
@@ -371,6 +383,8 @@ public class Interface {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+
 
 
 }
