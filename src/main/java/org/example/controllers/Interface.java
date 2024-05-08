@@ -2,10 +2,7 @@ package org.example.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import org.example.entities.User;
 import org.example.service.UserService;
@@ -15,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -84,7 +82,7 @@ public class Interface {
             alert.setTitle("Champs manquants");
             alert.setHeaderText(null);
             alert.setContentText("Veuillez remplir tous les champs !");
-            alert.showAndWait();
+          alert.showAndWait();
             return;
         }
 
@@ -116,7 +114,7 @@ public class Interface {
     }
 
     @FXML
-    void delete(ActionEvent event) {
+    void deactivateAccount(ActionEvent event) {
         try {
             int userId = Integer.parseInt(id.getText());
 
@@ -124,7 +122,7 @@ public class Interface {
             Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationDialog.setTitle("Confirmation");
             confirmationDialog.setHeaderText(null);
-            confirmationDialog.setContentText("etes vous sure de vouloir supprimer votre compte?");
+            confirmationDialog.setContentText("Are you sure you want to deactivate your account?");
 
             // Add "OK" and "Cancel" buttons to the dialog
             confirmationDialog.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
@@ -132,13 +130,17 @@ public class Interface {
             // Show the confirmation dialog and wait for the user's response
             ButtonType userResponse = confirmationDialog.showAndWait().orElse(ButtonType.CANCEL);
 
-            // If the user clicked "OK" in the confirmation dialog, proceed with the deletion
+            // If the user clicked "OK" in the confirmation dialog, proceed with the deactivation
             if (userResponse == ButtonType.OK) {
-                // Create a new User instance with the provided ID
-                User userToDelete = new User(userId);
+                User userToDeactivate = new User(userId);
+                us.deactivateAccount(userToDeactivate);
 
-                // Call the method to delete the user entity
-                us.supprimerEntite(userToDelete);
+                // Inform the user of successful deactivation
+                Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                infoAlert.setTitle("Account Deactivated");
+                infoAlert.setHeaderText(null);
+                infoAlert.setContentText("Your account has been successfully deactivated.");
+                infoAlert.showAndWait();
 
                 // Move to the "signin" pane
                 pn_signin.toFront();
@@ -146,9 +148,14 @@ public class Interface {
         } catch (NumberFormatException e) {
             // Handle the case where the ID entered by the user is not a valid integer
             // Display an error message or handle it as appropriate for your application
-            e.printStackTrace(); // Or log the error
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Error");
+            errorAlert.setHeaderText("Invalid User ID");
+            errorAlert.setContentText("Please enter a valid user ID.");
+            errorAlert.showAndWait();
         }
     }
+
 
     @FXML
     void update(ActionEvent event) {
@@ -220,42 +227,78 @@ public class Interface {
 
     @FXML
     void login(ActionEvent event) {
-
-        ResultSet resultSet = us.log(tf_log.getText(),tf_passw.getText());
+        ResultSet resultSet = us.log(tf_log.getText(), tf_passw.getText());
         try {
             if (resultSet.next()) {
-                tmpp = new User(
-                        resultSet.getInt("id"),
-                        resultSet.getString("email"),
-                        resultSet.getString("roles"),
-                        resultSet.getString("password"),
-                        resultSet.getString("nom"),
-                        resultSet.getString("prenom"),
-                        resultSet.getString("sexe"),
-                        resultSet.getInt("bloque")
-                );
-                id.setText(String.valueOf(tmpp.getId()));
-                tf_email1.setText(tmpp.getEmail());
-                tf_pass1.setText(tmpp.getPassword());
-                tf_fn1.setText(tmpp.getPrenom());
-                tf_ln1.setText(tmpp.getName());
-                tf_sexe1.setText(tmpp.getSexe());
-                pn_home.toFront();
-                pn_index.toFront();
-            }else
-            {
+                boolean isActive = resultSet.getBoolean("isActive");
+                if (!isActive) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Account Deactivated");
+                    alert.setHeaderText("Your account has been deactivated.");
+                    alert.setContentText("Would you like to reactivate your account?");
+
+                    ButtonType reactivateButton = new ButtonType("Reactivate");
+                    ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                    alert.getButtonTypes().setAll(reactivateButton, cancelButton);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == reactivateButton) {
+                        // Call the method to reactivate the account
+                        reactivateAccount(resultSet.getInt("id"));
+                    }
+                } else {
+                    // Account is active, proceed with login
+                    proceedToHomePage(resultSet);
+                }
+            } else {
+                // Incorrect email or password
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Information incorrect");
+                alert.setTitle("Login Failed");
                 alert.setHeaderText(null);
-                alert.setContentText("email ou mot de passe incorrect !");
+                alert.setContentText("Email or password is incorrect.");
                 alert.showAndWait();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
+
+    private void proceedToHomePage(ResultSet resultSet) throws SQLException {
+        tmpp = new User(
+                resultSet.getInt("id"),
+                resultSet.getString("email"),
+                resultSet.getString("roles"),
+                resultSet.getString("password"),
+                resultSet.getString("nom"),
+                resultSet.getString("prenom"),
+                resultSet.getString("sexe"),
+                resultSet.getInt("bloque")
+        );
+        id.setText(String.valueOf(tmpp.getId()));
+        tf_email1.setText(tmpp.getEmail());
+        tf_pass1.setText(tmpp.getPassword());
+        tf_fn1.setText(tmpp.getPrenom());
+        tf_ln1.setText(tmpp.getName());
+        tf_sexe1.setText(tmpp.getSexe());
+        pn_home.toFront();
+        pn_index.toFront();
+    }
+
+    private void reactivateAccount(int userId) {
+        User userToActivate = new User(userId);
+        us.activateAccount(userToActivate);
+
+        Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+        infoAlert.setTitle("Account Reactivated");
+        infoAlert.setHeaderText(null);
+        infoAlert.setContentText("Your account has been successfully reactivated.");
+        infoAlert.showAndWait();
+
+        pn_signin.toFront();
+    }
+
+
+
 
     @FXML
     void toHome(ActionEvent event) {

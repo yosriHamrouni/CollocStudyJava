@@ -6,10 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -57,7 +54,7 @@ public class Backoffice {
     private TextField tf_fn;
 
     @FXML
-    private TextField tf_pass;
+    private PasswordField tf_pass;
 
     @FXML
     private TextField tf_fn1;
@@ -69,7 +66,7 @@ public class Backoffice {
     private TextField tf_ln1;
 
     @FXML
-    private TextField tf_passw;
+    private PasswordField tf_passw;
 
     @FXML
     private TextField tf_sexe;
@@ -78,7 +75,7 @@ public class Backoffice {
     private TextField tf_sexe1;
 
     @FXML
-    private TextField tf_pass1;
+    private PasswordField tf_pass1;
 
     User tmpp = new User();
     UserService us = new UserService();

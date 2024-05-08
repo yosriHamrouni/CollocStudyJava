@@ -94,17 +94,48 @@ public class UserService implements ICrud<User>{
         }
         return rs;    }
 
-    public ResultSet log(String email , String pw ) {
+    public ResultSet log(String email, String pw) {
         ResultSet rs = null;
         try {
-            String req = "SELECT * FROM `user` WHERE `email` = '"+email+"' AND `password` = '"+pw+"'";
+            String req = "SELECT * FROM `user` WHERE `email` = ? AND `password` = ?";
             PreparedStatement st = cnx2.prepareStatement(req);
-            rs = st.executeQuery(req);
-            return rs;
+            st.setString(1, email);
+            st.setString(2, pw);
+            rs = st.executeQuery();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
         return rs;
     }
+
+
+    public void deactivateAccount(User user) {
+        String sql = "UPDATE user SET isActive = FALSE WHERE id = ?";
+        try (PreparedStatement st = cnx2.prepareStatement(sql)) {
+            st.setInt(1, user.getId());
+            st.executeUpdate();
+            System.out.println("Compte désactivé avec succès");
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+    public void activateAccount(User user) {
+        String sql = "UPDATE user SET isActive = TRUE WHERE id = ?";
+        try (PreparedStatement st = cnx2.prepareStatement(sql)) {
+            st.setInt(1, user.getId());
+            st.executeUpdate();
+            System.out.println("Compte activé avec succès");
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
 }
+
+
+
+
+
+
+
 

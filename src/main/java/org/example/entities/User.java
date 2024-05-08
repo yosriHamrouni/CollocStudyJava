@@ -7,6 +7,15 @@ public class User {
     private String password ;
     private String nom ;
     private String prenom ;
+    private boolean isActive; // New field
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
 
     public String getNom() {
         return nom;
