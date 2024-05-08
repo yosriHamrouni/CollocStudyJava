@@ -24,10 +24,11 @@
             <TextField fx:id="tf_fn" layoutX="506.0" layoutY="139.0" prefHeight="26.0" prefWidth="244.0" promptText="Votre nom.." />
             <TextField fx:id="tf_sexe" layoutX="506.0" layoutY="216.0" prefHeight="26.0" prefWidth="244.0" promptText="Votre sexe .." />
             <TextField fx:id="tf_email" layoutX="506.0" layoutY="259.0" prefHeight="26.0" prefWidth="244.0" promptText="Votre email.." />
-            <Button layoutX="576.0" layoutY="362.0" mnemonicParsing="false" onAction="#signup" prefHeight="25.0" prefWidth="104.0" text="Valider" />
-            <Hyperlink layoutX="576.0" layoutY="405.0" onAction="#toSignin" prefHeight="23.0" prefWidth="179.0" text="J'ai deja un compte" />
+            <Button layoutX="576.0" layoutY="380.0" mnemonicParsing="false" onAction="#signup" prefHeight="25.0" prefWidth="104.0" text="Valider" />
+            <Hyperlink layoutX="576.0" layoutY="415.0" onAction="#toSignin" prefHeight="23.0" prefWidth="179.0" text="J'ai deja un compte" />
             <TextField fx:id="tf_ln" layoutX="506.0" layoutY="177.0" prefHeight="26.0" prefWidth="244.0" promptText="Votre prenom .." />
-            <PasswordField fx:id="tf_pass" layoutX="506.0" layoutY="303.0" prefHeight="25.0" prefWidth="244.0" promptText="Votre mot de pass .." />
+            <PasswordField fx:id="tf_pass" layoutX="506.0" layoutY="337.0" prefHeight="25.0" prefWidth="244.0" promptText="Votre mot de pass .." />
+            <TextField fx:id="tf_phone" layoutX="506.0" layoutY="298.0" prefHeight="26.0" prefWidth="244.0" promptText="votre telephone" />
          </children>
       </Pane>
       <Pane fx:id="pn_home" layoutX="-1.0" layoutY="-2.0" prefHeight="530.6" prefWidth="853.6" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -67,7 +68,7 @@
                         <TextField fx:id="tf_ln1" layoutX="238.0" layoutY="144.0" prefHeight="26.0" prefWidth="244.0" promptText="Votre nom .." />
                         <TextField fx:id="tf_email1" layoutX="238.0" layoutY="268.0" prefHeight="26.0" prefWidth="244.0" promptText="Votre email .." />
                         <Button layoutX="292.0" layoutY="364.0" mnemonicParsing="false" onAction="#update" prefHeight="25.0" prefWidth="125.0" text="Modifier" />
-                        <Hyperlink layoutX="288.0" layoutY="416.0" onAction="#delete" prefHeight="23.0" prefWidth="259.0" text="Supprimer mon compte" textFill="RED" />
+                        <Hyperlink layoutX="288.0" layoutY="416.0" onAction="#deactivateaccount" prefHeight="23.0" prefWidth="259.0" text="Desactiver Mon compte" textFill="RED" />
                         <TextField fx:id="tf_sexe1" layoutX="239.0" layoutY="229.0" prefHeight="26.0" prefWidth="244.0" promptText="Votre sexe .." />
                         <PasswordField fx:id="tf_pass1" layoutX="239.0" layoutY="307.0" prefHeight="25.0" prefWidth="244.0" promptText="Votre password .." />
                      </children>
@@ -83,7 +84,20 @@
             </AnchorPane>
          </children>
       </Pane>
-      <Pane fx:id="pn_signin" layoutY="-1.0" prefHeight="530.6" prefWidth="853.6" style="-fx-background-color: white;" styleClass="root" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="pn_signin1" layoutX="10.0" layoutY="10.0" prefHeight="530.6" prefWidth="853.6" style="-fx-background-color: white;" styleClass="root" stylesheets="@style.css">
+         <children>
+            <Label fx:id="id1" layoutX="65.0" layoutY="47.0" opacity="0.0" text="Label" />
+         </children>
+      </Pane>
+      <TextField fx:id="tf_resetEmail" layoutX="496.0" layoutY="195.0" prefHeight="40.0" prefWidth="317.0" promptText="Votre email .." />
+      <Button layoutX="590.0" layoutY="268.0" mnemonicParsing="false" onAction="#handleForgotPassword" prefHeight="32.0" prefWidth="104.0" text="Send Reset Link" />
+      <Hyperlink layoutX="530.0" layoutY="334.0" onAction="#toSignup" text="Vous n'avez pas encore un compte ? Creer un" />
+      <Label layoutX="549.0" layoutY="130.0" prefHeight="32.0" prefWidth="204.0" text="Forgot password">
+         <font>
+            <Font name="Segoe UI Bold" size="25.0" />
+         </font>
+      </Label>
+      <Pane fx:id="pn_forgotpassword" layoutY="-1.0" prefHeight="530.6" prefWidth="853.6" style="-fx-background-color: white;" styleClass="root" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <TextField fx:id="tf_log" layoutX="486.0" layoutY="185.0" prefHeight="40.0" prefWidth="317.0" promptText="Votre email .." />
             <Button layoutX="581.0" layoutY="324.0" mnemonicParsing="false" onAction="#login" prefHeight="32.0" prefWidth="104.0" text="Se connecter" />
@@ -95,6 +109,7 @@
             </Label>
             <Label fx:id="id" layoutX="65.0" layoutY="47.0" opacity="0.0" text="Label" />
             <PasswordField fx:id="tf_passw" layoutX="486.0" layoutY="265.0" prefHeight="40.0" prefWidth="317.0" promptText="Votre mot de passe .." />
+            <Hyperlink layoutX="559.0" layoutY="400.0" onAction="#toForgotPassword" text="Mot de passe oublié? " />
          </children>
       </Pane>
    </children>

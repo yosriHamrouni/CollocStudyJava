@@ -25,22 +25,24 @@ public class UserService implements ICrud<User>{
     }
     @Override
     public void ajouterEntite(User p) {
-        String req1 = "INSERT INTO `user`( `email`, `roles`, `password`, `nom`, `prenom`,`sexe`, `bloque`) VALUES (?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement st = cnx2.prepareStatement(req1);
+        String req1 = "INSERT INTO `user` (`email`, `roles`, `password`, `nom`, `prenom`, `sexe`, `bloque`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement st = cnx2.prepareStatement(req1)) {
             st.setString(1, p.getEmail());
             st.setString(2, p.getRoles());
-            st.setString(3,p.getPassword());
+            st.setString(3, p.getPassword());
             st.setString(4, p.getName());
             st.setString(5, p.getPrenom());
             st.setString(6, p.getSexe());
             st.setInt(7, p.getIs_banned());
+            st.setString(8, p.getPhone());
+
             st.executeUpdate();
-            System.out.println("user ajouté");
+            System.out.println("User ajouté");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println("SQL Error: " + e.getMessage());
         }
     }
+
 
 
     @Override
@@ -129,6 +131,30 @@ public class UserService implements ICrud<User>{
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
+    }
+    public boolean updatePassword(String email, String newPassword) {
+        String sql = "UPDATE user SET password = ? WHERE email = ?";
+        try (PreparedStatement stmt = cnx2.prepareStatement(sql)) {
+            stmt.setString(1, newPassword);
+            stmt.setString(2, email);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+            return false;
+        }
+    }
+    public User getUserByEmail(String email) {
+        String sql = "SELECT * FROM user WHERE email = ?";
+        try (PreparedStatement stmt = cnx2.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new User(rs.getInt("id"), rs.getString("email"), rs.getString("phone"));
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return null;
     }
 }
 

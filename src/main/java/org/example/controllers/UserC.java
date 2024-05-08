@@ -65,6 +65,7 @@ public class UserC {
         tf_sexe1.setText(user.getSexe());
         tf_ln1.setText(user.getNom());
         tf_fn1.setText(user.getPrenom());
+
     }
 
     @FXML

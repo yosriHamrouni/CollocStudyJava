@@ -1,5 +1,8 @@
 package org.example.controllers;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +21,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -29,6 +34,10 @@ public class Backoffice {
     private Label id;
     @FXML
     private TextField tf_log;
+    @FXML
+    private TextField tf_phone;
+    @FXML
+    private TextField tf_resetEmail;
     @FXML
     private Pane pn_home;
 
@@ -44,6 +53,8 @@ public class Backoffice {
     @FXML
     private Pane pn_update;
 
+    @FXML
+    private Pane pn_forgotpassword;
     @FXML
     private TextField tf_email;
 
@@ -79,6 +90,7 @@ public class Backoffice {
 
     User tmpp = new User();
     UserService us = new UserService();
+   
     @FXML
     private GridPane grid;
 
@@ -142,7 +154,7 @@ public class Backoffice {
     }
     @FXML
     void signup(ActionEvent event) {
-        if (tf_ln.getText().isEmpty() ||tf_sexe.getText().isEmpty() || tf_fn.getText().isEmpty() ||tf_email.getText().isEmpty()||tf_pass.getText().isEmpty()) {
+        if (tf_ln.getText().isEmpty() ||tf_sexe.getText().isEmpty() || tf_fn.getText().isEmpty() ||tf_email.getText().isEmpty()||tf_pass.getText().isEmpty()||tf_phone.getText().isEmpty()) {
             // Afficher un message d'alerte
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Champs manquants");
@@ -169,18 +181,23 @@ public class Backoffice {
         String fn = tf_fn.getText();
         String mail = tf_email.getText();
         String pass = tf_pass.getText();
+        String phone = tf_phone.getText();
+
+
         //    public User(String email, String roles, String password, String nom, String prenom, int tel, int bloque) {
-        User u = new User(mail,"[\"ROLE_ADMIN\"]",pass,fn,ln,tf_sexe.getText(),0);
+        User u = new User(mail,"[\"ROLE_ADMIN\"]",pass,fn,ln,tf_sexe.getText(),0,phone);
         us.ajouterEntite(u);
         tf_fn.clear();
         tf_ln.clear();
         tf_email.clear();
         tf_pass.clear();
+        tf_phone.clear();
         pn_signin.toFront();
+
     }
 
     @FXML
-    void delete(ActionEvent event) {
+    void deactivateaccount(ActionEvent event) {
         try {
             int userId = Integer.parseInt(id.getText());
 
@@ -188,7 +205,7 @@ public class Backoffice {
             Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationDialog.setTitle("Confirmation");
             confirmationDialog.setHeaderText(null);
-            confirmationDialog.setContentText("etes vous sure de vouloir supprimer votre compte?");
+            confirmationDialog.setContentText("Are you sure you want to deactivate your account?");
 
             // Add "OK" and "Cancel" buttons to the dialog
             confirmationDialog.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
@@ -196,13 +213,17 @@ public class Backoffice {
             // Show the confirmation dialog and wait for the user's response
             ButtonType userResponse = confirmationDialog.showAndWait().orElse(ButtonType.CANCEL);
 
-            // If the user clicked "OK" in the confirmation dialog, proceed with the deletion
+            // If the user clicked "OK" in the confirmation dialog, proceed with the deactivation
             if (userResponse == ButtonType.OK) {
-                // Create a new User instance with the provided ID
-                User userToDelete = new User(userId);
+                User userToDeactivate = new User(userId);
+                us.deactivateAccount(userToDeactivate);
 
-                // Call the method to delete the user entity
-                us.supprimerEntite(userToDelete);
+                // Inform the user of successful deactivation
+                Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+                infoAlert.setTitle("Account Deactivated");
+                infoAlert.setHeaderText(null);
+                infoAlert.setContentText("Your account has been successfully deactivated.");
+                infoAlert.showAndWait();
 
                 // Move to the "signin" pane
                 pn_signin.toFront();
@@ -210,7 +231,11 @@ public class Backoffice {
         } catch (NumberFormatException e) {
             // Handle the case where the ID entered by the user is not a valid integer
             // Display an error message or handle it as appropriate for your application
-            e.printStackTrace(); // Or log the error
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Error");
+            errorAlert.setHeaderText("Invalid User ID");
+            errorAlert.setContentText("Please enter a valid user ID.");
+            errorAlert.showAndWait();
         }
     }
 
@@ -265,6 +290,10 @@ public class Backoffice {
     void toSignup(ActionEvent event) {
         pn_signup.toFront();
     }
+    @FXML
+    void toForgotPassword(ActionEvent event) {
+        pn_forgotpassword.toFront();
+    }
 
     @FXML
     void toUpdate(ActionEvent event) {
@@ -283,10 +312,28 @@ public class Backoffice {
 
     @FXML
     void login(ActionEvent event) {
-
-        ResultSet resultSet = us.log(tf_log.getText(),tf_passw.getText());
+        ResultSet resultSet = us.log(tf_log.getText(), tf_passw.getText());
         try {
             if (resultSet.next()) {
+                boolean isActive = resultSet.getBoolean("isActive");
+                if (!isActive) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Account Deactivated");
+                    alert.setHeaderText("Your account has been deactivated.");
+                    alert.setContentText("Would you like to reactivate your account?");
+
+                    ButtonType reactivateButton = new ButtonType("Reactivate");
+                    ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                    alert.getButtonTypes().setAll(reactivateButton, cancelButton);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == reactivateButton) {
+                        reactivateAccount(resultSet.getInt("id"));
+                    }
+                    return; // Exit the method if the account is deactivated
+                }
+
+                // Continue with normal login processing if account is active
                 tmpp = new User(
                         resultSet.getInt("id"),
                         resultSet.getString("email"),
@@ -306,34 +353,89 @@ public class Backoffice {
                 pn_home.toFront();
                 pn_index.toFront();
                 System.out.println(tmpp.getRoles());
-                if(Objects.equals(tmpp.getRoles(), "[\"ROLE_ETUDIANT\"]"))
-                {
+                if(Objects.equals(tmpp.getRoles(), "[\"ROLE_ETUDIANT\"]")) {
                     pn_signin.toFront();
                     Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Information incorrect");
+                    alert.setTitle("Access Denied");
                     alert.setHeaderText(null);
-                    alert.setContentText("Entrez un compte admin !");
+                    alert.setContentText("Please enter an admin account!");
                     alert.showAndWait();
                 }
-            }else
-            {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Information incorrect");
+                alert.setTitle("Login Failed");
                 alert.setHeaderText(null);
-                alert.setContentText("email ou mot de passe incorrect !");
+                alert.setContentText("Email or password is incorrect.");
                 alert.showAndWait();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
+
+    private void reactivateAccount(int userId) {
+        User userToActivate = new User(userId);
+        us.activateAccount(userToActivate);
+
+        Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+        infoAlert.setTitle("Account Reactivated");
+        infoAlert.setHeaderText(null);
+        infoAlert.setContentText("Your account has been successfully reactivated.");
+        infoAlert.showAndWait();
+
+        pn_signin.toFront();
+    }
+
 
     @FXML
     void toHome(ActionEvent event) {
         System.out.println("helo");
         pn_home.toFront();
         pn_update.toBack();
+    }
+    @FXML
+    private void handleForgotPassword(ActionEvent event) {
+        String userEmail = tf_resetEmail.getText();
+        if (!userEmail.contains("@") || !userEmail.contains(".")) {
+            showAlert("Invalid Email", "Please enter a valid email address.");
+            return;
+        }
+
+        User user = us.getUserByEmail(userEmail);
+        if (user != null && user.getPhone() != null) {
+            String tempPassword = generateTempPassword();
+            if (us.updatePassword(userEmail, tempPassword)) {
+                sendSMS(user.getPhone(), "Your temporary password is: " + tempPassword);
+                showAlert("SMS Sent", "A temporary password has been sent to your phone.");
+                pn_signin.toFront();
+
+            } else {
+                showAlert("Failed", "Failed to update password. Please try again later.");
+            }
+        } else {
+            showAlert("No User Found", "No account found with that email.");
+        }
+    }
+
+    private String generateTempPassword() {
+        return UUID.randomUUID().toString().substring(0, 8); // Simple temporary password
+    }
+
+    private void sendSMS(String phone, String message) {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        Message.creator(
+                new PhoneNumber(phone),
+                new PhoneNumber(TWILIO_NUMBER),
+                message
+        ).create();
+        System.out.println("SMS sent successfully to " + phone);
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

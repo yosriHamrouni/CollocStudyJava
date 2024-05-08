@@ -6,7 +6,24 @@ public class User {
     private String roles ;
     private String password ;
     private String nom ;
+
+    public User(int id, String email, String phone) {
+        this.id = id;
+        this.email = email;
+        this.phone = phone;
+    }
+
     private String prenom ;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    private String phone ;
     private boolean isActive; // New field
 
     public boolean getIsActive() {
@@ -33,6 +50,18 @@ public class User {
         this.sexe = sexe;
     }
 
+
+    public User(String email, String roles, String password, String nom, String prenom, String sexe, int bloque, String phone) {
+        this.email = email;
+        this.roles = roles;
+        this.password = password;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.phone = phone;
+        this.sexe = sexe;
+        this.bloque = bloque;
+    }
+
     public int getBloque() {
         return bloque;
     }
@@ -47,7 +76,20 @@ public class User {
     public User() {
     }
 
-    public User(int id, String email, String roles, String password, String nom, String prenom,String sexe, int bloque) {
+    public User(int id, String email, String roles, String password, String nom, String prenom, String phone, boolean isActive, String sexe, int bloque) {
+        this.id = id;
+        this.email = email;
+        this.roles = roles;
+        this.password = password;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.phone = phone;
+        this.isActive = isActive;
+        this.sexe = sexe;
+        this.bloque = bloque;
+    }
+
+    public User(int id, String email, String roles, String password, String nom, String prenom, String sexe, int bloque) {
         this.id = id;
         this.email = email;
         this.roles = roles;

@@ -1,5 +1,8 @@
 package org.example.controllers;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,6 +16,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -24,6 +28,10 @@ public class Interface {
     private Label id;
     @FXML
     private TextField tf_log;
+    @FXML
+    private TextField tf_phone;
+    @FXML
+    private TextField tf_resetEmail;
     @FXML
     private Pane pn_home;
 
@@ -38,6 +46,8 @@ public class Interface {
 
     @FXML
     private Pane pn_update;
+    @FXML
+    private Pane pn_forgotpassword;
 
     @FXML
     private TextField tf_email;
@@ -74,15 +84,15 @@ public class Interface {
 
     User tmpp = new User();
     UserService us = new UserService();
+
     @FXML
     void signup(ActionEvent event) {
-        if (tf_ln.getText().isEmpty() ||tf_sexe.getText().isEmpty() || tf_fn.getText().isEmpty() ||tf_email.getText().isEmpty()||tf_pass.getText().isEmpty()) {
-            // Afficher un message d'alerte
+        if (tf_ln.getText().isEmpty() || tf_sexe.getText().isEmpty() || tf_fn.getText().isEmpty() || tf_email.getText().isEmpty() || tf_pass.getText().isEmpty() || tf_phone.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Champs manquants");
             alert.setHeaderText(null);
             alert.setContentText("Veuillez remplir tous les champs !");
-          alert.showAndWait();
+            alert.showAndWait();
             return;
         }
 
@@ -91,7 +101,6 @@ public class Interface {
         Matcher matcher = pattern.matcher(tf_email.getText());
 
         if (!matcher.matches()) {
-            // If the email doesn't match the pattern, display an alert
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Mail incorrect");
             alert.setHeaderText(null);
@@ -99,19 +108,26 @@ public class Interface {
             alert.showAndWait();
             return;
         }
+
         String ln = tf_ln.getText();
         String fn = tf_fn.getText();
         String mail = tf_email.getText();
         String pass = tf_pass.getText();
-        //    public User(String email, String roles, String password, String nom, String prenom, int tel, int bloque) {
-        User u = new User(mail,"[\"ROLE_ETUDIANT\"]",pass,fn,ln,tf_sexe.getText(),0);
+        String phone = tf_phone.getText();
+        String sexe = tf_sexe.getText();
+
+        User u = new User(mail, "[\"ROLE_ETUDIANT\"]", pass, fn, ln, sexe, 0, phone);
         us.ajouterEntite(u);
+
         tf_fn.clear();
         tf_ln.clear();
         tf_email.clear();
         tf_pass.clear();
+        tf_phone.clear();
+        tf_sexe.clear();
         pn_signin.toFront();
     }
+
 
     @FXML
     void deactivateAccount(ActionEvent event) {
@@ -207,6 +223,10 @@ public class Interface {
     @FXML
     void toSignup(ActionEvent event) {
         pn_signup.toFront();
+    }
+    @FXML
+    void toForgotPassword(ActionEvent event) {
+        pn_forgotpassword.toFront();
     }
 
     @FXML
@@ -306,4 +326,51 @@ public class Interface {
         pn_home.toFront();
         pn_update.toBack();
     }
+    @FXML
+    private void handleForgotPassword(ActionEvent event) {
+        String userEmail = tf_resetEmail.getText();
+        if (!userEmail.contains("@") || !userEmail.contains(".")) {
+            showAlert("Invalid Email", "Please enter a valid email address.");
+            return;
+        }
+
+        User user = us.getUserByEmail(userEmail);
+        if (user != null && user.getPhone() != null) {
+            String tempPassword = generateTempPassword();
+            if (us.updatePassword(userEmail, tempPassword)) {
+                sendSMS(user.getPhone(), "Your temporary password is: " + tempPassword);
+                showAlert("SMS Sent", "A temporary password has been sent to your phone.");
+                pn_signin.toFront();
+
+            } else {
+                showAlert("Failed", "Failed to update password. Please try again later.");
+            }
+        } else {
+            showAlert("No User Found", "No account found with that email.");
+        }
+    }
+
+    private String generateTempPassword() {
+        return UUID.randomUUID().toString().substring(0, 8); // Simple temporary password
+    }
+
+    private void sendSMS(String phone, String message) {
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        Message.creator(
+                new PhoneNumber(phone),
+                new PhoneNumber(TWILIO_NUMBER),
+                message
+        ).create();
+        System.out.println("SMS sent successfully to " + phone);
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+
 }
